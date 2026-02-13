@@ -1,0 +1,322 @@
+ [
+  {
+    "id": "minecraft:badlands",
+    "name": "Badlands",
+    "color": "#da4516"
+  },
+  {
+    "id": "minecraft:bamboo_jungle",
+    "name": "Bamboo",
+    "color": "#849500"
+  },
+  {
+    "id": "minecraft:basalt_deltas",
+    "name": "N/Basalt",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:beach",
+    "name": "Beach",
+    "color": "#fbdf56"
+  },
+  {
+    "id": "minecraft:birch_forest",
+    "name": "Birch F",
+    "color": "#307545"
+  },
+  {
+    "id": "minecraft:cherry_grove",
+    "name": "Cherry",
+    "color": "#fe91c8"
+  },
+  {
+    "id": "minecraft:cold_ocean",
+    "name": "Cold Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:crimson_forest",
+    "name": "N/Crimson",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:dark_forest",
+    "name": "Dark F",
+    "color": "#3f5219"
+  },
+  {
+    "id": "minecraft:deep_cold_ocean",
+    "name": "D Cold Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:deep_dark",
+    "name": "Deep Dark",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:deep_frozen_ocean",
+    "name": "D Frozen Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:deep_lukewarm_ocean",
+    "name": "D Lukewarm Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:deep_ocean",
+    "name": "D Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:desert",
+    "name": "Desert",
+    "color": "#fabc17"
+  },
+  {
+    "id": "minecraft:dripstone_caves",
+    "name": "Dripstone",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:end_barrens",
+    "name": "End B",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:end_highlands",
+    "name": "End High",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:end_midlands",
+    "name": "End Mid",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:eroded_badlands",
+    "name": "E. Badlands",
+    "color": "#ff6d3d"
+  },
+  {
+    "id": "minecraft:flower_forest",
+    "name": "Flower F",
+    "color": "#2c8e49"
+  },
+  {
+    "id": "minecraft:forest",
+    "name": "Forest",
+    "color": "#056621"
+  },
+  {
+    "id": "minecraft:frozen_ocean",
+    "name": "Frozen Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:frozen_peaks",
+    "name": "Frozen Peaks",
+    "color": "#b1b3ce"
+  },
+  {
+    "id": "minecraft:frozen_river",
+    "name": "Frozen River",
+    "color": "#a0a1fe"
+  },
+  {
+    "id": "minecraft:grove",
+    "name": "Grove",
+    "color": "#46726c"
+  },
+  {
+    "id": "minecraft:ice_spikes",
+    "name": "Ice Spikes",
+    "color": "#b5dede"
+  },
+  {
+    "id": "minecraft:jagged_peaks",
+    "name": "Jagged Peaks",
+    "color": "#dbdcc8"
+  },
+  {
+    "id": "minecraft:jungle",
+    "name": "Jungle",
+    "color": "#507c0b"
+  },
+  {
+    "id": "minecraft:lukewarm_ocean",
+    "name": "Lukewarm Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:lush_caves",
+    "name": "Lush Caves",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:mangrove_swamp",
+    "name": "Mangrove",
+    "color": "#2bce90"
+  },
+  {
+    "id": "minecraft:meadow",
+    "name": "Meadow",
+    "color": "#60a444"
+  },
+  {
+    "id": "minecraft:mushroom_fields",
+    "name": "Mushroom",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:nether_wastes",
+    "name": "N/Wastes",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:ocean",
+    "name": "Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:old_growth_birch_forest",
+    "name": "OG Birch",
+    "color": "#5b9b6a"
+  },
+  {
+    "id": "minecraft:old_growth_pine_taiga",
+    "name": "OG Pine T",
+    "color": "#596551"
+  },
+  {
+    "id": "minecraft:old_growth_spruce_taiga",
+    "name": "OG Spruce T",
+    "color": "#828e7a"
+  },
+  {
+    "id": "minecraft:plains",
+    "name": "Plains",
+    "color": "#8eb561"
+  },
+  {
+    "id": "minecraft:river",
+    "name": "River",
+    "color": "#0201ff"
+  },
+  {
+    "id": "minecraft:savanna",
+    "name": "Savanna",
+    "color": "#beb260"
+  },
+  {
+    "id": "minecraft:savanna_plateau",
+    "name": "Savanna Pl",
+    "color": "#a89f62"
+  },
+  {
+    "id": "minecraft:small_end_islands",
+    "name": "Small End I",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:snowy_beach",
+    "name": "Snowy Beach",
+    "color": "#faf0bf"
+  },
+  {
+    "id": "minecraft:snowy_plains",
+    "name": "Snowy Plains",
+    "color": "#ffffff"
+  },
+  {
+    "id": "minecraft:snowy_slopes",
+    "name": "Snowy Slopes",
+    "color": "#c4c4c4"
+  },
+  {
+    "id": "minecraft:snowy_taiga",
+    "name": "Snowy Taiga",
+    "color": "#31554b"
+  },
+  {
+    "id": "minecraft:soul_sand_valley",
+    "name": "N/Soul Sand",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:sparse_jungle",
+    "name": "Sp Jungle",
+    "color": "#60930e"
+  },
+  {
+    "id": "minecraft:stony_peaks",
+    "name": "Stony Peaks",
+    "color": "#7b8f74"
+  },
+  {
+    "id": "minecraft:stony_shore",
+    "name": "Stony Shore",
+    "color": "#a2a284"
+  },
+  {
+    "id": "minecraft:sunflower_plains",
+    "name": "Sunflower P",
+    "color": "#b6dc89"
+  },
+  {
+    "id": "minecraft:swamp",
+    "name": "Swamp",
+    "color": "#08f9b3"
+  },
+  {
+    "id": "minecraft:taiga",
+    "name": "Taiga",
+    "color": "#0b6b5f"
+  },
+  {
+    "id": "minecraft:the_end",
+    "name": "End",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:the_void",
+    "name": "Void",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:warm_ocean",
+    "name": "Warm Ocean",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:warped_forest",
+    "name": "N/Warped",
+    "color": "#00ff00"
+  },
+  {
+    "id": "minecraft:windswept_forest",
+    "name": "WS Forest",
+    "color": "#5b7253"
+  },
+  {
+    "id": "minecraft:windswept_gravelly_hills",
+    "name": "WS Gravel",
+    "color": "#898989"
+  },
+  {
+    "id": "minecraft:windswept_hills",
+    "name": "WS Hills",
+    "color": "#5f5f5f"
+  },
+  {
+    "id": "minecraft:windswept_savanna",
+    "name": "WS Savanna",
+    "color": "#e8da88"
+  },
+  {
+    "id": "minecraft:wooded_badlands",
+    "name": "W Badlands",
+    "color": "#af9764"
+  }
+]

@@ -1,0 +1,70 @@
+.tab {
+  border: 1px solid red;
+
+  height: 100%;
+  overflow: hidden;
+
+  user-select: none;
+
+  .ribbon {
+    @include ribbon;
+  }
+
+  .continentalness {
+    @include center;
+  }
+
+  .htTable {
+    width: 100%;
+
+    > thead {
+      > tr {
+        > td {
+          > div {
+            @include center;
+          }
+        }
+      }
+    }
+
+    > tbody {
+      > tr {
+        > td.head {
+          writing-mode: sideways-lr;
+          text-orientation: sideways;
+
+          > div {
+            @include center;
+          }
+        }
+      }
+    }
+  }
+
+  .panel {
+    border-top: 1px solid #888;
+
+    .biomeSelection {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 4px;
+
+      > button {
+        cursor: pointer;
+
+        width: 120px;
+        border: 4px solid white;
+        font-size: 8pt;
+        padding: 4px 0;
+        margin: 0;
+        opacity: 0.6;
+
+        &[data-selected=true] {
+          border-color: red;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

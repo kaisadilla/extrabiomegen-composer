@@ -1,0 +1,82 @@
+.biome {
+  border: 1px solid black;
+  width: 240px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .ribbon {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-bottom: 1px solid #aaa;
+  }
+
+  .id {
+    font-family: Consolas, 'Courier New', Courier, monospace;
+    font-size: 8pt;
+  }
+
+  .name {
+    font-size: 10pt;
+    font-weight: 600;
+
+    .nameInput.nameInput {
+      height: unset;
+      min-height: unset;
+      text-align: center;
+      line-height: unset;
+      color: unset;
+
+      &:hover {
+        background-color: #ffffffa0;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+
+    .colorInput {
+      width: 60px;
+
+      .colorInputInput.colorInputInput {
+        height: unset;
+        min-height: unset;
+        text-align: center;
+        line-height: unset;
+
+        font-family: Consolas, 'Courier New', Courier, monospace;
+        font-size: 10pt;
+        color: unset;
+
+        &:hover {
+          background-color: #ffffffa0;
+        }
+      }
+    }
+  }
+}
+
+.colorPickerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000d0;
+  z-index: 5000;
+
+  .colorPicker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5000;
+  }
+}

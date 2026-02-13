@@ -1,0 +1,33 @@
+.tab {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  .ribbon {
+    @include ribbon;
+  }
+
+  .modList {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    padding: 1rem;
+    overflow-y: scroll;
+
+    h2 {
+      
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}

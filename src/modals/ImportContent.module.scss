@@ -1,0 +1,19 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .textAreaContainer {
+    .textAreaInput {
+      font-family: Consolas, 'Courier New', Courier, monospace;
+    }
+  }
+  
+  .ribbon {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+    gap: 4px;
+  }
+}

@@ -1,0 +1,143 @@
+import { Tooltip } from '@mantine/core';
+import { ErosionKeys, WeirdnessKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import useDoc from 'state/useDoc';
+import { chooseW3CTextColor } from 'utils';
+import styles from './BiomeTable.module.scss';
+
+export interface BiomeTableProps {
+  c: ContinentalnessKey;
+  h: HumidityKey;
+  t: TemperatureKey;
+  onAdd?: (e: ErosionKey, w: WeirdnessKey) => void;
+  onSet?: (e: ErosionKey, w: WeirdnessKey, index: number) => void;
+  onRemove?: (e: ErosionKey, w: WeirdnessKey, index: number) => void;
+  onPickBiome?: (biomeId: string) => void;
+}
+
+function BiomeTable ({
+  c,
+  h,
+  t,
+  onAdd,
+  onSet,
+  onRemove,
+  onPickBiome,
+}: BiomeTableProps) {
+  const doc = useDoc();
+
+  return (
+    <table className={styles.table}>
+      <thead>
+        <tr>
+          <td></td>
+          {ErosionKeys.map(e => <Tooltip key={e} label="Erosion">
+            <td>
+              <span>e = {e}</span>
+            </td>
+          </Tooltip>)}
+        </tr>
+      </thead>
+      <tbody>
+        {WeirdnessKeys.map((w, i) => <tr key={w}>
+          <Tooltip label={`Weirdness: ${w}`}>
+            <td className={styles.head}>
+              <span>{i}</span>
+            </td>
+          </Tooltip>
+          {ErosionKeys.map(e => {
+            const biomes = doc.src.biome_source.land[c][e][t][h][w];
+
+            return (
+              <Tooltip.Floating
+                key={e}
+                position='bottom'
+                classNames={{
+                  tooltip: styles.cellTooltip,
+                }}
+                label={<div className={styles.cellTooltipLabel}>
+                  <div className={styles.label}>Biomes in this cell:</div>
+                  {biomes.map((b, i) => {
+                    const biome = doc.biomes[b];
+
+                    return (
+                      <div
+                        key={i}
+                        className={styles.biome}
+                        style={{
+                          backgroundColor: biome.color,
+                          color: chooseW3CTextColor(biome.color),
+                        }}
+                      >
+                        #{i + 1} - {biome.name}
+                      </div>
+                    );
+                  })}
+                </div>}
+              >
+                <td
+                  key={e}
+                  className={styles.values}
+                  onClick={() => onAdd?.(e, w)}
+                  onContextMenu={evt => evt.preventDefault()}
+                >
+                  <div>
+                    {biomes.map((b, i) => {
+                      const biome = doc.biomes[b];
+
+                      return (
+                        <div
+                          key={i}
+                          style={{
+                            backgroundColor: biome.color,
+                            color: chooseW3CTextColor(biome.color),
+                          }}
+                          onClick={evt => handleLeftClickBiome(evt, e, w, i)}
+                          onContextMenu={evt => handleRightClickBiome(evt, e, w, i, biome.id)}
+                        >
+                          {biome.name}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </td>
+              </Tooltip.Floating>
+            )
+          })}
+        </tr>)}
+      </tbody>
+    </table>
+  );
+
+  function handleLeftClickBiome (
+    evt: React.MouseEvent, e: ErosionKey, w: WeirdnessKey, index: number
+  ) {
+    evt.stopPropagation();
+
+    if (evt.ctrlKey) {
+      onAdd?.(e, w);
+    }
+    else {
+      onSet?.(e, w, index);
+    }
+  }
+
+  function handleRightClickBiome (
+    evt: React.MouseEvent,
+    e: ErosionKey,
+    w: WeirdnessKey,
+    index: number,
+    biomeId: string
+  ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    if (evt.ctrlKey) {
+      onRemove?.(e, w, index);
+    }
+    else {
+      onPickBiome?.(biomeId);
+    }
+  }
+}
+
+export default BiomeTable;

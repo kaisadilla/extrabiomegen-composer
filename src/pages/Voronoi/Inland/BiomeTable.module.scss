@@ -1,0 +1,106 @@
+.table {
+  border-collapse: collapse;
+  border: 2px solid black;
+  width: 100%;
+  table-layout: fixed;
+
+  td:first-child {
+    width: 16px;
+  }
+
+  thead {
+    font-size: 7pt;
+    text-align: center;
+
+    td {
+      font-weight: 600;
+      background-color: #ccc;
+      border-left: 1px solid #888;
+          
+      width: 100%;
+      
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  tbody {
+    tr {
+
+      &:nth-child(3) {
+        border-bottom: 3px solid blue;
+      }
+
+      td.head {
+        font-size: 7pt;
+        font-weight: 600;
+        text-align: center;
+        padding: 0 4px;
+        border-top: 1px solid #888;
+        background-color: #ccc;
+      }
+
+      td.values {
+        font-size: 7pt;
+
+        border: 1px solid black;
+        padding: 0;
+
+        > div {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: row;
+          overflow: hidden;
+
+          > div {
+            @include center;
+
+            flex: 1;
+            height: 100%;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:not(:last-child) {
+              border-right: 1px dashed black;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.cellTooltip.cellTooltip {
+  padding: 0;
+  margin: 0;
+  border: 2px solid black;
+}
+
+.cellTooltipLabel {
+  color: black;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  padding-top: 4px;
+
+  .label {
+    @include center;
+    font-weight: 600;
+  }
+
+  .biome {
+    font-size: 8pt;
+    border: 1px solid black;
+    padding: 4px;
+
+    &:not(:last-child) {
+      border-bottom-width: 0px;
+    }
+  }
+}
