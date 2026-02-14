@@ -2,8 +2,8 @@ import type { Biome } from "api/Biome";
 import type { VoronoiBiomeSource } from "api/VoronoiBiomeSource";
 
 const KEY_PREFIX = "extrabiomegen-composer";
-const KEY_INLAND = KEY_PREFIX + ".inland";
-const KEY_BIOMES = KEY_PREFIX + ".biomes";
+const KEY_INLAND = KEY_PREFIX + "/biomesource";
+const KEY_BIOMES = KEY_PREFIX + ".catalogue";
 
 const Local = {
   saveInland (inland: VoronoiBiomeSource) {

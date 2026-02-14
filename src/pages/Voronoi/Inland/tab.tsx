@@ -1,11 +1,13 @@
-import { Button, SegmentedControl, Tooltip } from '@mantine/core';
-import { ContinentalnessKeys, HumidityKeys, TemperatureKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import { Button, SegmentedControl, Text, Tooltip } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { ContinentalnessKeys, HumidityKeys, TemperatureKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import { saveAs } from "file-saver";
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { DocActions } from 'state/docSlice';
-import useDoc from 'state/useDoc';
-import { chooseW3CTextColor } from 'utils';
+import useBiomeCatalogue from 'state/biomeCatalogueSlice';
+import useBiomeSource, { biomeSourceActions } from 'state/biomeSourceSlice';
+import { $cl, chooseW3CTextColor, openFile } from 'utils';
 import BiomeTable from './BiomeTable';
 import styles from './tab.module.scss';
 
@@ -14,21 +16,64 @@ export interface InlandTabProps {
 }
 
 function InlandTab (props: InlandTabProps) {
-  const doc = useDoc();
+  const src = useBiomeSource();
+  const catalogue = useBiomeCatalogue();
   const dispatch = useDispatch();
 
   const [c, setC] = useState<ContinentalnessKey>('coast');
   const [brush, setBrush] = useState<string | null>(null);
+  
+  const openRestartModal = () => modals.openConfirmModal({
+    title: 'Restart biome catalogue',
+    children: (
+      <Text size='sm'>
+        Do you want to restart the biome catalogue to its default value
+        (Vanilla Minecraft's list with default colors)? This action cannot
+        be undone.
+      </Text>
+    ),
+    labels: {
+      confirm: "Restart",
+      cancel: "Cancel",
+    },
+    onConfirm: handleRestart,
+  });
 
   return (
     <div className={styles.tab}>
       <div className={styles.ribbon}>
-        <Button
-          size='compact-sm'
-          onClick={exportJson}
+        <Tooltip
+          label="Reset the document."
         >
-          Export JSON
-        </Button>
+          <Button
+            size='compact-sm'
+            onClick={openRestartModal}
+          >
+            Restart
+          </Button>
+        </Tooltip>
+
+        <Tooltip
+          label="Open a json containing a biome source."
+        >
+          <Button
+            size='compact-sm'
+            onClick={handleOpen}
+          >
+            Open
+          </Button>
+        </Tooltip>
+
+        <Tooltip
+          label="Export a json for Minecraft's data pack (data/minecraft/dimension/*.json). This is ONLY the value of the field 'generator', not the entire file."
+        >
+          <Button
+            size='compact-sm'
+            onClick={handleExport}
+          >
+            Export
+          </Button>
+        </Tooltip>
       </div>
       <div className={styles.continentalness}>
         <Tooltip label='Continentalness'><div>c =&nbsp;</div></Tooltip>
@@ -38,47 +83,49 @@ function InlandTab (props: InlandTabProps) {
           onChange={v => setC(v as ContinentalnessKey)}
         />
       </div>
-      <table className={styles.htTable}>
-        <thead>
-          <tr>
-            <td></td>
-            {TemperatureKeys.map(t => <td key={t}>
-              <div>
+      <div className={styles.matrixContainer}>
+        <div className={styles.matrix}>
+          <div className={styles.row}>
+            <div className={styles.cell}></div>
+            {TemperatureKeys.map(t => (
+              <div
+                key={t}
+                className={$cl(styles.cell, styles.head)}
+              >
                 <Tooltip label='Temperature'>
                   <span>t = {t}</span>
                 </Tooltip>
               </div>
-            </td>)}
-          </tr>
-        </thead>
-        <tbody>
-          {HumidityKeys.map(h => <tr key={h}>
-            <td className={styles.head}>
-              <div>
+            ))}
+          </div>
+          {HumidityKeys.map(h => (
+            <div key={h} className={styles.row}>
+              <div className={$cl(styles.cell, styles.head, styles.vertical)}>
                 <Tooltip label='Humidity'>
                   <span>h = {h}</span>
                 </Tooltip>
               </div>
-            </td>
-            {TemperatureKeys.map(t => <td key={t}>
-              <div>
-                <BiomeTable
-                  c={c}
-                  h={h}
-                  t={t}
-                  onAdd={(e, w) => handleAdd(c, e, t, h, w)}
-                  onSet={(e, w, i) => handleSet(c, e, t, h, w, i)}
-                  onRemove={(e, w, i) => handleRemove(c, e, t, h, w, i)}
-                  onPickBiome={id => setBrush(id)}
-              />
-              </div>
-            </td>)}
-          </tr>)}
-        </tbody>
-      </table>
+              {TemperatureKeys.map(t => (
+                <div key={t} className={$cl(styles.cell, styles.tableContainer)}>
+                  <BiomeTable
+                    c={c}
+                    h={h}
+                    t={t}
+                    onAdd={(e, w) => handleAdd(c, e, t, h, w)}
+                    onMultiAdd={() => handleMultiAdd(c, t, h)}
+                    onSet={(e, w, i) => handleSet(c, e, t, h, w, i)}
+                    onRemove={(e, w, i) => handleRemove(c, e, t, h, w, i)}
+                    onPickBiome={id => setBrush(id)}
+                />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
       <div className={styles.panel}>
         <div className={styles.biomeSelection}>
-          {Object.values(doc.biomes).map(b => (
+          {Object.values(catalogue.biomes).map(b => (
             <button
               style={{
                 backgroundColor: b.color,
@@ -95,14 +142,33 @@ function InlandTab (props: InlandTabProps) {
     </div>
   );
 
-  function exportJson () {
-    const txt = JSON.stringify(doc.src, null, 2);
+  function handleRestart () {
+    dispatch(biomeSourceActions.loadBiomeSource(vanillaDoc as VoronoiBiomeSource));
+  }
+
+  async function handleOpen () {
+      const f = await openFile();
+      if (!f) return;
+  
+      try {
+        const data = await f.text();
+        const raw = JSON.parse(data);
+        
+        dispatch(biomeSourceActions.loadBiomeSource(raw as VoronoiBiomeSource));
+      }
+      catch (err) {
+        console.error(err);
+      }
+  }
+
+  function handleExport () {
+    const txt = JSON.stringify(src.doc, null, 2);
 
     const blob = new Blob([txt], {
       type: 'text/plain;charset=utf-8'
     });
 
-    saveAs(blob, "inland.geojson");
+    saveAs(blob, "biome_source.json");
   }
 
   function handleAdd (
@@ -114,12 +180,27 @@ function InlandTab (props: InlandTabProps) {
   ) {
     if (!brush) return;
     
-    dispatch(DocActions.addInlandBiome({
+    dispatch(biomeSourceActions.addInlandBiome({
       c,
       e,
       t,
       h,
       w,
+      biomeId: brush,
+    }));
+  }
+
+  function handleMultiAdd (
+    c: ContinentalnessKey,
+    t: TemperatureKey,
+    h: HumidityKey,
+  ) {
+    if (!brush) return;
+    
+    dispatch(biomeSourceActions.propagateInitialLandBiome({
+      c,
+      t,
+      h,
       biomeId: brush,
     }));
   }
@@ -134,7 +215,7 @@ function InlandTab (props: InlandTabProps) {
   ) {
     if (!brush) return;
     
-    dispatch(DocActions.setInlandBiome({
+    dispatch(biomeSourceActions.setInlandBiome({
       c,
       e,
       t,
@@ -155,7 +236,7 @@ function InlandTab (props: InlandTabProps) {
   ) {
     if (!brush) return;
     
-    dispatch(DocActions.removeInlandBiome({
+    dispatch(biomeSourceActions.removeInlandBiome({
       c,
       e,
       t,

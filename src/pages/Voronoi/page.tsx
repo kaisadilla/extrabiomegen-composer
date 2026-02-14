@@ -2,7 +2,8 @@ import { Button, Tabs } from '@mantine/core';
 import Local from 'Local';
 import MapViewerPage from 'pages/MapViewer/page';
 import { useState } from 'react';
-import useDoc from 'state/useDoc';
+import useBiomeCatalogue from 'state/biomeCatalogueSlice';
+import useBiomeSource from 'state/biomeSourceSlice';
 import AvailableBiomesTab from './AvailableBiomes/tab';
 import InlandTab from './Inland/tab';
 import styles from './page.module.scss';
@@ -13,7 +14,8 @@ export interface VoronoiPageProps {
 
 function VoronoiPage (props: VoronoiPageProps) {
   const [tab, setTab] = useState<string | null>("inland");
-  const doc = useDoc();
+  const src = useBiomeSource();
+  const catalogue = useBiomeCatalogue();
 
   return (
     <div className={styles.page}>
@@ -66,8 +68,8 @@ function VoronoiPage (props: VoronoiPageProps) {
   )
 
   function save () {
-    Local.saveInland(doc.src);
-    Local.saveBiomes(doc.biomes);
+    Local.saveInland(src.doc);
+    Local.saveBiomes(catalogue.biomes);
   }
 }
 

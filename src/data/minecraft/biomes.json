@@ -1,4 +1,4 @@
- [
+[
   {
     "id": "minecraft:badlands",
     "name": "Badlands",
@@ -32,7 +32,7 @@
   {
     "id": "minecraft:cold_ocean",
     "name": "Cold Ocean",
-    "color": "#00ff00"
+    "color": "#202070"
   },
   {
     "id": "minecraft:crimson_forest",
@@ -47,27 +47,27 @@
   {
     "id": "minecraft:deep_cold_ocean",
     "name": "D Cold Ocean",
-    "color": "#00ff00"
+    "color": "#202038"
   },
   {
     "id": "minecraft:deep_dark",
     "name": "Deep Dark",
-    "color": "#00ff00"
+    "color": "#000000"
   },
   {
     "id": "minecraft:deep_frozen_ocean",
     "name": "D Frozen Ocean",
-    "color": "#00ff00"
+    "color": "#404090"
   },
   {
     "id": "minecraft:deep_lukewarm_ocean",
     "name": "D Lukewarm Ocean",
-    "color": "#00ff00"
+    "color": "#000040"
   },
   {
     "id": "minecraft:deep_ocean",
     "name": "D Ocean",
-    "color": "#00ff00"
+    "color": "#000030"
   },
   {
     "id": "minecraft:desert",
@@ -77,22 +77,22 @@
   {
     "id": "minecraft:dripstone_caves",
     "name": "Dripstone",
-    "color": "#00ff00"
+    "color": "#c1a58f"
   },
   {
     "id": "minecraft:end_barrens",
     "name": "End B",
-    "color": "#00ff00"
+    "color": "#FFFDC7"
   },
   {
     "id": "minecraft:end_highlands",
     "name": "End High",
-    "color": "#00ff00"
+    "color": "#FFFDC7"
   },
   {
     "id": "minecraft:end_midlands",
     "name": "End Mid",
-    "color": "#00ff00"
+    "color": "#FFFDC7"
   },
   {
     "id": "minecraft:eroded_badlands",
@@ -112,7 +112,7 @@
   {
     "id": "minecraft:frozen_ocean",
     "name": "Frozen Ocean",
-    "color": "#00ff00"
+    "color": "#7070d6"
   },
   {
     "id": "minecraft:frozen_peaks",
@@ -147,12 +147,12 @@
   {
     "id": "minecraft:lukewarm_ocean",
     "name": "Lukewarm Ocean",
-    "color": "#00ff00"
+    "color": "#000090"
   },
   {
     "id": "minecraft:lush_caves",
     "name": "Lush Caves",
-    "color": "#00ff00"
+    "color": "#df9634"
   },
   {
     "id": "minecraft:mangrove_swamp",
@@ -167,7 +167,7 @@
   {
     "id": "minecraft:mushroom_fields",
     "name": "Mushroom",
-    "color": "#00ff00"
+    "color": "#950095"
   },
   {
     "id": "minecraft:nether_wastes",
@@ -177,7 +177,7 @@
   {
     "id": "minecraft:ocean",
     "name": "Ocean",
-    "color": "#00ff00"
+    "color": "#000070"
   },
   {
     "id": "minecraft:old_growth_birch_forest",
@@ -217,7 +217,7 @@
   {
     "id": "minecraft:small_end_islands",
     "name": "Small End I",
-    "color": "#00ff00"
+    "color": "#FFFDC7"
   },
   {
     "id": "minecraft:snowy_beach",
@@ -277,17 +277,17 @@
   {
     "id": "minecraft:the_end",
     "name": "End",
-    "color": "#00ff00"
+    "color": "#FFFDC7"
   },
   {
     "id": "minecraft:the_void",
     "name": "Void",
-    "color": "#00ff00"
+    "color": "#ff00ff"
   },
   {
     "id": "minecraft:warm_ocean",
     "name": "Warm Ocean",
-    "color": "#00ff00"
+    "color": "#0000ac"
   },
   {
     "id": "minecraft:warped_forest",

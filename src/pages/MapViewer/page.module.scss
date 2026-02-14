@@ -1,6 +1,28 @@
 .page {
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
 
   padding: 32px;
+  gap: 8px;
+
+  .params {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .canvasContainer {
+    border: 1px solid black;
+
+    overflow: auto;
+    background-color: black;
+    padding: 16px;
+
+    > canvas {
+      border: 1px solid white;
+    }
+  }
 }

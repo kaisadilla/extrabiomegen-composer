@@ -1,5 +1,6 @@
 .tab {
-  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
 
   height: 100%;
   overflow: hidden;
@@ -14,27 +15,68 @@
     @include center;
   }
 
-  .htTable {
+  .matrixContainer {
     width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: scroll;
 
-    > thead {
-      > tr {
-        > td {
-          > div {
+    display: flex;
+    flex-direction: column;
+
+    padding-right: 16px;
+    padding-bottom: 16px;
+
+    > .matrix {
+      width: 2400px;
+
+      > .row {
+        width: 100%;
+        
+        display: flex;
+        flex-direction: row;
+        
+        > .cell {
+          @include center;
+
+          &:not(:first-child) {
+            flex: 1;
+          }
+
+          &.vertical {
             @include center;
+
+            writing-mode: sideways-lr;
+            text-orientation: sideways;
+          }
+
+          &.tableContainer {
+            padding: 4px;
           }
         }
       }
     }
 
-    > tbody {
-      > tr {
-        > td.head {
-          writing-mode: sideways-lr;
-          text-orientation: sideways;
+    .htTable {
+      > thead {
+        > tr {
+          > td {
+            > div {
+              @include center;
+            }
+          }
+        }
+      }
 
-          > div {
-            @include center;
+      > tbody {
+        > tr {
+          > td.head {
+            writing-mode: sideways-lr;
+            text-orientation: sideways;
+
+            > div {
+              @include center;
+            }
           }
         }
       }
@@ -42,6 +84,13 @@
   }
 
   .panel {
+    display: flex;
+    flex-direction: column;
+
+    height: 200px;
+    min-height: 0;
+    overflow-y: auto;
+
     border-top: 1px solid #888;
 
     .biomeSelection {

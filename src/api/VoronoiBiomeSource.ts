@@ -15,8 +15,12 @@ export type VoronoiInlandTemperature = TemperatureCollection<VoronoiInlandHumidi
 export type VoronoiInlandHumidity = HumidityCollection<VoronoiInlandWeirdness>;
 export type VoronoiInlandWeirdness = WeirdnessCollection<string[]>;
 
-export const ContinentalnessKeys
-  = ['coast', 'lowland', 'highland', 'interior'] as const;
+export const ContinentalnessKeys = [
+  'coast',
+  'lowland',
+  'highland',
+  'interior',
+] as const;
 
 export type ContinentalnessKey = (typeof ContinentalnessKeys)[number];
 
@@ -24,7 +28,15 @@ export type ContinentalnessCollection<T> = {
   [K in ContinentalnessKey]: T;
 };
 
-export const ErosionKeys = ['jagged', 'rugged', 'normal', 'smooth', 'flat'] as const;
+export const ErosionKeys = [
+  'jagged',
+  'rugged',
+  'craggy',
+  'normal',
+  'rolling',
+  'smooth',
+  'flat',
+] as const;
 
 export type ErosionKey = (typeof ErosionKeys)[number];
 
@@ -32,8 +44,13 @@ export type ErosionCollection<T> = {
   [K in ErosionKey]: T;
 };
 
-export const TemperatureKeys
-  = ['frozen', 'cold', 'normal', 'warm', 'hot'] as const;
+export const TemperatureKeys = [
+  'frozen',
+  'cold',
+  'normal',
+  'warm',
+  'hot',
+] as const;
 
 export type TemperatureKey = (typeof TemperatureKeys)[number];
 
@@ -41,7 +58,13 @@ export type TemperatureCollection<T> = {
   [K in TemperatureKey]: T;
 };
 
-export const HumidityKeys = ['arid', 'dry', 'normal', 'wet', 'humid'] as const;
+export const HumidityKeys = [
+  'arid',
+  'dry',
+  'normal',
+  'wet',
+  'humid',
+] as const;
 
 export type HumidityKey = (typeof HumidityKeys)[number];
 
@@ -50,12 +73,18 @@ export type HumidityCollection<T> = {
 };
 
 export const WeirdnessKeys = [
-  'normal_slope',
-  'normal_peak',
-  'normal_riverside',
-  'variant_riverside',
-  'variant_peak',
-  'variant_slope'
+  'normal_outer_valley',
+  'normal_outer_slope',
+  'normal_outer_peak',
+  'normal_inner_slope',
+  'normal_inner_valley',
+  'normal_river_bank',
+  'variant_river_bank',
+  'variant_inner_valley',
+  'variant_inner_slope',
+  'variant_outer_peak',
+  'variant_outer_slope',
+  'variant_outer_valley',
 ] as const;
 
 export type WeirdnessKey = (typeof WeirdnessKeys)[number];
@@ -90,13 +119,15 @@ function makeErosionCollection () : VoronoiInlandErosion {
   return {
     jagged: makeTemperatureCollection(),
     rugged: makeTemperatureCollection(),
+    craggy: makeTemperatureCollection(),
     normal: makeTemperatureCollection(),
+    rolling: makeTemperatureCollection(),
     smooth: makeTemperatureCollection(),
     flat: makeTemperatureCollection(),
   }
 }
 
-function makeTemperatureCollection () : VoronoiInlandTemperature {
+export function makeTemperatureCollection () : VoronoiInlandTemperature {
   return {
     frozen: makeHumidityCollection(),
     cold: makeHumidityCollection(),
@@ -118,11 +149,17 @@ function makeHumidityCollection () : VoronoiInlandHumidity {
 
 function makeWeirdnessCollection () : VoronoiInlandWeirdness {
   return {
-    normal_slope: [],
-    normal_peak: [],
-    normal_riverside: [],
-    variant_riverside: [],
-    variant_peak: [],
-    variant_slope: [],
+    normal_outer_valley: [],
+    normal_outer_slope: [],
+    normal_outer_peak: [],
+    normal_inner_slope: [],
+    normal_inner_valley: [],
+    normal_river_bank: [],
+    variant_river_bank: [],
+    variant_inner_valley: [],
+    variant_inner_slope: [],
+    variant_outer_peak: [],
+    variant_outer_slope: [],
+    variant_outer_valley: [],
   };
 }

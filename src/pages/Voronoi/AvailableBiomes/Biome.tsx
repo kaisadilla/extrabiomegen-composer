@@ -3,7 +3,7 @@ import type { Biome } from 'api/Biome';
 import { useState } from 'react';
 import { PhotoshopPicker } from 'react-color';
 import { useDispatch } from 'react-redux';
-import { DocActions } from 'state/docSlice';
+import { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { chooseW3CTextColor } from 'utils';
 import styles from './Biome.module.scss';
 
@@ -71,14 +71,14 @@ function BiomeEntry ({
   </>);
 
   function handleChangeName (evt: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(DocActions.setBiomeName({
+    dispatch(BiomeCatalogueActions.setBiomeName({
       id: biome.id,
       name: evt.currentTarget.value,
     }));
   }
 
   function handleChangeColor (evt: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(DocActions.setBiomeColor({
+    dispatch(BiomeCatalogueActions.setBiomeColor({
       id: biome.id,
       color: evt.currentTarget.value,
     }));
@@ -87,7 +87,7 @@ function BiomeEntry ({
   }
 
   function handlePickColor () {
-    dispatch(DocActions.setBiomeColor({
+    dispatch(BiomeCatalogueActions.setBiomeColor({
       id: biome.id,
       color,
     }));

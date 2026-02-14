@@ -1,10 +1,13 @@
 import { Button, Text, Tooltip } from '@mantine/core';
 import { modals } from '@mantine/modals';
+import { BiomeSchema, type Biome } from 'api/Biome';
+import vanillaBiomeCatalogue from 'data/minecraft/biomes.json';
 import { saveAs } from 'file-saver';
 import { openImportContent } from 'modals/ImportContent';
 import { useDispatch } from 'react-redux';
-import { DocActions } from 'state/docSlice';
-import useDoc from 'state/useDoc';
+import useBiomeCatalogue, { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
+import { openFile } from 'utils';
+import z from 'zod';
 import BiomeEntry from './Biome';
 import styles from './tab.module.scss';
 
@@ -13,7 +16,8 @@ export interface AvailableBiomesTabProps {
 }
 
 function AvailableBiomesTab (props: AvailableBiomesTabProps) {
-  const doc = useDoc();
+  const catalogue = useBiomeCatalogue();
+
   const dispatch = useDispatch();
   
   const openRestartModal = () => modals.openConfirmModal({
@@ -34,7 +38,7 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
 
   const namespaces = new Set<string>();
 
-  for (const b of Object.values(doc.biomes)) {
+  for (const b of Object.values(catalogue.biomes)) {
     const rl = b.id.split(":");
     namespaces.add(rl[0]);
   }
@@ -52,6 +56,7 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
             Restart
           </Button>
         </Tooltip>
+        
         <Tooltip
           label="Add a list of biomes to the catalogue."
         >
@@ -67,18 +72,39 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
             Add biomes
           </Button>
         </Tooltip>
-        <Button
-          size='compact-sm'
-          onClick={exportAppJson}
+
+        <Tooltip
+          label="Open a biome catalogue file."
         >
-          Export App
-        </Button>
-        <Button
-          size='compact-sm'
-          onClick={exportDataJson}
+          <Button
+            size='compact-sm'
+            onClick={handleOpen}
+          >
+            Open
+          </Button>
+        </Tooltip>
+
+        <Tooltip
+          label="Save the biome catalogue to disk, to be able to import it later."
         >
-          Export MC
-        </Button>
+          <Button
+            size='compact-sm'
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+        </Tooltip>
+
+        <Tooltip
+          label="Export a json for Minecraft's data pack (data/extrabiomegen/biomes/*.json)."
+        >
+          <Button
+            size='compact-sm'
+            onClick={handleExport}
+          >
+            Export
+          </Button>
+        </Tooltip>
       </div>
       <div className={styles.modList}>
         {[...namespaces].map(ns => (
@@ -87,7 +113,8 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
           >
             <h2>{ns}</h2>
             <div className={styles.list}>
-              {Object.values(doc.biomes).filter(b => b.id.split(":")[0] === ns)
+              {Object.values(catalogue.biomes)
+                .filter(b => b.id.split(":")[0] === ns)
                 .map(b => <BiomeEntry key={b.id} biome={b} />)}
             </div>
           </div>
@@ -97,7 +124,9 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
   );
 
   function handleRestart () {
-    
+    dispatch(BiomeCatalogueActions.loadBiomeCatalogue(
+      vanillaBiomeCatalogue as Biome[]
+    ));
   }
 
   function handleAddBiomes (text: string) {
@@ -117,24 +146,42 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
 
       const sanitized = rl[0].trim() + ":" + rl[1].trim();
 
-      dispatch(DocActions.addBiome(sanitized));
-      console.log(`Added '${sanitized}'.`);
+      dispatch(BiomeCatalogueActions.addBiome(sanitized));
     }
   }
 
-  function exportAppJson () {
-    const txt = JSON.stringify(Object.values(doc.biomes), null, 2);
+  async function handleOpen () {
+    const f = await openFile();
+    if (!f) return;
+
+    try {
+      const data = await f.text();
+      const raw = JSON.parse(data);
+
+      const schema = z.array(BiomeSchema);
+      const biomes = schema.parse(raw);
+      if (!biomes) return;
+      
+      dispatch(BiomeCatalogueActions.loadBiomeCatalogue(biomes as Biome[]));
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
+
+  function handleSave () {
+    const txt = JSON.stringify(Object.values(catalogue.biomes), null, 2);
 
     const blob = new Blob([txt], {
       type: 'text/plain;charset=utf-8'
     });
 
-    saveAs(blob, "biomes.geojson");
+    saveAs(blob, "biome-catalogue.json");
   }
 
-  function exportDataJson () {
+  function handleExport () {
     const txt = JSON.stringify(
-      Object.values(doc.biomes).map(b => ({
+      Object.values(catalogue.biomes).map(b => ({
         id: b.id,
         color: b.color,
       })),
@@ -146,7 +193,7 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
       type: 'text/plain;charset=utf-8'
     });
 
-    saveAs(blob, "biomedata.geojson");
+    saveAs(blob, "minecraft.json");
   }
 }
 

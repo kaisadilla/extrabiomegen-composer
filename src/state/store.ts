@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { docReducer } from "./docSlice";
+import { biomeCatalogueReducer } from "./biomeCatalogueSlice";
+import { biomeSourceReducer } from "./biomeSourceSlice";
 
 const rootReducer = combineReducers({
-  doc: docReducer,
+  biomeSource: biomeSourceReducer,
+  biomeCatalogue: biomeCatalogueReducer,
 });
 
 export const store = configureStore({
