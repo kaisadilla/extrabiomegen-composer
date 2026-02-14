@@ -1,27 +1,30 @@
 import { Button, SegmentedControl, Text, Tooltip } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { ContinentalnessKeys, HumidityKeys, TemperatureKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import BiomeTable from 'components/BiomeTable';
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import { saveAs } from "file-saver";
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import useBiomeSource, { biomeSourceActions } from 'state/biomeSourceSlice';
-import { $cl, chooseW3CTextColor, openFile } from 'utils';
-import BiomeTable from './BiomeTable';
+import { $cl, openFile } from 'utils';
 import styles from './tab.module.scss';
 
-export interface InlandTabProps {
-  
+export interface LandTabProps {
+  brush: string | null;
+  onPickBrush: (brush: string) => void;
 }
 
-function InlandTab (props: InlandTabProps) {
+function LandTab ({
+  brush,
+  onPickBrush,
+}: LandTabProps) {
   const src = useBiomeSource();
   const catalogue = useBiomeCatalogue();
   const dispatch = useDispatch();
 
   const [c, setC] = useState<ContinentalnessKey>('coast');
-  const [brush, setBrush] = useState<string | null>(null);
   
   const openRestartModal = () => modals.openConfirmModal({
     title: 'Restart biome catalogue',
@@ -115,27 +118,11 @@ function InlandTab (props: InlandTabProps) {
                     onMultiAdd={() => handleMultiAdd(c, t, h)}
                     onSet={(e, w, i) => handleSet(c, e, t, h, w, i)}
                     onRemove={(e, w, i) => handleRemove(c, e, t, h, w, i)}
-                    onPickBiome={id => setBrush(id)}
+                    onPickBiome={onPickBrush}
                 />
                 </div>
               ))}
             </div>
-          ))}
-        </div>
-      </div>
-      <div className={styles.panel}>
-        <div className={styles.biomeSelection}>
-          {Object.values(catalogue.biomes).map(b => (
-            <button
-              style={{
-                backgroundColor: b.color,
-                color: chooseW3CTextColor(b.color),
-              }}
-              data-selected={brush === b.id}
-              onClick={() => setBrush(b.id)}
-            >
-              {b.name}
-            </button>
           ))}
         </div>
       </div>
@@ -247,4 +234,4 @@ function InlandTab (props: InlandTabProps) {
   }
 }
 
-export default InlandTab;
+export default LandTab;

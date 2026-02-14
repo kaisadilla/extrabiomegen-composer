@@ -15,6 +15,7 @@ const Local = {
       console.error("Couldn't save inland", err);
     }
   },
+
   loadInland () : VoronoiBiomeSource | null {
     try {
       const json = localStorage.getItem(KEY_INLAND);
@@ -27,6 +28,7 @@ const Local = {
       return null;
     }
   },
+
   saveBiomes (biomes: Record<string, Biome>) {
     try {
       const json = JSON.stringify(biomes);
@@ -36,6 +38,7 @@ const Local = {
       console.error("Couldn't save biomes", err);
     }
   },
+  
   loadBiomes () : Record<string, Biome> | null {
     try {
       const json = localStorage.getItem(KEY_BIOMES);
