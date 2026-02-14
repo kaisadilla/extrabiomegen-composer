@@ -10,6 +10,7 @@ import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { chooseW3CTextColor, openFile } from 'utils';
 import ExoticTab from './Exotic/tab';
 import LandTab from './Land/tab';
+import OceanTab from './Ocean/tab';
 import styles from './tab.module.scss';
 
 export interface BiomeSourceTabProps {
@@ -97,7 +98,10 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
         </Tabs.Panel>
 
         <Tabs.Panel value="ocean">
-          (ocean)
+          <OceanTab
+            brush={brush}
+            onPickBrush={setBrush}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="exotic">

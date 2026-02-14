@@ -1,0 +1,35 @@
+.tab {
+  height: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .chartContainer {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px;
+
+    .row {
+      flex: 1;
+      width: 100%;
+      max-width: 900px;
+      min-height: 0;
+
+      display: flex;
+      flex-direction: row;
+
+      .head {
+        @include center;
+        @include vertical-text;
+      }
+    }
+  }
+}

@@ -147,8 +147,8 @@ function MapViewerPage (props: MapViewerPageProps) {
     if (params.length !== 7) return;
 
     const x = Number(params[2]);
-    const z = Number(params[3]);
-    const scale = Number(params[4]);
+    const z = Number(params[4]);
+    const scale = Number(params[5]);
 
     if (Number.isFinite(x)) setXCenter(x);
     if (Number.isFinite(z)) setZCenter(z);

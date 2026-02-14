@@ -1,9 +1,9 @@
 import { SegmentedControl, Tooltip } from '@mantine/core';
-import { ContinentalnessKeys, HumidityKeys, TemperatureKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import { ContinentalnessKeys, ErosionKeys, HumidityKeys, TemperatureKeys, WeirdnessKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
 import BiomeTable from 'components/BiomeTable';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { BiomeSourceActions } from 'state/biomeSourceSlice';
+import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { $cl } from 'utils';
 import styles from './tab.module.scss';
 
@@ -16,6 +16,7 @@ function LandTab ({
   brush,
   onPickBrush,
 }: LandTabProps) {
+  const src = useBiomeSource();
   const dispatch = useDispatch();
 
   const [c, setC] = useState<ContinentalnessKey>('coast');
@@ -55,15 +56,20 @@ function LandTab ({
               {TemperatureKeys.map(t => (
                 <div key={t} className={$cl(styles.cell, styles.tableContainer)}>
                   <BiomeTable
-                    c={c}
-                    h={h}
-                    t={t}
-                    onAdd={(e, w) => handleAdd(c, e, t, h, w)}
+                    columnName="Erosion"
+                    columnKeys={ErosionKeys}
+                    getColumnHead={k => `e = ${k}`}
+                    rowName="Weirdness"
+                    rowKeys={WeirdnessKeys}
+                    getRowHead={k => `w = ${k}`}
+                    getBiomes={(w, e) => src.doc.biome_source.land[c][e][t][h][w]}
+                    riverIndex={5}
+                    onAdd={(w, e) => handleAdd(c, e, t, h, w)}
                     onMultiAdd={() => handleMultiAdd(c, t, h)}
-                    onSet={(e, w, i) => handleSet(c, e, t, h, w, i)}
-                    onRemove={(e, w, i) => handleRemove(c, e, t, h, w, i)}
+                    onSet={(w, e, i) => handleSet(c, e, t, h, w, i)}
+                    onRemove={(w, e, i) => handleRemove(c, e, t, h, w, i)}
                     onPickBiome={onPickBrush}
-                />
+                  />
                 </div>
               ))}
             </div>

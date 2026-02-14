@@ -4,6 +4,17 @@
   align-items: center;
 }
 
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin vertical-text {
+  writing-mode: sideways-lr;
+  text-orientation: sideways;
+}
+
 @mixin ribbon {
   display: flex;
   gap: 4px;

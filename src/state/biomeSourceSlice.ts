@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from "api/VoronoiBiomeSource";
+import { type ContinentalnessKey, type ErosionKey, type HumidityKey, type OceanDepthKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from "api/VoronoiBiomeSource";
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import Local from "Local";
 import { useSelector } from "react-redux";
@@ -113,6 +113,37 @@ const biomeSourceSlice = createSlice({
       const { t, index } = action.payload;
 
       state.doc.biome_source.exotic[t].splice(index, 1);
+    },
+
+    addOceanBiome (state, action: PayloadAction<{
+      c: OceanDepthKey,
+      t: TemperatureKey,
+      biomeId: string,
+    }>) {
+      const { c, t, biomeId } = action.payload;
+
+      state.doc.biome_source.ocean[t][c].push(biomeId);
+    },
+
+    setOceanBiome (state, action: PayloadAction<{
+      c: OceanDepthKey,
+      t: TemperatureKey,
+      index: number,
+      biomeId: string,
+    }>) {
+      const { c, t, index, biomeId } = action.payload;
+
+      state.doc.biome_source.ocean[t][c][index] = biomeId;
+    },
+
+    removeOceanBiome (state, action: PayloadAction<{
+      c: OceanDepthKey,
+      t: TemperatureKey,
+      index: number,
+    }>) {
+      const { c, t, index } = action.payload;
+
+      state.doc.biome_source.ocean[t][c].splice(index, 1);
     },
   },
 });

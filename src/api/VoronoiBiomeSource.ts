@@ -2,9 +2,9 @@ export interface VoronoiBiomeSource {
   type: string;
   settings: string;
   biome_source: {
-    type: 'extrabiomegen:voronoi',
-    river: {},
-    ocean: {},
+    type: 'extrabiomegen:voronoi';
+    river: {};
+    ocean: VoronoiOceanTemperature;
     exotic: VoronoiExoticTemperature;
     land: VoronoiLandCont;
   }
@@ -17,6 +17,20 @@ export type VoronoiLandHumidity = HumidityCollection<VoronoiLandWeirdness>;
 export type VoronoiLandWeirdness = WeirdnessCollection<string[]>;
 
 export type VoronoiExoticTemperature = TemperatureCollection<string[]>;
+
+export type VoronoiOceanTemperature = TemperatureCollection<VoronoiOceanDepth>;
+export type VoronoiOceanDepth = OceanDepthCollection<string[]>;
+
+export const OceanDepthKeys = [
+  'shallow',
+  'deep',
+] as const;
+
+export type OceanDepthKey = (typeof OceanDepthKeys)[number];
+
+export type OceanDepthCollection<T> = {
+  [K in OceanDepthKey]: T;
+};
 
 export const ContinentalnessKeys = [
   'coast',
@@ -103,7 +117,7 @@ export function makeVoronoiBiomeSource () : VoronoiBiomeSource {
     biome_source: {
       type: 'extrabiomegen:voronoi',
       river: {},
-      ocean: {},
+      ocean: makeOceanTemperatureCollection(),
       exotic: makeExoticTemperatureCollection(),
       land: makeContinentalnessCollection(),
     }
@@ -118,7 +132,6 @@ function makeContinentalnessCollection () : VoronoiLandCont {
     interior: makeErosionCollection(),
   };
 }
-
 function makeErosionCollection () : VoronoiLandErosion {
   return {
     jagged: makeTemperatureCollection(),
@@ -176,4 +189,21 @@ function makeExoticTemperatureCollection () : VoronoiExoticTemperature {
     warm: [],
     hot: [],
   }
+}
+
+function makeOceanTemperatureCollection () : VoronoiOceanTemperature {
+  return {
+    frozen: makeOceanDepthCollection(),
+    cold: makeOceanDepthCollection(),
+    normal: makeOceanDepthCollection(),
+    warm: makeOceanDepthCollection(),
+    hot: makeOceanDepthCollection(),
+  };
+}
+
+function makeOceanDepthCollection () : VoronoiOceanDepth {
+  return {
+    shallow: [],
+    deep: [],
+  };
 }

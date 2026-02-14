@@ -41,9 +41,7 @@
 
           &.vertical {
             @include center;
-
-            writing-mode: sideways-lr;
-            text-orientation: sideways;
+            @include vertical-text;
           }
 
           &.tableContainer {
