@@ -5,15 +5,18 @@ export interface VoronoiBiomeSource {
     type: 'extrabiomegen:voronoi',
     river: {},
     ocean: {},
-    land: VoronoiInlandCont;
+    exotic: VoronoiExoticTemperature;
+    land: VoronoiLandCont;
   }
 }
 
-export type VoronoiInlandCont = ContinentalnessCollection<VoronoiInlandErosion>;
-export type VoronoiInlandErosion = ErosionCollection<VoronoiInlandTemperature>;
-export type VoronoiInlandTemperature = TemperatureCollection<VoronoiInlandHumidity>;
-export type VoronoiInlandHumidity = HumidityCollection<VoronoiInlandWeirdness>;
-export type VoronoiInlandWeirdness = WeirdnessCollection<string[]>;
+export type VoronoiLandCont = ContinentalnessCollection<VoronoiLandErosion>;
+export type VoronoiLandErosion = ErosionCollection<VoronoiLandTemperature>;
+export type VoronoiLandTemperature = TemperatureCollection<VoronoiLandHumidity>;
+export type VoronoiLandHumidity = HumidityCollection<VoronoiLandWeirdness>;
+export type VoronoiLandWeirdness = WeirdnessCollection<string[]>;
+
+export type VoronoiExoticTemperature = TemperatureCollection<string[]>;
 
 export const ContinentalnessKeys = [
   'coast',
@@ -101,12 +104,13 @@ export function makeVoronoiBiomeSource () : VoronoiBiomeSource {
       type: 'extrabiomegen:voronoi',
       river: {},
       ocean: {},
+      exotic: makeExoticTemperatureCollection(),
       land: makeContinentalnessCollection(),
     }
   };
 }
 
-function makeContinentalnessCollection () : VoronoiInlandCont {
+function makeContinentalnessCollection () : VoronoiLandCont {
   return {
     coast: makeErosionCollection(),
     lowland: makeErosionCollection(),
@@ -115,7 +119,7 @@ function makeContinentalnessCollection () : VoronoiInlandCont {
   };
 }
 
-function makeErosionCollection () : VoronoiInlandErosion {
+function makeErosionCollection () : VoronoiLandErosion {
   return {
     jagged: makeTemperatureCollection(),
     rugged: makeTemperatureCollection(),
@@ -127,7 +131,7 @@ function makeErosionCollection () : VoronoiInlandErosion {
   }
 }
 
-export function makeTemperatureCollection () : VoronoiInlandTemperature {
+function makeTemperatureCollection () : VoronoiLandTemperature {
   return {
     frozen: makeHumidityCollection(),
     cold: makeHumidityCollection(),
@@ -137,7 +141,7 @@ export function makeTemperatureCollection () : VoronoiInlandTemperature {
   };
 }
 
-function makeHumidityCollection () : VoronoiInlandHumidity {
+function makeHumidityCollection () : VoronoiLandHumidity {
   return {
     arid: makeWeirdnessCollection(),
     dry: makeWeirdnessCollection(),
@@ -147,7 +151,7 @@ function makeHumidityCollection () : VoronoiInlandHumidity {
   }
 }
 
-function makeWeirdnessCollection () : VoronoiInlandWeirdness {
+function makeWeirdnessCollection () : VoronoiLandWeirdness {
   return {
     normal_outer_valley: [],
     normal_outer_slope: [],
@@ -162,4 +166,14 @@ function makeWeirdnessCollection () : VoronoiInlandWeirdness {
     variant_outer_slope: [],
     variant_outer_valley: [],
   };
+}
+
+function makeExoticTemperatureCollection () : VoronoiExoticTemperature {
+  return {
+    frozen: [],
+    cold: [],
+    normal: [],
+    warm: [],
+    hot: [],
+  }
 }

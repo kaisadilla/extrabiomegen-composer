@@ -5,6 +5,10 @@
   height: 100%;
   overflow: hidden;
 
+  .ribbon {
+    @include ribbon;
+  }
+
   .tabContainer {
     flex: 1;
 

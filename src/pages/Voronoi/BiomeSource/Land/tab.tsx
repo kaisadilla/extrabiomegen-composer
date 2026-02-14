@@ -1,14 +1,10 @@
-import { Button, SegmentedControl, Text, Tooltip } from '@mantine/core';
-import { modals } from '@mantine/modals';
-import { ContinentalnessKeys, HumidityKeys, TemperatureKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import { SegmentedControl, Tooltip } from '@mantine/core';
+import { ContinentalnessKeys, HumidityKeys, TemperatureKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
 import BiomeTable from 'components/BiomeTable';
-import vanillaDoc from 'data/minecraft/dimension/overworld.json';
-import { saveAs } from "file-saver";
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import useBiomeCatalogue from 'state/biomeCatalogueSlice';
-import useBiomeSource, { biomeSourceActions } from 'state/biomeSourceSlice';
-import { $cl, openFile } from 'utils';
+import { BiomeSourceActions } from 'state/biomeSourceSlice';
+import { $cl } from 'utils';
 import styles from './tab.module.scss';
 
 export interface LandTabProps {
@@ -20,64 +16,12 @@ function LandTab ({
   brush,
   onPickBrush,
 }: LandTabProps) {
-  const src = useBiomeSource();
-  const catalogue = useBiomeCatalogue();
   const dispatch = useDispatch();
 
   const [c, setC] = useState<ContinentalnessKey>('coast');
-  
-  const openRestartModal = () => modals.openConfirmModal({
-    title: 'Restart biome catalogue',
-    children: (
-      <Text size='sm'>
-        Do you want to restart the biome catalogue to its default value
-        (Vanilla Minecraft's list with default colors)? This action cannot
-        be undone.
-      </Text>
-    ),
-    labels: {
-      confirm: "Restart",
-      cancel: "Cancel",
-    },
-    onConfirm: handleRestart,
-  });
 
   return (
     <div className={styles.tab}>
-      <div className={styles.ribbon}>
-        <Tooltip
-          label="Reset the document."
-        >
-          <Button
-            size='compact-sm'
-            onClick={openRestartModal}
-          >
-            Restart
-          </Button>
-        </Tooltip>
-
-        <Tooltip
-          label="Open a json containing a biome source."
-        >
-          <Button
-            size='compact-sm'
-            onClick={handleOpen}
-          >
-            Open
-          </Button>
-        </Tooltip>
-
-        <Tooltip
-          label="Export a json for Minecraft's data pack (data/minecraft/dimension/*.json). This is ONLY the value of the field 'generator', not the entire file."
-        >
-          <Button
-            size='compact-sm'
-            onClick={handleExport}
-          >
-            Export
-          </Button>
-        </Tooltip>
-      </div>
       <div className={styles.continentalness}>
         <Tooltip label='Continentalness'><div>c =&nbsp;</div></Tooltip>
         <SegmentedControl
@@ -129,35 +73,6 @@ function LandTab ({
     </div>
   );
 
-  function handleRestart () {
-    dispatch(biomeSourceActions.loadBiomeSource(vanillaDoc as VoronoiBiomeSource));
-  }
-
-  async function handleOpen () {
-      const f = await openFile();
-      if (!f) return;
-  
-      try {
-        const data = await f.text();
-        const raw = JSON.parse(data);
-        
-        dispatch(biomeSourceActions.loadBiomeSource(raw as VoronoiBiomeSource));
-      }
-      catch (err) {
-        console.error(err);
-      }
-  }
-
-  function handleExport () {
-    const txt = JSON.stringify(src.doc, null, 2);
-
-    const blob = new Blob([txt], {
-      type: 'text/plain;charset=utf-8'
-    });
-
-    saveAs(blob, "biome_source.json");
-  }
-
   function handleAdd (
     c: ContinentalnessKey,
     e: ErosionKey,
@@ -167,7 +82,7 @@ function LandTab ({
   ) {
     if (!brush) return;
     
-    dispatch(biomeSourceActions.addInlandBiome({
+    dispatch(BiomeSourceActions.addLandBiome({
       c,
       e,
       t,
@@ -184,7 +99,7 @@ function LandTab ({
   ) {
     if (!brush) return;
     
-    dispatch(biomeSourceActions.propagateInitialLandBiome({
+    dispatch(BiomeSourceActions.propagateInitialLandBiome({
       c,
       t,
       h,
@@ -202,7 +117,7 @@ function LandTab ({
   ) {
     if (!brush) return;
     
-    dispatch(biomeSourceActions.setInlandBiome({
+    dispatch(BiomeSourceActions.setLandBiome({
       c,
       e,
       t,
@@ -223,7 +138,7 @@ function LandTab ({
   ) {
     if (!brush) return;
     
-    dispatch(biomeSourceActions.removeInlandBiome({
+    dispatch(BiomeSourceActions.removeLandBiome({
       c,
       e,
       t,

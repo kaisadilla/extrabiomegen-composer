@@ -7,10 +7,6 @@
 
   user-select: none;
 
-  .ribbon {
-    @include ribbon;
-  }
-
   .continentalness {
     @include center;
   }

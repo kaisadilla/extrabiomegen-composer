@@ -24,7 +24,7 @@ const biomeSourceSlice = createSlice({
       state.doc = action.payload;
     },
 
-    addInlandBiome (state, action: PayloadAction<{
+    addLandBiome (state, action: PayloadAction<{
       c: ContinentalnessKey,
       e: ErosionKey,
       t: TemperatureKey,
@@ -58,7 +58,7 @@ const biomeSourceSlice = createSlice({
       }
     },
 
-    setInlandBiome (state, action: PayloadAction<{
+    setLandBiome (state, action: PayloadAction<{
       c: ContinentalnessKey,
       e: ErosionKey,
       t: TemperatureKey,
@@ -74,7 +74,7 @@ const biomeSourceSlice = createSlice({
       //  = [...new Set(state.src.biome_source.land[c][e][t][h][w])];
     },
 
-    removeInlandBiome (state, action: PayloadAction<{
+    removeLandBiome (state, action: PayloadAction<{
       c: ContinentalnessKey,
       e: ErosionKey,
       t: TemperatureKey,
@@ -86,11 +86,39 @@ const biomeSourceSlice = createSlice({
 
       state.doc.biome_source.land[c][e][t][h][w].splice(index, 1);
     },
+
+    addExoticBiome (state, action: PayloadAction<{
+      t: TemperatureKey,
+      biomeId: string,
+    }>) {
+      const { t, biomeId } = action.payload;
+
+      state.doc.biome_source.exotic[t].push(biomeId);
+    },
+
+    setExoticBiome (state, action: PayloadAction<{
+      t: TemperatureKey,
+      index: number,
+      biomeId: string,
+    }>) {
+      const { t, index, biomeId } = action.payload;
+
+      state.doc.biome_source.exotic[t][index] = biomeId;
+    },
+
+    removeExoticBiome (state, action: PayloadAction<{
+      t: TemperatureKey,
+      index: number,
+    }>) {
+      const { t, index } = action.payload;
+
+      state.doc.biome_source.exotic[t].splice(index, 1);
+    },
   },
 });
 
 export const biomeSourceReducer = biomeSourceSlice.reducer;
-export const biomeSourceActions = biomeSourceSlice.actions;
+export const BiomeSourceActions = biomeSourceSlice.actions;
 
 export default function useBiomeSource () {
   const biomeSource = useSelector((state: RootState) => state.biomeSource);

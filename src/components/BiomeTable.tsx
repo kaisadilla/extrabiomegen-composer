@@ -58,10 +58,11 @@ function BiomeTable ({
               <Tooltip.Floating
                 key={e}
                 position='bottom'
+                offset={40}
                 classNames={{
                   tooltip: styles.cellTooltip,
                 }}
-                label={false && <div className={styles.cellTooltipLabel}>
+                label={<div className={styles.cellTooltipLabel}>
                   <div className={styles.label}>Biomes in this cell:</div>
                   {biomes?.map((b, i) => {
                     const biome = catalogue.biomes[b] ?? UNKNOWN_BIOME;
