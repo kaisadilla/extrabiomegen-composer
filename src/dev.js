@@ -1,5 +1,3 @@
-import { makeTemperatureCollection } from "api/VoronoiBiomeSource";
-
 export function retrofit1 (doc) {
   console.log(doc);
   for (const c of Object.values(doc.biome_source.land)) {

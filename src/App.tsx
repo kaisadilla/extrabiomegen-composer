@@ -1,4 +1,4 @@
-import VoronoiPage from 'pages/Voronoi/page';
+import MsdPage from 'pages/Msd/page';
 import { useState } from 'react';
 
 // eslint-disable-next-line import/order
@@ -10,7 +10,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <VoronoiPage />
+    <MsdPage />
   );
 }
 

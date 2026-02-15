@@ -1,12 +1,12 @@
 import type { Biome } from "api/Biome";
-import type { VoronoiBiomeSource } from "api/VoronoiBiomeSource";
+import type { MndBiomeSource } from "api/MultiNoiseDiscreteBiomeSource";
 
 const KEY_PREFIX = "extrabiomegen-composer";
 const KEY_INLAND = KEY_PREFIX + "/biomesource";
 const KEY_BIOMES = KEY_PREFIX + "/catalogue";
 
 const Local = {
-  saveInland (inland: VoronoiBiomeSource) {
+  saveInland (inland: MndBiomeSource) {
     try {
       const json = JSON.stringify(inland);
       localStorage.setItem(KEY_INLAND, json);
@@ -16,12 +16,12 @@ const Local = {
     }
   },
 
-  loadInland () : VoronoiBiomeSource | null {
+  loadInland () : MndBiomeSource | null {
     try {
       const json = localStorage.getItem(KEY_INLAND);
       if (!json) return null;
 
-      return JSON.parse(json) as VoronoiBiomeSource;
+      return JSON.parse(json) as MndBiomeSource;
     }
     catch (err) {
       console.error("Couldn't parse inland", err);

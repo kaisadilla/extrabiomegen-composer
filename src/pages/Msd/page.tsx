@@ -8,11 +8,11 @@ import AvailableBiomesTab from './AvailableBiomes/tab';
 import BiomeSourceTab from './BiomeSource/tab';
 import styles from './page.module.scss';
 
-export interface VoronoiPageProps {
+export interface MsdPageProps {
   
 }
 
-function VoronoiPage (props: VoronoiPageProps) {
+function MsdPage (props: MsdPageProps) {
   const [tab, setTab] = useState<string | null>("src");
   const src = useBiomeSource();
   const catalogue = useBiomeCatalogue();
@@ -63,4 +63,4 @@ function VoronoiPage (props: VoronoiPageProps) {
   }
 }
 
-export default VoronoiPage;
+export default MsdPage;

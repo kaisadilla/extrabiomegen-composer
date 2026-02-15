@@ -1,4 +1,4 @@
-import { OceanContinentalnessKeys, TemperatureKeys, type OceanContinentalnessKey, type TemperatureKey } from 'api/VoronoiBiomeSource';
+import { OceanContinentalnessKeys, TemperatureKeys, type OceanContinentalnessKey, type TemperatureKey } from 'api/MultiNoiseDiscreteBiomeSource';
 import BiomeChart from 'components/BiomeChart';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
@@ -20,7 +20,10 @@ function OceanTab ({
     <div className={styles.tab}>
       <div className={styles.chartContainer}>
           {OceanContinentalnessKeys.map(c => (
-            <div className={styles.row}>
+            <div
+              key={c}
+              className={styles.row}
+            >
               <div className={styles.head}>
                 c = {c}
               </div>

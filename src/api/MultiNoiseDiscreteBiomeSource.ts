@@ -1,32 +1,32 @@
-export interface VoronoiBiomeSource {
+export interface MndBiomeSource {
   type: string;
   settings: string;
   biome_source: {
-    type: 'extrabiomegen:voronoi';
+    type: 'extrabiomegen:multinoise_discrete';
     river: {};
-    ocean: VoronoiOceanTemperature;
-    exotic: VoronoiExoticTemperature;
-    land: VoronoiLandCont;
-    cave: VoronoiCaveDepth;
+    ocean: MndOceanTemperature;
+    exotic: MndExoticTemperature;
+    land: MndLandCont;
+    cave: MndCaveDepth;
   }
 }
 
-export type VoronoiLandCont = LandContinentalnessCollection<VoronoiLandErosion>;
-export type VoronoiLandErosion = ErosionCollection<VoronoiLandTemperature>;
-export type VoronoiLandTemperature = TemperatureCollection<VoronoiLandHumidity>;
-export type VoronoiLandHumidity = LandHumidityCollection<VoronoiLandWeirdness>;
-export type VoronoiLandWeirdness = WeirdnessCollection<string[]>;
+export type MndLandCont = LandContinentalnessCollection<MndLandErosion>;
+export type MndLandErosion = ErosionCollection<MndLandTemperature>;
+export type MndLandTemperature = TemperatureCollection<MndLandHumidity>;
+export type MndLandHumidity = LandHumidityCollection<MndLandWeirdness>;
+export type MndLandWeirdness = WeirdnessCollection<string[]>;
 
-export type VoronoiCaveDepth = CaveDepthCollection<VoronoiCaveContinentalness>;
-export type VoronoiCaveContinentalness = ContinentalnessCollection<VoronoiCaveErosion>;
-export type VoronoiCaveErosion = ErosionCollection<VoronoiCaveTemperature>;
-export type VoronoiCaveTemperature = TemperatureCollection<VoronoiCaveHumidity>;
-export type VoronoiCaveHumidity = HumidityCollection<string[]>;
+export type MndCaveDepth = CaveDepthCollection<MndCaveContinentalness>;
+export type MndCaveContinentalness = ContinentalnessCollection<MndCaveErosion>;
+export type MndCaveErosion = ErosionCollection<MndCaveTemperature>;
+export type MndCaveTemperature = TemperatureCollection<MndCaveHumidity>;
+export type MndCaveHumidity = HumidityCollection<string[]>;
 
-export type VoronoiExoticTemperature = TemperatureCollection<string[]>;
+export type MndExoticTemperature = TemperatureCollection<string[]>;
 
-export type VoronoiOceanTemperature = TemperatureCollection<VoronoiOceanContinentalness>;
-export type VoronoiOceanContinentalness = OceanContinentalnessCollection<string[]>;
+export type MndOceanTemperature = TemperatureCollection<MndOceanContinentalness>;
+export type MndOceanContinentalness = OceanContinentalnessCollection<string[]>;
 
 export const OceanContinentalnessKeys = [
   'shallow',
@@ -162,12 +162,12 @@ export type WeirdnessCollection<T> = {
   [K in WeirdnessKey]: T;
 };
 
-export function makeVoronoiBiomeSource () : VoronoiBiomeSource {
+export function makeMndBiomeSource () : MndBiomeSource {
   return {
     type: "minecraft:overworld",
     settings: "minecraft:overworld",
     biome_source: {
-      type: 'extrabiomegen:voronoi',
+      type: 'extrabiomegen:multinoise_discrete',
       river: {},
       ocean: makeOceanTemperatureCollection(),
       exotic: makeExoticTemperatureCollection(),
@@ -178,7 +178,7 @@ export function makeVoronoiBiomeSource () : VoronoiBiomeSource {
 }
 
 // #region Land
-function makeContinentalnessCollection () : VoronoiLandCont {
+function makeContinentalnessCollection () : MndLandCont {
   return {
     coast: makeErosionCollection(),
     lowland: makeErosionCollection(),
@@ -187,7 +187,7 @@ function makeContinentalnessCollection () : VoronoiLandCont {
   };
 }
 
-function makeErosionCollection () : VoronoiLandErosion {
+function makeErosionCollection () : MndLandErosion {
   return {
     jagged: makeTemperatureCollection(),
     rugged: makeTemperatureCollection(),
@@ -199,7 +199,7 @@ function makeErosionCollection () : VoronoiLandErosion {
   }
 }
 
-function makeTemperatureCollection () : VoronoiLandTemperature {
+function makeTemperatureCollection () : MndLandTemperature {
   return {
     frozen: makeHumidityCollection(),
     cold: makeHumidityCollection(),
@@ -209,7 +209,7 @@ function makeTemperatureCollection () : VoronoiLandTemperature {
   };
 }
 
-function makeHumidityCollection () : VoronoiLandHumidity {
+function makeHumidityCollection () : MndLandHumidity {
   return {
     arid: makeWeirdnessCollection(),
     dry: makeWeirdnessCollection(),
@@ -219,7 +219,7 @@ function makeHumidityCollection () : VoronoiLandHumidity {
   }
 }
 
-function makeWeirdnessCollection () : VoronoiLandWeirdness {
+function makeWeirdnessCollection () : MndLandWeirdness {
   return {
     normal_outer_valley: [],
     normal_outer_slope: [],
@@ -238,7 +238,7 @@ function makeWeirdnessCollection () : VoronoiLandWeirdness {
 // #endregion Land
 
 // #region Cave
-function makeCaveDepthCollection () : VoronoiCaveDepth {
+function makeCaveDepthCollection () : MndCaveDepth {
   return {
     shallow: makeCaveContinentalnessCollection(),
     normal: makeCaveContinentalnessCollection(),
@@ -247,7 +247,7 @@ function makeCaveDepthCollection () : VoronoiCaveDepth {
   };
 }
 
-function makeCaveContinentalnessCollection () : VoronoiCaveContinentalness {
+function makeCaveContinentalnessCollection () : MndCaveContinentalness {
   return {
     exotic: makeCaveErosionCollection(),
     deep_ocean: makeCaveErosionCollection(),
@@ -260,7 +260,7 @@ function makeCaveContinentalnessCollection () : VoronoiCaveContinentalness {
   };
 }
 
-function makeCaveErosionCollection () : VoronoiCaveErosion {
+function makeCaveErosionCollection () : MndCaveErosion {
   return  {
     jagged: makeCaveTemperatureCollection(),
     rugged: makeCaveTemperatureCollection(),
@@ -272,7 +272,7 @@ function makeCaveErosionCollection () : VoronoiCaveErosion {
   };
 }
 
-function makeCaveTemperatureCollection () : VoronoiCaveTemperature {
+function makeCaveTemperatureCollection () : MndCaveTemperature {
   return {
     frozen: makeCaveHumidityCollection(),
     cold: makeCaveHumidityCollection(),
@@ -282,7 +282,7 @@ function makeCaveTemperatureCollection () : VoronoiCaveTemperature {
   };
 }
 
-function makeCaveHumidityCollection () : VoronoiCaveHumidity {
+function makeCaveHumidityCollection () : MndCaveHumidity {
   return {
     arid: [],
     dry: [],
@@ -294,7 +294,7 @@ function makeCaveHumidityCollection () : VoronoiCaveHumidity {
 }
 // #endregion Cave
 
-function makeExoticTemperatureCollection () : VoronoiExoticTemperature {
+function makeExoticTemperatureCollection () : MndExoticTemperature {
   return {
     frozen: [],
     cold: [],
@@ -304,7 +304,7 @@ function makeExoticTemperatureCollection () : VoronoiExoticTemperature {
   }
 }
 
-function makeOceanTemperatureCollection () : VoronoiOceanTemperature {
+function makeOceanTemperatureCollection () : MndOceanTemperature {
   return {
     frozen: makeOceanContinentalnessCollection(),
     cold: makeOceanContinentalnessCollection(),
@@ -314,7 +314,7 @@ function makeOceanTemperatureCollection () : VoronoiOceanTemperature {
   };
 }
 
-function makeOceanContinentalnessCollection () : VoronoiOceanContinentalness {
+function makeOceanContinentalnessCollection () : MndOceanContinentalness {
   return {
     shallow: [],
     deep: [],

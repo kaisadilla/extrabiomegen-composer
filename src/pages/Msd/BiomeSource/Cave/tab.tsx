@@ -1,5 +1,5 @@
 import { SegmentedControl, Tooltip } from '@mantine/core';
-import { type CaveDepthKey, CaveDepthKeys, type ContinentalnessKey, ContinentalnessKeys, type ErosionKey, ErosionKeys, type HumidityKey, HumidityKeys, type TemperatureKey, TemperatureKeys } from 'api/VoronoiBiomeSource';
+import { type CaveDepthKey, CaveDepthKeys, type ContinentalnessKey, ContinentalnessKeys, type ErosionKey, ErosionKeys, type HumidityKey, HumidityKeys, type TemperatureKey, TemperatureKeys } from 'api/MultiNoiseDiscreteBiomeSource';
 import BiomeTable from 'components/BiomeTable';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';

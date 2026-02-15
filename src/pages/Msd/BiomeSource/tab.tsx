@@ -1,6 +1,6 @@
 import { Button, Tabs, Text, Tooltip } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { makeVoronoiBiomeSource, type VoronoiBiomeSource } from 'api/VoronoiBiomeSource';
+import { makeMndBiomeSource, type MndBiomeSource } from 'api/MultiNoiseDiscreteBiomeSource';
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import { saveAs } from "file-saver";
 import { useState } from 'react';
@@ -173,11 +173,11 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
   );
   
   function handleRestart () {
-    dispatch(BiomeSourceActions.loadBiomeSource(vanillaDoc as VoronoiBiomeSource));
+    dispatch(BiomeSourceActions.loadBiomeSource(vanillaDoc as MndBiomeSource));
   }
   
   function handleNew () {
-    dispatch(BiomeSourceActions.loadBiomeSource(makeVoronoiBiomeSource()));
+    dispatch(BiomeSourceActions.loadBiomeSource(makeMndBiomeSource()));
   }
 
   async function handleOpen () {
@@ -188,7 +188,7 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
         const data = await f.text();
         const raw = JSON.parse(data);
         
-        dispatch(BiomeSourceActions.loadBiomeSource(raw as VoronoiBiomeSource));
+        dispatch(BiomeSourceActions.loadBiomeSource(raw as MndBiomeSource));
       }
       catch (err) {
         console.error(err);

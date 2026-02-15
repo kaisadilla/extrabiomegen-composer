@@ -1,16 +1,16 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type CaveDepthKey, type ContinentalnessKey, type ErosionKey, type HumidityKey, type LandContinentalnessKey, type LandHumidityKey, type OceanContinentalnessKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from "api/VoronoiBiomeSource";
+import { type CaveDepthKey, type ContinentalnessKey, type ErosionKey, type HumidityKey, type LandContinentalnessKey, type LandHumidityKey, type MndBiomeSource, type OceanContinentalnessKey, type TemperatureKey, type WeirdnessKey } from "api/MultiNoiseDiscreteBiomeSource";
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import Local from "Local";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
 
 export interface BiomeSourceState {
-  doc: VoronoiBiomeSource;
+  doc: MndBiomeSource;
 }
 
 let doc = Local.loadInland();
-doc ??= vanillaDoc as VoronoiBiomeSource;
+doc ??= vanillaDoc as MndBiomeSource;
 
 const initialState: BiomeSourceState = {
   doc,
@@ -20,7 +20,7 @@ const biomeSourceSlice = createSlice({
   name: 'biomeSource',
   initialState,
   reducers: {
-    loadBiomeSource (state, action: PayloadAction<VoronoiBiomeSource>) {
+    loadBiomeSource (state, action: PayloadAction<MndBiomeSource>) {
       state.doc = action.payload;
     },
 

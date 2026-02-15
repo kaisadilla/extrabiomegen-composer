@@ -1,4 +1,4 @@
-import { TemperatureKeys, type TemperatureKey } from 'api/VoronoiBiomeSource';
+import { TemperatureKeys, type TemperatureKey } from 'api/MultiNoiseDiscreteBiomeSource';
 import BiomeChart from 'components/BiomeChart';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';

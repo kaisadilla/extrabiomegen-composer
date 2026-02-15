@@ -144,7 +144,7 @@ function MapViewerPage (props: MapViewerPageProps) {
 
   function readFileParams (filename: string) {
     const params = filename.split(".");
-    if (params.length !== 7) return;
+    if (params.length < 6) return;
 
     const x = Number(params[2]);
     const z = Number(params[4]);
