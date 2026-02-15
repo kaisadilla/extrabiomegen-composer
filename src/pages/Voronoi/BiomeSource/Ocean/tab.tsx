@@ -1,4 +1,4 @@
-import { OceanDepthKeys, TemperatureKeys, type OceanDepthKey, type TemperatureKey } from 'api/VoronoiBiomeSource';
+import { OceanContinentalnessKeys, TemperatureKeys, type OceanContinentalnessKey, type TemperatureKey } from 'api/VoronoiBiomeSource';
 import BiomeChart from 'components/BiomeChart';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
@@ -19,7 +19,7 @@ function OceanTab ({
   return (
     <div className={styles.tab}>
       <div className={styles.chartContainer}>
-          {OceanDepthKeys.map(c => (
+          {OceanContinentalnessKeys.map(c => (
             <div className={styles.row}>
               <div className={styles.head}>
                 c = {c}
@@ -39,7 +39,7 @@ function OceanTab ({
     </div>
   );
 
-  function handleAdd (c: OceanDepthKey, t: TemperatureKey) {
+  function handleAdd (c: OceanContinentalnessKey, t: TemperatureKey) {
     if (!brush) return;
     
     dispatch(BiomeSourceActions.addOceanBiome({
@@ -49,7 +49,7 @@ function OceanTab ({
     }));
   }
 
-  function handleSet (c: OceanDepthKey, t: TemperatureKey, index: number) {
+  function handleSet (c: OceanContinentalnessKey, t: TemperatureKey, index: number) {
     if (!brush) return;
 
     dispatch(BiomeSourceActions.setOceanBiome({
@@ -60,7 +60,7 @@ function OceanTab ({
     }));
   }
 
-  function handleRemove (c: OceanDepthKey, t: TemperatureKey, index: number) {
+  function handleRemove (c: OceanContinentalnessKey, t: TemperatureKey, index: number) {
     if (!brush) return;
 
     dispatch(BiomeSourceActions.removeOceanBiome({

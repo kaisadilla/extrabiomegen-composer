@@ -1,5 +1,5 @@
 import { SegmentedControl, Tooltip } from '@mantine/core';
-import { ContinentalnessKeys, ErosionKeys, HumidityKeys, TemperatureKeys, WeirdnessKeys, type ContinentalnessKey, type ErosionKey, type HumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
+import { ErosionKeys, LandContinentalnessKeys, LandHumidityKeys, TemperatureKeys, WeirdnessKeys, type ErosionKey, type LandContinentalnessKey, type LandHumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/VoronoiBiomeSource';
 import BiomeTable from 'components/BiomeTable';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,16 +19,16 @@ function LandTab ({
   const src = useBiomeSource();
   const dispatch = useDispatch();
 
-  const [c, setC] = useState<ContinentalnessKey>('coast');
+  const [c, setC] = useState<LandContinentalnessKey>('coast');
 
   return (
     <div className={styles.tab}>
       <div className={styles.continentalness}>
         <Tooltip label='Continentalness'><div>c =&nbsp;</div></Tooltip>
         <SegmentedControl
-          data={ContinentalnessKeys.map(k => ({ value: k, label: k }))}
+          data={LandContinentalnessKeys.map(k => ({ value: k, label: k }))}
           value={c}
-          onChange={v => setC(v as ContinentalnessKey)}
+          onChange={v => setC(v as LandContinentalnessKey)}
         />
       </div>
       <div className={styles.matrixContainer}>
@@ -46,7 +46,7 @@ function LandTab ({
               </div>
             ))}
           </div>
-          {HumidityKeys.map(h => (
+          {LandHumidityKeys.map(h => (
             <div key={h} className={styles.row}>
               <div className={$cl(styles.cell, styles.head, styles.vertical)}>
                 <Tooltip label='Humidity'>
@@ -65,7 +65,7 @@ function LandTab ({
                     getBiomes={(w, e) => src.doc.biome_source.land[c][e][t][h][w]}
                     riverIndex={5}
                     onAdd={(w, e) => handleAdd(c, e, t, h, w)}
-                    onMultiAdd={() => handleMultiAdd(c, t, h)}
+                    onMultiAdd={(w, e, row, col) => handleMultiAdd(row, col, c, e, t, h, w)}
                     onSet={(w, e, i) => handleSet(c, e, t, h, w, i)}
                     onRemove={(w, e, i) => handleRemove(c, e, t, h, w, i)}
                     onPickBiome={onPickBrush}
@@ -80,10 +80,10 @@ function LandTab ({
   );
 
   function handleAdd (
-    c: ContinentalnessKey,
+    c: LandContinentalnessKey,
     e: ErosionKey,
     t: TemperatureKey,
-    h: HumidityKey,
+    h: LandHumidityKey,
     w: WeirdnessKey,
   ) {
     if (!brush) return;
@@ -97,27 +97,35 @@ function LandTab ({
       biomeId: brush,
     }));
   }
-
-  function handleMultiAdd (
-    c: ContinentalnessKey,
-    t: TemperatureKey,
-    h: HumidityKey,
-  ) {
-    if (!brush) return;
-    
-    dispatch(BiomeSourceActions.propagateInitialLandBiome({
-      c,
-      t,
-      h,
-      biomeId: brush,
-    }));
-  }
+  
+    function handleMultiAdd (
+      row: boolean,
+      col: boolean,
+      c: LandContinentalnessKey,
+      e: ErosionKey,
+      t: TemperatureKey,
+      h: LandHumidityKey,
+      w: WeirdnessKey,
+    ) {
+      if (!brush) return;
+      console.log("in filter")
+  
+      dispatch(BiomeSourceActions.multiAddLandBiome({
+        c: [c],
+        e: col ? ErosionKeys : [e],
+        t: [t],
+        h: [h],
+        w: row ? WeirdnessKeys : [w],
+        emptyOnly: true,
+        biomeId: brush,
+      }));
+    }
 
   function handleSet (
-    c: ContinentalnessKey,
+    c: LandContinentalnessKey,
     e: ErosionKey,
     t: TemperatureKey,
-    h: HumidityKey,
+    h: LandHumidityKey,
     w: WeirdnessKey,
     index: number,
   ) {
@@ -135,10 +143,10 @@ function LandTab ({
   }
 
   function handleRemove (
-    c: ContinentalnessKey,
+    c: LandContinentalnessKey,
     e: ErosionKey,
     t: TemperatureKey,
-    h: HumidityKey,
+    h: LandHumidityKey,
     w: WeirdnessKey,
     index: number,
   ) {

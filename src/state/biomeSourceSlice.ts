@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type ContinentalnessKey, type ErosionKey, type HumidityKey, type OceanDepthKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from "api/VoronoiBiomeSource";
+import { type CaveDepthKey, type ContinentalnessKey, type ErosionKey, type HumidityKey, type LandContinentalnessKey, type LandHumidityKey, type OceanContinentalnessKey, type TemperatureKey, type VoronoiBiomeSource, type WeirdnessKey } from "api/VoronoiBiomeSource";
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import Local from "Local";
 import { useSelector } from "react-redux";
@@ -24,11 +24,12 @@ const biomeSourceSlice = createSlice({
       state.doc = action.payload;
     },
 
+    // #region Land biomes
     addLandBiome (state, action: PayloadAction<{
-      c: ContinentalnessKey,
+      c: LandContinentalnessKey,
       e: ErosionKey,
       t: TemperatureKey,
-      h: HumidityKey,
+      h: LandHumidityKey,
       w: WeirdnessKey,
       biomeId: string,
     }>) {
@@ -41,28 +42,47 @@ const biomeSourceSlice = createSlice({
       state.doc.biome_source.land[c][e][t][h][w].push(biomeId);
     },
 
-    propagateInitialLandBiome (state, action: PayloadAction<{
-      c: ContinentalnessKey,
-      t: TemperatureKey,
-      h: HumidityKey,
+    multiAddLandBiome (state, action: PayloadAction<{
+      c: readonly LandContinentalnessKey[],
+      e: readonly ErosionKey[],
+      t: readonly TemperatureKey[],
+      h: readonly LandHumidityKey[],
+      w: readonly WeirdnessKey[],
+      emptyOnly: boolean,
       biomeId: string,
     }>) {
-      const { c, t, h, biomeId } = action.payload;
+      const { c, e, t, h, w, emptyOnly, biomeId } = action.payload;
 
-      for (const e of Object.values(state.doc.biome_source.land[c])) {
-        for (const w of Object.keys(e[t][h])) {
-          if (e[t][h][w as WeirdnessKey].length === 0) {
-            e[t][h][w as WeirdnessKey].push(biomeId);
+      for (const cs of Object.keys(state.doc.biome_source.land) as LandContinentalnessKey[]) {
+        if (c.includes(cs) === false) continue;
+        const cont = state.doc.biome_source.land[cs];
+
+        for (const es of Object.keys(cont) as ErosionKey[]) {
+          if (e.includes(es) === false) continue;
+
+          for (const ts of Object.keys(cont[es]) as TemperatureKey[]) {
+            if (t.includes(ts) === false) continue;
+
+            for (const hs of Object.keys(cont[es][ts]) as LandHumidityKey[]) {
+              if (h.includes(hs) === false) continue;
+
+              for (const ws of Object.keys(cont[es][ts][hs]) as WeirdnessKey[]) {
+                if (w.includes(ws) === false) continue;
+                if (emptyOnly && cont[es][ts][hs][ws].length !== 0) continue;
+
+                cont[es][ts][hs][ws].push(biomeId);
+              }
+            }
           }
         }
       }
     },
 
     setLandBiome (state, action: PayloadAction<{
-      c: ContinentalnessKey,
+      c: LandContinentalnessKey,
       e: ErosionKey,
       t: TemperatureKey,
-      h: HumidityKey,
+      h: LandHumidityKey,
       w: WeirdnessKey,
       index: number,
       biomeId: string,
@@ -75,10 +95,10 @@ const biomeSourceSlice = createSlice({
     },
 
     removeLandBiome (state, action: PayloadAction<{
-      c: ContinentalnessKey,
+      c: LandContinentalnessKey,
       e: ErosionKey,
       t: TemperatureKey,
-      h: HumidityKey,
+      h: LandHumidityKey,
       w: WeirdnessKey,
       index: number,
     }>) {
@@ -86,6 +106,85 @@ const biomeSourceSlice = createSlice({
 
       state.doc.biome_source.land[c][e][t][h][w].splice(index, 1);
     },
+    // #endregion Land biomes
+
+    // #region Cave biomes
+    addCaveBiome (state, action: PayloadAction<{
+      d: CaveDepthKey,
+      c: ContinentalnessKey,
+      e: ErosionKey,
+      t: TemperatureKey,
+      h: HumidityKey,
+      biomeId: string,
+    }>) {
+      const { d, c, e, t, h, biomeId } = action.payload;
+
+      state.doc.biome_source.cave[d][c][e][t][h].push(biomeId);
+    },
+
+    multiAddCaveBiome (state, action: PayloadAction<{
+      d: readonly CaveDepthKey[],
+      c: readonly ContinentalnessKey[],
+      e: readonly ErosionKey[],
+      t: readonly TemperatureKey[],
+      h: readonly HumidityKey[],
+      emptyOnly: boolean,
+      biomeId: string,
+    }>) {
+      const { d, c, e, t, h, emptyOnly, biomeId } = action.payload;
+
+      for (const ds of Object.keys(state.doc.biome_source.cave) as CaveDepthKey[]) {
+        if (d.includes(ds) === false) continue;
+        const depth = state.doc.biome_source.cave[ds];
+
+        for (const cs of Object.keys(depth) as ContinentalnessKey[]) {
+          if (c.includes(cs) === false) continue;
+
+          for (const es of Object.keys(depth[cs]) as ErosionKey[]) {
+            if (e.includes(es) === false) continue;
+
+            for (const ts of Object.keys(depth[cs][es]) as TemperatureKey[]) {
+              if (t.includes(ts) === false) continue;
+
+              for (const hs of Object.keys(depth[cs][es][ts]) as HumidityKey[]) {
+                if (h.includes(hs) === false) continue;
+                if (emptyOnly && depth[cs][es][ts][hs].length !== 0) continue;
+
+                depth[cs][es][ts][hs].push(biomeId);
+              }
+            }
+          }
+        }
+      }
+    },
+
+    setCaveBiome (state, action: PayloadAction<{
+      d: CaveDepthKey,
+      c: ContinentalnessKey,
+      e: ErosionKey,
+      t: TemperatureKey,
+      h: HumidityKey,
+      index: number,
+      biomeId: string,
+    }>) {
+      const { d, c, e, t, h, index, biomeId } = action.payload;
+
+      state.doc.biome_source.cave[d][c][e][t][h][index] = biomeId;
+    },
+
+    removeCaveBiome (state, action: PayloadAction<{
+      d: CaveDepthKey,
+      c: ContinentalnessKey,
+      e: ErosionKey,
+      t: TemperatureKey,
+      h: HumidityKey,
+      index: number,
+    }>) {
+      const { d, c, e, t, h, index } = action.payload;
+
+      state.doc.biome_source.cave[d][c][e][t][h].splice(index, 1);
+    },
+    // #endregion Cave biomes
 
     addExoticBiome (state, action: PayloadAction<{
       t: TemperatureKey,
@@ -116,7 +215,7 @@ const biomeSourceSlice = createSlice({
     },
 
     addOceanBiome (state, action: PayloadAction<{
-      c: OceanDepthKey,
+      c: OceanContinentalnessKey,
       t: TemperatureKey,
       biomeId: string,
     }>) {
@@ -126,7 +225,7 @@ const biomeSourceSlice = createSlice({
     },
 
     setOceanBiome (state, action: PayloadAction<{
-      c: OceanDepthKey,
+      c: OceanContinentalnessKey,
       t: TemperatureKey,
       index: number,
       biomeId: string,
@@ -137,7 +236,7 @@ const biomeSourceSlice = createSlice({
     },
 
     removeOceanBiome (state, action: PayloadAction<{
-      c: OceanDepthKey,
+      c: OceanContinentalnessKey,
       t: TemperatureKey,
       index: number,
     }>) {

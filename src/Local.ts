@@ -3,7 +3,7 @@ import type { VoronoiBiomeSource } from "api/VoronoiBiomeSource";
 
 const KEY_PREFIX = "extrabiomegen-composer";
 const KEY_INLAND = KEY_PREFIX + "/biomesource";
-const KEY_BIOMES = KEY_PREFIX + ".catalogue";
+const KEY_BIOMES = KEY_PREFIX + "/catalogue";
 
 const Local = {
   saveInland (inland: VoronoiBiomeSource) {
@@ -38,7 +38,7 @@ const Local = {
       console.error("Couldn't save biomes", err);
     }
   },
-  
+
   loadBiomes () : Record<string, Biome> | null {
     try {
       const json = localStorage.getItem(KEY_BIOMES);

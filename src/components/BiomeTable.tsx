@@ -14,7 +14,9 @@ export interface BiomeTableProps<TRow, TCol> {
   riverIndex?: number;
   getBiomes: (krow: TRow, kcol: TCol) => string[];
   onAdd?: (krow: TRow, kcol: TCol) => void;
-  onMultiAdd?: () => void;
+  onMultiAdd?: (
+    krow: TRow, kcol: TCol, fillRow: boolean, fillCol: boolean
+  ) => void;
   onSet?: (krow: TRow, kcol: TCol, index: number) => void;
   onRemove?: (krow: TRow, kcol: TCol, index: number) => void;
   onPickBiome?: (biomeId: string) => void;
@@ -144,8 +146,8 @@ function BiomeTable<TRow extends string, TCol extends string> ({
   ) {
     evt.stopPropagation();
 
-    if (evt.shiftKey) {
-      onMultiAdd?.();
+    if (evt.shiftKey || evt.altKey) {
+      onMultiAdd?.(krow, kcol, evt.shiftKey, evt.altKey);
     }
     else {
       onAdd?.(krow, kcol);

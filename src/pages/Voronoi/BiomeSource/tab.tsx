@@ -1,6 +1,6 @@
 import { Button, Tabs, Text, Tooltip } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import type { VoronoiBiomeSource } from 'api/VoronoiBiomeSource';
+import { makeVoronoiBiomeSource, type VoronoiBiomeSource } from 'api/VoronoiBiomeSource';
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import { saveAs } from "file-saver";
 import { useState } from 'react';
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { chooseW3CTextColor, openFile } from 'utils';
+import CaveTab from './Cave/tab';
 import ExoticTab from './Exotic/tab';
 import LandTab from './Land/tab';
 import OceanTab from './Ocean/tab';
@@ -41,6 +42,21 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
     },
     onConfirm: handleRestart,
   });
+  
+  const openNewModal = () => modals.openConfirmModal({
+    title: 'Restart biome catalogue',
+    children: (
+      <Text size='sm'>
+        You will discard the current document and get a new one. This action
+        won't be saved.
+      </Text>
+    ),
+    labels: {
+      confirm: "Accept",
+      cancel: "Cancel",
+    },
+    onConfirm: handleNew,
+  });
 
   return (
     <div className={styles.tab}>
@@ -53,6 +69,17 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
             onClick={openRestartModal}
           >
             Restart
+          </Button>
+        </Tooltip>
+
+        <Tooltip
+          label="Discard the current document and get a blank one."
+        >
+          <Button
+            size='compact-sm'
+            onClick={openNewModal}
+          >
+            New
           </Button>
         </Tooltip>
 
@@ -91,6 +118,7 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
           <Tabs.Tab value="ocean">Ocean</Tabs.Tab>
           <Tabs.Tab value="exotic">Exotic islands</Tabs.Tab>
           <Tabs.Tab value="land">Land</Tabs.Tab>
+          <Tabs.Tab value="cave">Caves</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="river">
@@ -117,6 +145,13 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
             onPickBrush={setBrush}
           />
         </Tabs.Panel>
+
+        <Tabs.Panel value="cave">
+          <CaveTab
+            brush={brush}
+            onPickBrush={setBrush}
+          />
+        </Tabs.Panel>
       </Tabs>
       <div className={styles.panel}>
         <div className={styles.biomeSelection}>
@@ -137,9 +172,12 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
     </div>
   );
   
-
   function handleRestart () {
     dispatch(BiomeSourceActions.loadBiomeSource(vanillaDoc as VoronoiBiomeSource));
+  }
+  
+  function handleNew () {
+    dispatch(BiomeSourceActions.loadBiomeSource(makeVoronoiBiomeSource()));
   }
 
   async function handleOpen () {

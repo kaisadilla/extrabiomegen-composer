@@ -7,42 +7,79 @@ export interface VoronoiBiomeSource {
     ocean: VoronoiOceanTemperature;
     exotic: VoronoiExoticTemperature;
     land: VoronoiLandCont;
+    cave: VoronoiCaveDepth;
   }
 }
 
-export type VoronoiLandCont = ContinentalnessCollection<VoronoiLandErosion>;
+export type VoronoiLandCont = LandContinentalnessCollection<VoronoiLandErosion>;
 export type VoronoiLandErosion = ErosionCollection<VoronoiLandTemperature>;
 export type VoronoiLandTemperature = TemperatureCollection<VoronoiLandHumidity>;
-export type VoronoiLandHumidity = HumidityCollection<VoronoiLandWeirdness>;
+export type VoronoiLandHumidity = LandHumidityCollection<VoronoiLandWeirdness>;
 export type VoronoiLandWeirdness = WeirdnessCollection<string[]>;
+
+export type VoronoiCaveDepth = CaveDepthCollection<VoronoiCaveContinentalness>;
+export type VoronoiCaveContinentalness = ContinentalnessCollection<VoronoiCaveErosion>;
+export type VoronoiCaveErosion = ErosionCollection<VoronoiCaveTemperature>;
+export type VoronoiCaveTemperature = TemperatureCollection<VoronoiCaveHumidity>;
+export type VoronoiCaveHumidity = HumidityCollection<string[]>;
 
 export type VoronoiExoticTemperature = TemperatureCollection<string[]>;
 
-export type VoronoiOceanTemperature = TemperatureCollection<VoronoiOceanDepth>;
-export type VoronoiOceanDepth = OceanDepthCollection<string[]>;
+export type VoronoiOceanTemperature = TemperatureCollection<VoronoiOceanContinentalness>;
+export type VoronoiOceanContinentalness = OceanContinentalnessCollection<string[]>;
 
-export const OceanDepthKeys = [
+export const OceanContinentalnessKeys = [
   'shallow',
   'deep',
 ] as const;
 
-export type OceanDepthKey = (typeof OceanDepthKeys)[number];
+export type OceanContinentalnessKey = (typeof OceanContinentalnessKeys)[number];
 
-export type OceanDepthCollection<T> = {
-  [K in OceanDepthKey]: T;
+export type OceanContinentalnessCollection<T> = {
+  [K in OceanContinentalnessKey]: T;
+};
+
+export const CaveDepthKeys = [
+  'shallow',
+  'normal',
+  'deep',
+  'very_deep',
+] as const;
+
+export type CaveDepthKey = (typeof CaveDepthKeys)[number];
+
+export type CaveDepthCollection<T> = {
+  [K in CaveDepthKey]: T;
 };
 
 export const ContinentalnessKeys = [
+  'exotic',
+  'deep_ocean',
+  'ocean',
   'coast',
   'lowland',
   'highland',
   'interior',
+  'deep_interior',
 ] as const;
 
 export type ContinentalnessKey = (typeof ContinentalnessKeys)[number];
 
 export type ContinentalnessCollection<T> = {
   [K in ContinentalnessKey]: T;
+};
+
+export const LandContinentalnessKeys = [
+  'coast',
+  'lowland',
+  'highland',
+  'interior',
+] as const;
+
+export type LandContinentalnessKey = (typeof LandContinentalnessKeys)[number];
+
+export type LandContinentalnessCollection<T> = {
+  [K in LandContinentalnessKey]: T;
 };
 
 export const ErosionKeys = [
@@ -81,12 +118,27 @@ export const HumidityKeys = [
   'normal',
   'wet',
   'humid',
+  'lush',
 ] as const;
 
 export type HumidityKey = (typeof HumidityKeys)[number];
 
 export type HumidityCollection<T> = {
   [K in HumidityKey]: T;
+};
+
+export const LandHumidityKeys = [
+  'arid',
+  'dry',
+  'normal',
+  'wet',
+  'humid',
+] as const;
+
+export type LandHumidityKey = (typeof LandHumidityKeys)[number];
+
+export type LandHumidityCollection<T> = {
+  [K in LandHumidityKey]: T;
 };
 
 export const WeirdnessKeys = [
@@ -120,10 +172,12 @@ export function makeVoronoiBiomeSource () : VoronoiBiomeSource {
       ocean: makeOceanTemperatureCollection(),
       exotic: makeExoticTemperatureCollection(),
       land: makeContinentalnessCollection(),
+      cave: makeCaveDepthCollection(),
     }
   };
 }
 
+// #region Land
 function makeContinentalnessCollection () : VoronoiLandCont {
   return {
     coast: makeErosionCollection(),
@@ -132,6 +186,7 @@ function makeContinentalnessCollection () : VoronoiLandCont {
     interior: makeErosionCollection(),
   };
 }
+
 function makeErosionCollection () : VoronoiLandErosion {
   return {
     jagged: makeTemperatureCollection(),
@@ -180,6 +235,64 @@ function makeWeirdnessCollection () : VoronoiLandWeirdness {
     variant_outer_valley: [],
   };
 }
+// #endregion Land
+
+// #region Cave
+function makeCaveDepthCollection () : VoronoiCaveDepth {
+  return {
+    shallow: makeCaveContinentalnessCollection(),
+    normal: makeCaveContinentalnessCollection(),
+    deep: makeCaveContinentalnessCollection(),
+    very_deep: makeCaveContinentalnessCollection(),
+  };
+}
+
+function makeCaveContinentalnessCollection () : VoronoiCaveContinentalness {
+  return {
+    exotic: makeCaveErosionCollection(),
+    deep_ocean: makeCaveErosionCollection(),
+    ocean: makeCaveErosionCollection(),
+    coast: makeCaveErosionCollection(),
+    lowland: makeCaveErosionCollection(),
+    highland: makeCaveErosionCollection(),
+    interior: makeCaveErosionCollection(),
+    deep_interior: makeCaveErosionCollection(),
+  };
+}
+
+function makeCaveErosionCollection () : VoronoiCaveErosion {
+  return  {
+    jagged: makeCaveTemperatureCollection(),
+    rugged: makeCaveTemperatureCollection(),
+    craggy: makeCaveTemperatureCollection(),
+    normal: makeCaveTemperatureCollection(),
+    rolling: makeCaveTemperatureCollection(),
+    smooth: makeCaveTemperatureCollection(),
+    flat: makeCaveTemperatureCollection(),
+  };
+}
+
+function makeCaveTemperatureCollection () : VoronoiCaveTemperature {
+  return {
+    frozen: makeCaveHumidityCollection(),
+    cold: makeCaveHumidityCollection(),
+    normal: makeCaveHumidityCollection(),
+    warm: makeCaveHumidityCollection(),
+    hot: makeCaveHumidityCollection(),
+  };
+}
+
+function makeCaveHumidityCollection () : VoronoiCaveHumidity {
+  return {
+    arid: [],
+    dry: [],
+    normal: [],
+    wet: [],
+    humid: [],
+    lush: [],
+  };
+}
+// #endregion Cave
 
 function makeExoticTemperatureCollection () : VoronoiExoticTemperature {
   return {
@@ -193,15 +306,15 @@ function makeExoticTemperatureCollection () : VoronoiExoticTemperature {
 
 function makeOceanTemperatureCollection () : VoronoiOceanTemperature {
   return {
-    frozen: makeOceanDepthCollection(),
-    cold: makeOceanDepthCollection(),
-    normal: makeOceanDepthCollection(),
-    warm: makeOceanDepthCollection(),
-    hot: makeOceanDepthCollection(),
+    frozen: makeOceanContinentalnessCollection(),
+    cold: makeOceanContinentalnessCollection(),
+    normal: makeOceanContinentalnessCollection(),
+    warm: makeOceanContinentalnessCollection(),
+    hot: makeOceanContinentalnessCollection(),
   };
 }
 
-function makeOceanDepthCollection () : VoronoiOceanDepth {
+function makeOceanContinentalnessCollection () : VoronoiOceanContinentalness {
   return {
     shallow: [],
     deep: [],
