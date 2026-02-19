@@ -3,30 +3,38 @@ export interface MndBiomeSource {
   settings: string;
   biome_source: {
     type: 'extrabiomegen:multinoise_discrete';
-    river: {};
+    region_size?: number;
+    biome_size?: number;
+    river: MndRiverTemperature;
     ocean: MndOceanTemperature;
     exotic: MndExoticTemperature;
+    land_placement_mode?: BiomePlacementMode;
     land: MndLandCont;
     cave: MndCaveDepth;
   }
 }
 
+export type BiomePlacementMode = 'terrain' | 'voronoi' | 'mixed';
+
+export type MndRiverTemperature = TemperatureCollection<MndRiverHumidity>;
+export type MndRiverHumidity = LandHumidityCollection<string[]>;
+
+export type MndOceanTemperature = TemperatureCollection<MndOceanContinentalness>;
+export type MndOceanContinentalness = OceanContinentalnessCollection<string[]>;
+
+export type MndExoticTemperature = TemperatureCollection<string[]>;
+
 export type MndLandCont = LandContinentalnessCollection<MndLandErosion>;
 export type MndLandErosion = ErosionCollection<MndLandTemperature>;
 export type MndLandTemperature = TemperatureCollection<MndLandHumidity>;
 export type MndLandHumidity = LandHumidityCollection<MndLandWeirdness>;
-export type MndLandWeirdness = WeirdnessCollection<string[]>;
+export type MndLandWeirdness = WeirdnessCollection<(string | null)[]>;
 
 export type MndCaveDepth = CaveDepthCollection<MndCaveContinentalness>;
 export type MndCaveContinentalness = ContinentalnessCollection<MndCaveErosion>;
 export type MndCaveErosion = ErosionCollection<MndCaveTemperature>;
 export type MndCaveTemperature = TemperatureCollection<MndCaveHumidity>;
 export type MndCaveHumidity = HumidityCollection<string[]>;
-
-export type MndExoticTemperature = TemperatureCollection<string[]>;
-
-export type MndOceanTemperature = TemperatureCollection<MndOceanContinentalness>;
-export type MndOceanContinentalness = OceanContinentalnessCollection<string[]>;
 
 export const OceanContinentalnessKeys = [
   'shallow',
@@ -144,14 +152,15 @@ export type LandHumidityCollection<T> = {
 export const WeirdnessKeys = [
   'normal_outer_valley',
   'normal_outer_slope',
-  'normal_outer_peak',
+  'normal_peak',
   'normal_inner_slope',
   'normal_inner_valley',
   'normal_river_bank',
+  'river_override',
   'variant_river_bank',
   'variant_inner_valley',
   'variant_inner_slope',
-  'variant_outer_peak',
+  'variant_peak',
   'variant_outer_slope',
   'variant_outer_valley',
 ] as const;
@@ -168,13 +177,64 @@ export function makeMndBiomeSource () : MndBiomeSource {
     settings: "minecraft:overworld",
     biome_source: {
       type: 'extrabiomegen:multinoise_discrete',
-      river: {},
+      river: makeriverTemperatureCollection(),
       ocean: makeOceanTemperatureCollection(),
       exotic: makeExoticTemperatureCollection(),
       land: makeContinentalnessCollection(),
       cave: makeCaveDepthCollection(),
     }
   };
+}
+
+// #region River
+function makeriverTemperatureCollection () : MndRiverTemperature {
+  return {
+    frozen: makeRiverHumidityCollection(),
+    cold: makeRiverHumidityCollection(),
+    normal: makeRiverHumidityCollection(),
+    warm: makeRiverHumidityCollection(),
+    hot: makeRiverHumidityCollection(),
+  };
+}
+
+function makeRiverHumidityCollection () : MndRiverHumidity {
+  return {
+    arid: [],
+    dry: [],
+    normal: [],
+    wet: [],
+    humid: [],
+  };
+}
+// #endregion River
+
+// #region Ocean
+function makeOceanTemperatureCollection () : MndOceanTemperature {
+  return {
+    frozen: makeOceanContinentalnessCollection(),
+    cold: makeOceanContinentalnessCollection(),
+    normal: makeOceanContinentalnessCollection(),
+    warm: makeOceanContinentalnessCollection(),
+    hot: makeOceanContinentalnessCollection(),
+  };
+}
+
+function makeOceanContinentalnessCollection () : MndOceanContinentalness {
+  return {
+    shallow: [],
+    deep: [],
+  };
+}
+// #endregion Ocean
+
+function makeExoticTemperatureCollection () : MndExoticTemperature {
+  return {
+    frozen: [],
+    cold: [],
+    normal: [],
+    warm: [],
+    hot: [],
+  }
 }
 
 // #region Land
@@ -223,14 +283,15 @@ function makeWeirdnessCollection () : MndLandWeirdness {
   return {
     normal_outer_valley: [],
     normal_outer_slope: [],
-    normal_outer_peak: [],
+    normal_peak: [],
     normal_inner_slope: [],
     normal_inner_valley: [],
     normal_river_bank: [],
+    river_override: [],
     variant_river_bank: [],
     variant_inner_valley: [],
     variant_inner_slope: [],
-    variant_outer_peak: [],
+    variant_peak: [],
     variant_outer_slope: [],
     variant_outer_valley: [],
   };
@@ -293,30 +354,3 @@ function makeCaveHumidityCollection () : MndCaveHumidity {
   };
 }
 // #endregion Cave
-
-function makeExoticTemperatureCollection () : MndExoticTemperature {
-  return {
-    frozen: [],
-    cold: [],
-    normal: [],
-    warm: [],
-    hot: [],
-  }
-}
-
-function makeOceanTemperatureCollection () : MndOceanTemperature {
-  return {
-    frozen: makeOceanContinentalnessCollection(),
-    cold: makeOceanContinentalnessCollection(),
-    normal: makeOceanContinentalnessCollection(),
-    warm: makeOceanContinentalnessCollection(),
-    hot: makeOceanContinentalnessCollection(),
-  };
-}
-
-function makeOceanContinentalnessCollection () : MndOceanContinentalness {
-  return {
-    shallow: [],
-    deep: [],
-  };
-}

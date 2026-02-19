@@ -3,6 +3,7 @@ import { modals } from '@mantine/modals';
 import { BiomeSchema, type Biome } from 'api/Biome';
 import vanillaBiomeCatalogue from 'data/minecraft/biomes.json';
 import { saveAs } from 'file-saver';
+import Local from 'Local';
 import { openImportContent } from 'modals/ImportContent';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue, { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
@@ -46,6 +47,17 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
   return (
     <div className={styles.tab}>
       <div className={styles.ribbon}>
+        <Tooltip
+          label="Saves this document, as is, into the browser."
+        >
+          <Button
+            size='compact-sm'
+            onClick={handleSaveLocally}
+          >
+            Save locally
+          </Button>
+        </Tooltip>
+
         <Tooltip
           label="Reset the biome catalogue to just Vanilla biomes."
         >
@@ -122,6 +134,10 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
       </div>
     </div>
   );
+
+  function handleSaveLocally () {
+    Local.saveBiomes(catalogue.biomes);
+  }
 
   function handleRestart () {
     dispatch(BiomeCatalogueActions.loadBiomeCatalogue(

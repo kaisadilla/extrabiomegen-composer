@@ -5,24 +5,73 @@
   display: flex;
   flex-direction: column;
 
-  padding: 32px;
-  gap: 8px;
-
-  .params {
+  .ribbon {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    align-items: center;
+
+    gap: 16px;
+    padding: 8px 32px 8px 32px;
+    border-bottom: 1px solid #888;
   }
 
-  .canvasContainer {
-    border: 1px solid black;
+  .content {
+    flex: 1;
 
-    overflow: auto;
-    background-color: black;
-    padding: 16px;
+    .separator {
+      width: 3px;
+      height: 100%;
+      background-color: #888;
+    }
 
-    > canvas {
-      border: 1px solid white;
+    .canvasPanel {
+      max-height: 100%;
+      display: flex;
+
+      .canvasContainer {
+
+        overflow: auto;
+        background-color: black;
+        padding: 16px;
+
+        > canvas {
+          border: 1px solid white;
+        }
+      }
+    }
+
+    .dataPanel {
+      display: flex;
+      flex-direction: column;
+
+      > .dataRibbon {
+        @include ribbon;
+      }
+
+      > .content {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+
+        > .biomeCount {
+          display: flex;
+          flex-direction: column;
+
+          > table {
+            thead {
+              font-weight: 600;
+            }
+            
+            tbody {
+              tr {
+                td:first-child {
+                  font-size: 8pt;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

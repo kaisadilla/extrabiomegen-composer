@@ -45,6 +45,8 @@ export function $cl(
 export function chooseW3CTextColor (background: string) : 'black' | 'white' {
   // Done according to this: https://stackoverflow.com/a/3943023/23342298
 
+  if (background === "transparent") return 'black';
+
   if (background.startsWith("#")) background = background.substring(1, 7);
   if (background.length < 6) {
     console.error(`'${background}' is not a valid color.`);

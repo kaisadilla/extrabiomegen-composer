@@ -2,11 +2,11 @@ import type { Biome } from "api/Biome";
 import type { MndBiomeSource } from "api/MultiNoiseDiscreteBiomeSource";
 
 const KEY_PREFIX = "extrabiomegen-composer";
-const KEY_INLAND = KEY_PREFIX + "/biomesource";
+const KEY_INLAND = KEY_PREFIX + "/biome_source";
 const KEY_BIOMES = KEY_PREFIX + "/catalogue";
 
 const Local = {
-  saveInland (inland: MndBiomeSource) {
+  saveBiomeSource (inland: MndBiomeSource) {
     try {
       const json = JSON.stringify(inland);
       localStorage.setItem(KEY_INLAND, json);
@@ -16,7 +16,7 @@ const Local = {
     }
   },
 
-  loadInland () : MndBiomeSource | null {
+  loadBiomeSource () : MndBiomeSource | null {
     try {
       const json = localStorage.getItem(KEY_INLAND);
       if (!json) return null;

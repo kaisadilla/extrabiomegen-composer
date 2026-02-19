@@ -24,6 +24,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^19.2.0",
     "react-redux": "^9.2.0",
+    "react-resizable-panels": "^4.6.4",
     "sass": "^1.97.3",
     "vite-tsconfig-paths": "^6.1.0",
     "zod": "^4.3.6"

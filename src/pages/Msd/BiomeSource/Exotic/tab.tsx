@@ -5,16 +5,20 @@ import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import styles from './tab.module.scss';
 
 export interface ExoticTabProps {
+  active: boolean;
   brush: string | null;
   onPickBrush: (brush: string) => void;
 }
 
 function ExoticTab ({
+  active,
   brush,
   onPickBrush,
 }: ExoticTabProps) {
   const src = useBiomeSource();
   const dispatch = useDispatch();
+
+  if (!active) return null;
 
   return (
     <div className={styles.tab}>

@@ -10,6 +10,7 @@ interface BiomeCatalogueSlice {
 }
 
 let biomeObj = Local.loadBiomes();
+
 if (biomeObj === null) {
   biomeObj = {};
   for (const b of vanillaBiomesJson) {
@@ -38,6 +39,7 @@ const biomeCatalogueSlice = createSlice({
         id: action.payload,
         name: action.payload.split(":")[1] ?? action.payload,
         color: "#00ff00",
+        wanted: true,
       };
     },
 
@@ -57,6 +59,15 @@ const biomeCatalogueSlice = createSlice({
       const { id, color } = action.payload;
 
       state.biomes[id].color = color;
+    },
+
+    setBiomeWanted (state, action: PayloadAction<{
+      id: string;
+      wanted: boolean;
+    }>) {
+      const { id, wanted } = action.payload;
+
+      state.biomes[id].wanted = wanted;
     },
   }
 });

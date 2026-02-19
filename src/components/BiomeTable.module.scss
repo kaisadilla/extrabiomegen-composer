@@ -1,4 +1,8 @@
 .table {
+  --font-size: 7pt;
+
+  user-select: none;
+
   border-collapse: collapse;
   border: 4px solid black;
   table-layout: fixed;
@@ -15,7 +19,7 @@
   }
 
   thead {
-    font-size: 7pt;
+    font-size: var(--font-size);
     text-align: center;
 
     td {
@@ -33,12 +37,17 @@
 
   tbody {
     tr {
-      &[data-has-river-below=true] {
+      &[data-is-river=true] {
+        border-top: 3px solid blue;
         border-bottom: 3px solid blue;
+
+        td.values:not(:first-child) {
+          @include checkerboard-bg(#afc6d6, #85a4b8);
+        }
       }
 
       td.head {
-        font-size: 7pt;
+        font-size: var(--font-size);
         font-weight: 600;
         text-align: center;
         padding: 0 4px;
@@ -47,7 +56,7 @@
       }
 
       td.values {
-        font-size: 7pt;
+        font-size: var(--font-size);
 
         border: 1px solid black;
         padding: 0;
@@ -75,6 +84,30 @@
 
             &:not(:last-child) {
               border-right: 1px dashed black;
+            }
+
+            &[data-wanted=false] {
+              position: relative;
+
+              background: linear-gradient(
+                to top left,
+                #ddd calc(50% - 2px),
+                red calc(50% - 2px),
+                red calc(50% + 2px),
+                #ddd calc(50% + 2px)
+              ) !important;
+              color: black !important;
+              
+              &::after {
+                content: ' ';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 1px solid red;
+                z-index: 1000;
+              }
             }
           }
         }

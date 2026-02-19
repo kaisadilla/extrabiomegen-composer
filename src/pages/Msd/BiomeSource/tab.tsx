@@ -3,6 +3,7 @@ import { modals } from '@mantine/modals';
 import { makeMndBiomeSource, type MndBiomeSource } from 'api/MultiNoiseDiscreteBiomeSource';
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import { saveAs } from "file-saver";
+import Local from 'Local';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
@@ -12,6 +13,7 @@ import CaveTab from './Cave/tab';
 import ExoticTab from './Exotic/tab';
 import LandTab from './Land/tab';
 import OceanTab from './Ocean/tab';
+import RiverTab from './River/tab';
 import styles from './tab.module.scss';
 
 export interface BiomeSourceTabProps {
@@ -61,6 +63,17 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
   return (
     <div className={styles.tab}>
       <div className={styles.ribbon}>
+        <Tooltip
+          label="Saves this document, as is, into the browser."
+        >
+          <Button
+            size='compact-sm'
+            onClick={handleSaveLocally}
+          >
+            Save locally
+          </Button>
+        </Tooltip>
+
         <Tooltip
           label="Reset the document."
         >
@@ -122,11 +135,16 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
         </Tabs.List>
 
         <Tabs.Panel value="river">
-          (river)
+          <RiverTab
+            active={tab === "river"}
+            brush={brush}
+            onPickBrush={setBrush}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="ocean">
           <OceanTab
+            active={tab === "ocean"}
             brush={brush}
             onPickBrush={setBrush}
           />
@@ -134,6 +152,7 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
 
         <Tabs.Panel value="exotic">
           <ExoticTab
+            active={tab === "exotic"}
             brush={brush}
             onPickBrush={setBrush}
           />
@@ -141,6 +160,7 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
 
         <Tabs.Panel value="land">
           <LandTab
+            active={tab === "land"}
             brush={brush}
             onPickBrush={setBrush}
           />
@@ -148,6 +168,7 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
 
         <Tabs.Panel value="cave">
           <CaveTab
+            active={tab === "cave"}
             brush={brush}
             onPickBrush={setBrush}
           />
@@ -155,13 +176,35 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
       </Tabs>
       <div className={styles.panel}>
         <div className={styles.biomeSelection}>
-          {Object.values(catalogue.biomes).map(b => (
+          <button
+            className={styles.nullBiome}
+            data-selected={brush === null}
+            data-wanted={true}
+            onClick={() => setBrush(null)}
+          >
+            NULL
+          </button>
+          {Object.values(catalogue.biomes).filter(b => b.wanted).map(b => (
             <button
               style={{
                 backgroundColor: b.color,
                 color: chooseW3CTextColor(b.color),
               }}
               data-selected={brush === b.id}
+              data-wanted={b.wanted}
+              onClick={() => setBrush(b.id)}
+            >
+              {b.name}
+            </button>
+          ))}
+          {Object.values(catalogue.biomes).filter(b => !b.wanted).map(b => (
+            <button
+              style={{
+                backgroundColor: b.color,
+                color: chooseW3CTextColor(b.color),
+              }}
+              data-selected={brush === b.id}
+              data-wanted={b.wanted}
               onClick={() => setBrush(b.id)}
             >
               {b.name}
@@ -171,6 +214,10 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
       </div>
     </div>
   );
+
+  function handleSaveLocally () {
+    Local.saveBiomeSource(src.doc);
+  }
   
   function handleRestart () {
     dispatch(BiomeSourceActions.loadBiomeSource(vanillaDoc as MndBiomeSource));
@@ -181,18 +228,18 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
   }
 
   async function handleOpen () {
-      const f = await openFile();
-      if (!f) return;
-  
-      try {
-        const data = await f.text();
-        const raw = JSON.parse(data);
-        
-        dispatch(BiomeSourceActions.loadBiomeSource(raw as MndBiomeSource));
-      }
-      catch (err) {
-        console.error(err);
-      }
+    const f = await openFile();
+    if (!f) return;
+
+    try {
+      const data = await f.text();
+      const raw = JSON.parse(data);
+      
+      dispatch(BiomeSourceActions.loadBiomeSource(raw as MndBiomeSource));
+    }
+    catch (err) {
+      console.error(err);
+    }
   }
 
   function handleExport () {

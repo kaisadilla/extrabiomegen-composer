@@ -1,8 +1,9 @@
-import { NumberInput, Tooltip } from '@mantine/core';
+import { Button, NumberInput, Table, Tooltip } from '@mantine/core';
 import { UNKNOWN_BIOME } from 'api/Biome';
 import { useRef, useState } from 'react';
+import { Group, Panel, Separator } from "react-resizable-panels";
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
-import { rgbToHex } from 'utils';
+import { openFile, rgbToHex } from 'utils';
 import styles from './page.module.scss';
 
 export interface MapViewerPageProps {
@@ -17,6 +18,7 @@ function MapViewerPage (props: MapViewerPageProps) {
   const [imgWidth, setImgWidth] = useState(2500);
   const [imgHeight, setImgHeight] = useState(2500);
 
+  const [filename, setFilename] = useState("");
   const [xCenter, setXCenter] = useState(0);
   const [zCenter, setZCenter] = useState(0);
   const [scale, setScale] = useState(4);
@@ -26,68 +28,140 @@ function MapViewerPage (props: MapViewerPageProps) {
 
   const [biome, setBiome] = useState("");
 
+  const [aBiomeCount, setABiomeCount]
+    = useState<Record<string, number> | null>(null);
+
   return (
     <div className={styles.page}>
-      <input
+      {false && <input
         type="file"
         accept="image/*"
         onChange={handleOpen}
-      />
+      />}
 
-      <div className={styles.params}>
+      <div className={styles.ribbon}>
+        <Button
+          onClick={handleOpen}
+        >
+          Open file
+        </Button>
+        <div>Current file: {filename}</div>
         <NumberInput
-          label="x"
+          label="Center X"
           size='xs'
           value={xCenter}
           onChange={evt => setXCenter(Number(evt))}
         />
         <NumberInput
-          label="z"
+          label="Center Z"
           size='xs'
           value={zCenter}
           onChange={evt => setZCenter(Number(evt))}
         />
         <NumberInput
-          label="scale"
+          label="Scale"
           size='xs'
           value={scale}
           onChange={evt => setScale(Number(evt))}
         />
       </div>
 
-      <div className={styles.canvasContainer}>
-        <Tooltip.Floating
-          label={(
-            <div className={styles.mapLabel}>
-              <div className={styles.pos}>
-                ({xHover}, {zHover})
-              </div>
-              <div className={styles.biome}>
-                {biome}
-              </div>
-            </div>
-          )}
+      <Group
+        className={styles.content}
+        orientation='horizontal'
+        id='map-viewer-panel'
+      >
+        <Panel
+          className={styles.canvasPanel}
+          defaultSize={4}
         >
-          <canvas
-            ref={canvasRef}
-            onClick={handleClickCanvas}
-            onMouseMove={handleMouseMove}
-          />
-        </Tooltip.Floating>
-      </div>
+          <div className={styles.canvasContainer}>
+            <Tooltip.Floating
+              label={(
+                <div className={styles.mapLabel}>
+                  <div className={styles.pos}>
+                    ({xHover}, {zHover})
+                  </div>
+                  <div className={styles.biome}>
+                    {biome}
+                  </div>
+                </div>
+              )}
+            >
+              <canvas
+                ref={canvasRef}
+                onClick={handleClickCanvas}
+                onMouseMove={handleMouseMove}
+              />
+            </Tooltip.Floating>
+          </div>
+        </Panel>
+
+        <Separator><div className={styles.separator} /></Separator>
+
+        <Panel
+          className={styles.dataPanel}
+          defaultSize={1}
+        >
+          <div className={styles.dataRibbon}>
+            <Button
+              onClick={handleAnalyze}
+            >
+              Analyze
+            </Button>
+          </div>
+          <div className={styles.content}>
+            {aBiomeCount && <div className={styles.biomeCount}>
+              <Table>
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Td>Biome</Table.Td>
+                    <td>Count</td>
+                  </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                  {Object.keys(aBiomeCount).map(b => (
+                    <Table.Tr key={b} className={styles.entry}>
+                      <Table.Td>{b}</Table.Td>
+                      <Table.Td>{aBiomeCount[b].toLocaleString('en-US')}</Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
+
+              <h4>Missing biomes:</h4>
+              <Table>
+                <Table.Tbody>
+                  {Object.values(catalogue.biomes).map(b => {
+                    if (b.wanted === false) return null;
+                    if (Object.keys(aBiomeCount).includes(b.id)) return null;
+
+                    return (
+                      <Table.Tr key={b.id}>
+                        <Table.Td>
+                          {b.id}
+                        </Table.Td>
+                      </Table.Tr>
+                    );
+                  })}
+                </Table.Tbody>
+              </Table>
+            </div>}
+          </div>
+        </Panel>
+      </Group>
+
     </div>
   );
 
-  async function handleOpen (evt: React.ChangeEvent<HTMLInputElement>) {
-    const file = evt.target.files?.[0];
-    if (!file) return;
+  async function handleOpen () {
+    const f = await openFile("image/*");
+    if (!f) return;
     
-    const url = URL.createObjectURL(file);
-    console.log(url);
+    const url = URL.createObjectURL(f);
 
     const img = new Image();
     img.onload = () => {
-      console.log("image loaded!");
       URL.revokeObjectURL(url);
 
       setImage(img);
@@ -106,7 +180,7 @@ function MapViewerPage (props: MapViewerPageProps) {
     img.onerror = console.log;
     img.src = url;
     
-    readFileParams(file.name);
+    readFileParams(f.name);
   }
 
   function handleMouseMove (evt: React.MouseEvent<HTMLCanvasElement>) {
@@ -135,11 +209,50 @@ function MapViewerPage (props: MapViewerPageProps) {
     const biome = Object.values(catalogue.biomes).find(
       b => b.color.toLowerCase() === hex.toLowerCase()
     ) ?? UNKNOWN_BIOME;
+
     setBiome(biome.name);
   }
 
   function handleClickCanvas () {
     navigator.clipboard.writeText(`/tp ${xHover} ~ ${zHover}`);
+  }
+
+  function handleAnalyze () {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
+
+    const data = ctx.getImageData(0, 0, imgWidth, imgHeight).data;
+    const counts = new Map<number, number>();
+
+    for (let i = 0; i < data.length; i+= 4) {
+      const color = (data[i] << 16) | (data[i + 1] << 8) | (data[i + 2]);
+
+      const val = counts.get(color) || 0;
+      counts.set(color, val + 1);
+    }
+
+    const biomeCounts = Array.from(counts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([col, count]) => {
+        const hex = `#${col.toString(16).padStart(6, '0')}`;
+
+        const biome = Object.values(catalogue.biomes).find(
+          b => b.color.toLowerCase() === hex.toLowerCase()
+        ) ?? UNKNOWN_BIOME;
+
+        return {
+          id: biome.id,
+          count,
+        }
+      });
+
+    const biomeObj: Record<string, number> = {};
+
+    for (const c of biomeCounts) {
+      biomeObj[c.id] = c.count;
+    }
+
+    setABiomeCount(biomeObj);
   }
 
   function readFileParams (filename: string) {
@@ -150,6 +263,7 @@ function MapViewerPage (props: MapViewerPageProps) {
     const z = Number(params[4]);
     const scale = Number(params[5]);
 
+    setFilename(filename);
     if (Number.isFinite(x)) setXCenter(x);
     if (Number.isFinite(z)) setZCenter(z);
     if (Number.isFinite(scale)) setScale(scale);

@@ -50,9 +50,27 @@
         margin: 0;
         opacity: 0.6;
 
+        &.nullBiome {
+          @include checkerboard-bg;
+        }
+
         &[data-selected=true] {
-          border-color: red;
+          border-color: #0084ff;
           opacity: 1;
+        }
+
+        &[data-wanted=false] {
+          border: 3px solid red;
+
+          background: linear-gradient(
+            to top left,
+            #ddd calc(50% - 1px),
+            red calc(50% - 1px),
+            red calc(50% + 1px),
+            #ddd calc(50% + 1px)
+          ) !important;
+          
+          color: black !important;
         }
       }
     }

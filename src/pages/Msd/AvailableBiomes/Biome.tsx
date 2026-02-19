@@ -1,4 +1,4 @@
-import { Button, TextInput } from '@mantine/core';
+import { Button, Checkbox, TextInput, Tooltip } from '@mantine/core';
 import type { Biome } from 'api/Biome';
 import { useState } from 'react';
 import { PhotoshopPicker } from 'react-color';
@@ -26,6 +26,7 @@ function BiomeEntry ({
         backgroundColor: biome.color,
         color: chooseW3CTextColor(biome.color),
       }}
+      data-wanted={biome.wanted}
     >
       <div className={styles.id}>
         {biome.id}
@@ -47,6 +48,7 @@ function BiomeEntry ({
         >
           Color
         </Button>
+
         <TextInput
           variant='unstyled'
           classNames={{
@@ -56,6 +58,15 @@ function BiomeEntry ({
           value={biome.color}
           onChange={handleChangeColor}
         />
+
+        <Tooltip
+          label="Wanted"
+        >
+          <Checkbox
+            checked={biome.wanted}
+            onChange={handleChangeWanted}
+          />
+        </Tooltip>
       </div>
     </div>
 
@@ -84,6 +95,13 @@ function BiomeEntry ({
     }));
     
     setColor(evt.currentTarget.value);
+  }
+
+  function handleChangeWanted (evt: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(BiomeCatalogueActions.setBiomeWanted({
+      id: biome.id,
+      wanted: evt.currentTarget.checked,
+    }));
   }
 
   function handlePickColor () {

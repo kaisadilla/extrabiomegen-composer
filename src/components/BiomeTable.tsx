@@ -1,10 +1,11 @@
 import { Tooltip } from '@mantine/core';
-import { UNKNOWN_BIOME } from 'api/Biome';
+import { NULL_BIOME, UNKNOWN_BIOME } from 'api/Biome';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
-import { chooseW3CTextColor } from 'utils';
+import { $cl, chooseW3CTextColor } from 'utils';
 import styles from './BiomeTable.module.scss';
 
 export interface BiomeTableProps<TRow, TCol> {
+  className?: string;
   columnName: string;
   columnKeys: readonly TCol[];
   getColumnHead: (key: TCol) => string;
@@ -12,7 +13,7 @@ export interface BiomeTableProps<TRow, TCol> {
   rowKeys: readonly TRow[];
   getRowHead: (key: TRow) => string;
   riverIndex?: number;
-  getBiomes: (krow: TRow, kcol: TCol) => string[];
+  getBiomes: (krow: TRow, kcol: TCol) => (string | null)[];
   onAdd?: (krow: TRow, kcol: TCol) => void;
   onMultiAdd?: (
     krow: TRow, kcol: TCol, fillRow: boolean, fillCol: boolean
@@ -23,6 +24,7 @@ export interface BiomeTableProps<TRow, TCol> {
 }
 
 function BiomeTable<TRow extends string, TCol extends string> ({
+  className,
   columnName,
   columnKeys,
   getColumnHead,
@@ -41,7 +43,7 @@ function BiomeTable<TRow extends string, TCol extends string> ({
 
   return (
     <table
-      className={styles.table}
+      className={$cl(styles.table, className)}
       onContextMenu={evt => evt.preventDefault()}
     >
       <thead>
@@ -61,7 +63,7 @@ function BiomeTable<TRow extends string, TCol extends string> ({
         {rowKeys.map((krow, i) => (
           <tr
             key={krow}
-            data-has-river-below={i === riverIndex}
+            data-is-river={i === riverIndex}
           >
             <Tooltip label={getRowHead(krow)}>
               <td className={styles.head}>
@@ -73,7 +75,7 @@ function BiomeTable<TRow extends string, TCol extends string> ({
               const biomes = getBiomes(krow, kcol);
 
               return (
-                <Tooltip.Floating
+                /*<Tooltip.Floating
                   key={kcol}
                   position='bottom'
                   offset={40}
@@ -104,14 +106,16 @@ function BiomeTable<TRow extends string, TCol extends string> ({
                       })}
                     </div>
                   }
-                >
+                >*/
                   <td
                     className={styles.values}
                     onClick={evt => handleLeftClickCell(evt, krow, kcol)}
                   >
                     <div>
                       {biomes?.map((b, i) => {
-                        const biome = catalogue.biomes[b] ?? UNKNOWN_BIOME;
+                        const biome = b === null
+                          ? NULL_BIOME
+                          : (catalogue.biomes[b] ?? UNKNOWN_BIOME);
 
                         return (
                           <div
@@ -126,6 +130,8 @@ function BiomeTable<TRow extends string, TCol extends string> ({
                             onContextMenu={evt => handleRightClickBiome(
                               evt, krow, kcol, i, biome.id
                             )}
+                            data-wanted={biome.wanted}
+                            data-is-null={biome.id === 'null'}
                           >
                             {biome.name}
                           </div>
@@ -133,7 +139,7 @@ function BiomeTable<TRow extends string, TCol extends string> ({
                       })}
                     </div>
                   </td>
-                </Tooltip.Floating>
+                /*</Tooltip.Floating>*/
               );
             })}
           </tr>

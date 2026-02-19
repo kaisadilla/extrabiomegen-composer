@@ -22,8 +22,8 @@
   border-bottom: 1px solid #aaa;
 }
 
-@mixin checkerboard-bg () {
+@mixin checkerboard-bg ($col1: #ddd, $col2: #f3f3f3) {
   background: 
-    repeating-conic-gradient(#ddd 0 25%, #f3f3f3 0 50%) 
+    repeating-conic-gradient($col1 0 25%, $col2 0 50%) 
       50% / 20px 20px;
 }

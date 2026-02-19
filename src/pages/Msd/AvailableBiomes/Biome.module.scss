@@ -7,11 +7,21 @@
   align-items: center;
   justify-content: center;
 
-  .ribbon {
-    display: flex;
-    gap: 4px;
-    padding: 4px;
-    border-bottom: 1px solid #aaa;
+  &[data-wanted=false] {
+    border: 6px solid red;
+
+    background: linear-gradient(
+      to top left,
+      #ddd calc(50% - 3px),
+      red calc(50% - 3px),
+      red calc(50% + 3px),
+      #ddd calc(50% + 3px)
+    ) !important;
+
+    > * {
+      opacity: 0.65;
+      color: black;
+    }
   }
 
   .id {

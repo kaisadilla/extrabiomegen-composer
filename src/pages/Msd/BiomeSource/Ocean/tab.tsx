@@ -5,17 +5,21 @@ import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import styles from './tab.module.scss';
 
 export interface OceanTabProps {
+  active: boolean;
   brush: string | null;
   onPickBrush: (brush: string) => void;
 }
 
 function OceanTab ({
+  active,
   brush,
   onPickBrush,
 }: OceanTabProps) {
   const src = useBiomeSource();
   const dispatch = useDispatch();
 
+  if (!active) return null;
+  
   return (
     <div className={styles.tab}>
       <div className={styles.chartContainer}>

@@ -9,7 +9,8 @@ export interface BiomeSourceState {
   doc: MndBiomeSource;
 }
 
-let doc = Local.loadInland();
+let doc = Local.loadBiomeSource();
+
 doc ??= vanillaDoc as MndBiomeSource;
 
 const initialState: BiomeSourceState = {
@@ -24,6 +25,60 @@ const biomeSourceSlice = createSlice({
       state.doc = action.payload;
     },
 
+    // #region River biomes
+    addRiverBiome (state, action: PayloadAction<{
+      t: TemperatureKey,
+      h: LandHumidityKey,
+      biomeId: string,
+    }>) {
+      const { t, h, biomeId } = action.payload;
+
+      state.doc.biome_source.river[t][h].push(biomeId);
+    },
+
+    multiAddRiverBiome (state, action: PayloadAction<{
+      t: readonly TemperatureKey[],
+      h: readonly LandHumidityKey[],
+      emptyOnly: boolean,
+      biomeId: string,
+    }>) {
+      const { t, h, emptyOnly, biomeId } = action.payload;
+
+      for (const ts of Object.keys(state.doc.biome_source.river) as TemperatureKey[]) {
+        if (t.includes(ts) === false) continue;
+        const temp = state.doc.biome_source.river[ts];
+
+        for (const hs of Object.keys(temp) as LandHumidityKey[]) {
+          if (h.includes(hs) === false) continue;
+          if (emptyOnly && temp[hs].length !== 0) continue;
+
+          temp[hs].push(biomeId);
+        }
+      }
+    },
+
+    setRiverBiome (state, action: PayloadAction<{
+      t: TemperatureKey,
+      h: LandHumidityKey,
+      index: number,
+      biomeId: string,
+    }>) {
+      const { t, h, index, biomeId } = action.payload;
+
+      state.doc.biome_source.river[t][h][index] = biomeId;
+    },
+
+    removeRiverBiome (state, action: PayloadAction<{
+      t: TemperatureKey,
+      h: LandHumidityKey,
+      index: number,
+    }>) {
+      const { t, h, index } = action.payload;
+
+      state.doc.biome_source.river[t][h].splice(index, 1);
+    },
+    // #endregion River biomes
+
     // #region Land biomes
     addLandBiome (state, action: PayloadAction<{
       c: LandContinentalnessKey,
@@ -31,14 +86,10 @@ const biomeSourceSlice = createSlice({
       t: TemperatureKey,
       h: LandHumidityKey,
       w: WeirdnessKey,
-      biomeId: string,
+      biomeId: string | null,
     }>) {
       const { c, e, t, h, w, biomeId } = action.payload;
 
-      //const set = new Set(state.src.biome_source.land[c][e][t][h][w]);
-      //set.add(biomeId);
-      //
-      //state.src.biome_source.land[c][e][t][h][w] = [...set];
       state.doc.biome_source.land[c][e][t][h][w].push(biomeId);
     },
 
@@ -49,7 +100,7 @@ const biomeSourceSlice = createSlice({
       h: readonly LandHumidityKey[],
       w: readonly WeirdnessKey[],
       emptyOnly: boolean,
-      biomeId: string,
+      biomeId: string | null,
     }>) {
       const { c, e, t, h, w, emptyOnly, biomeId } = action.payload;
 
@@ -85,13 +136,11 @@ const biomeSourceSlice = createSlice({
       h: LandHumidityKey,
       w: WeirdnessKey,
       index: number,
-      biomeId: string,
+      biomeId: string | null,
     }>) {
       const { c, e, t, h, w, index, biomeId } = action.payload;
 
       state.doc.biome_source.land[c][e][t][h][w][index] = biomeId;
-      //state.src.biome_source.land[c][e][t][h][w]
-      //  = [...new Set(state.src.biome_source.land[c][e][t][h][w])];
     },
 
     removeLandBiome (state, action: PayloadAction<{
@@ -186,6 +235,7 @@ const biomeSourceSlice = createSlice({
     },
     // #endregion Cave biomes
 
+    // #region Exotic biomes
     addExoticBiome (state, action: PayloadAction<{
       t: TemperatureKey,
       biomeId: string,
@@ -213,7 +263,9 @@ const biomeSourceSlice = createSlice({
 
       state.doc.biome_source.exotic[t].splice(index, 1);
     },
+    // #endregion Exotic biomes
 
+    // #region Ocean biomes
     addOceanBiome (state, action: PayloadAction<{
       c: OceanContinentalnessKey,
       t: TemperatureKey,
@@ -244,6 +296,7 @@ const biomeSourceSlice = createSlice({
 
       state.doc.biome_source.ocean[t][c].splice(index, 1);
     },
+    // #endregion Ocean biomes
   },
 });
 

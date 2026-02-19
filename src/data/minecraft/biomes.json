@@ -2,321 +2,811 @@
   {
     "id": "minecraft:badlands",
     "name": "Badlands",
-    "color": "#da4516"
+    "color": "#da4516",
+    "wanted": true
   },
   {
     "id": "minecraft:bamboo_jungle",
     "name": "Bamboo",
-    "color": "#849500"
+    "color": "#849500",
+    "wanted": true
   },
   {
     "id": "minecraft:basalt_deltas",
     "name": "N/Basalt",
-    "color": "#00ff00"
+    "color": "#00ff00",
+    "wanted": true
   },
   {
     "id": "minecraft:beach",
     "name": "Beach",
-    "color": "#fbdf56"
+    "color": "#fbdf56",
+    "wanted": true
   },
   {
     "id": "minecraft:birch_forest",
     "name": "Birch F",
-    "color": "#307545"
+    "color": "#307545",
+    "wanted": true
   },
   {
     "id": "minecraft:cherry_grove",
     "name": "Cherry",
-    "color": "#fe91c8"
+    "color": "#fe91c8",
+    "wanted": true
   },
   {
     "id": "minecraft:cold_ocean",
     "name": "Cold Ocean",
-    "color": "#202070"
+    "color": "#202070",
+    "wanted": true
   },
   {
     "id": "minecraft:crimson_forest",
     "name": "N/Crimson",
-    "color": "#00ff00"
+    "color": "#00ff00",
+    "wanted": true
   },
   {
     "id": "minecraft:dark_forest",
     "name": "Dark F",
-    "color": "#3f5219"
+    "color": "#3f5219",
+    "wanted": true
   },
   {
     "id": "minecraft:deep_cold_ocean",
     "name": "D Cold Ocean",
-    "color": "#202038"
+    "color": "#202038",
+    "wanted": true
   },
   {
     "id": "minecraft:deep_dark",
     "name": "Deep Dark",
-    "color": "#000000"
+    "color": "#000000",
+    "wanted": true
   },
   {
     "id": "minecraft:deep_frozen_ocean",
     "name": "D Frozen Ocean",
-    "color": "#404090"
+    "color": "#404090",
+    "wanted": true
   },
   {
     "id": "minecraft:deep_lukewarm_ocean",
     "name": "D Lukewarm Ocean",
-    "color": "#000040"
+    "color": "#000040",
+    "wanted": true
   },
   {
     "id": "minecraft:deep_ocean",
     "name": "D Ocean",
-    "color": "#000030"
+    "color": "#000030",
+    "wanted": true
   },
   {
     "id": "minecraft:desert",
     "name": "Desert",
-    "color": "#fabc17"
+    "color": "#fabc17",
+    "wanted": true
   },
   {
     "id": "minecraft:dripstone_caves",
     "name": "Dripstone",
-    "color": "#c1a58f"
+    "color": "#c1a58f",
+    "wanted": true
   },
   {
     "id": "minecraft:end_barrens",
     "name": "End B",
-    "color": "#FFFDC7"
+    "color": "#FFFDC7",
+    "wanted": true
   },
   {
     "id": "minecraft:end_highlands",
     "name": "End High",
-    "color": "#FFFDC7"
+    "color": "#FFFDC7",
+    "wanted": true
   },
   {
     "id": "minecraft:end_midlands",
     "name": "End Mid",
-    "color": "#FFFDC7"
+    "color": "#FFFDC7",
+    "wanted": true
   },
   {
     "id": "minecraft:eroded_badlands",
     "name": "E. Badlands",
-    "color": "#ff6d3d"
+    "color": "#ff6d3d",
+    "wanted": true
   },
   {
     "id": "minecraft:flower_forest",
     "name": "Flower F",
-    "color": "#2c8e49"
+    "color": "#2c8e49",
+    "wanted": true
   },
   {
     "id": "minecraft:forest",
     "name": "Forest",
-    "color": "#056621"
+    "color": "#056621",
+    "wanted": true
   },
   {
     "id": "minecraft:frozen_ocean",
     "name": "Frozen Ocean",
-    "color": "#7070d6"
+    "color": "#7070d6",
+    "wanted": true
   },
   {
     "id": "minecraft:frozen_peaks",
     "name": "Frozen Peaks",
-    "color": "#b1b3ce"
+    "color": "#b1b3ce",
+    "wanted": true
   },
   {
     "id": "minecraft:frozen_river",
     "name": "Frozen River",
-    "color": "#a0a1fe"
+    "color": "#a0a1fe",
+    "wanted": true
   },
   {
     "id": "minecraft:grove",
     "name": "Grove",
-    "color": "#46726c"
+    "color": "#46726c",
+    "wanted": true
   },
   {
     "id": "minecraft:ice_spikes",
     "name": "Ice Spikes",
-    "color": "#b5dede"
+    "color": "#b5dede",
+    "wanted": true
   },
   {
     "id": "minecraft:jagged_peaks",
     "name": "Jagged Peaks",
-    "color": "#dbdcc8"
+    "color": "#dbdcc8",
+    "wanted": true
   },
   {
     "id": "minecraft:jungle",
     "name": "Jungle",
-    "color": "#507c0b"
+    "color": "#507c0b",
+    "wanted": true
   },
   {
     "id": "minecraft:lukewarm_ocean",
     "name": "Lukewarm Ocean",
-    "color": "#000090"
+    "color": "#000090",
+    "wanted": true
   },
   {
     "id": "minecraft:lush_caves",
     "name": "Lush Caves",
-    "color": "#df9634"
+    "color": "#df9634",
+    "wanted": true
   },
   {
     "id": "minecraft:mangrove_swamp",
     "name": "Mangrove",
-    "color": "#2bce90"
+    "color": "#2bce90",
+    "wanted": true
   },
   {
     "id": "minecraft:meadow",
     "name": "Meadow",
-    "color": "#60a444"
+    "color": "#60a444",
+    "wanted": true
   },
   {
     "id": "minecraft:mushroom_fields",
     "name": "Mushroom",
-    "color": "#950095"
+    "color": "#950095",
+    "wanted": true
   },
   {
     "id": "minecraft:nether_wastes",
     "name": "N/Wastes",
-    "color": "#00ff00"
+    "color": "#00ff00",
+    "wanted": true
   },
   {
     "id": "minecraft:ocean",
     "name": "Ocean",
-    "color": "#000070"
+    "color": "#000070",
+    "wanted": true
   },
   {
     "id": "minecraft:old_growth_birch_forest",
     "name": "OG Birch",
-    "color": "#5b9b6a"
+    "color": "#5b9b6a",
+    "wanted": true
   },
   {
     "id": "minecraft:old_growth_pine_taiga",
     "name": "OG Pine T",
-    "color": "#596551"
+    "color": "#596551",
+    "wanted": true
   },
   {
     "id": "minecraft:old_growth_spruce_taiga",
     "name": "OG Spruce T",
-    "color": "#828e7a"
+    "color": "#828e7a",
+    "wanted": true
   },
   {
     "id": "minecraft:plains",
     "name": "Plains",
-    "color": "#8eb561"
+    "color": "#8eb561",
+    "wanted": true
   },
   {
     "id": "minecraft:river",
     "name": "River",
-    "color": "#0201ff"
+    "color": "#0201ff",
+    "wanted": true
   },
   {
     "id": "minecraft:savanna",
     "name": "Savanna",
-    "color": "#beb260"
+    "color": "#beb260",
+    "wanted": true
   },
   {
     "id": "minecraft:savanna_plateau",
     "name": "Savanna Pl",
-    "color": "#a89f62"
+    "color": "#a89f62",
+    "wanted": true
   },
   {
     "id": "minecraft:small_end_islands",
     "name": "Small End I",
-    "color": "#FFFDC7"
+    "color": "#FFFDC7",
+    "wanted": true
   },
   {
     "id": "minecraft:snowy_beach",
     "name": "Snowy Beach",
-    "color": "#faf0bf"
+    "color": "#faf0bf",
+    "wanted": true
   },
   {
     "id": "minecraft:snowy_plains",
     "name": "Snowy Plains",
-    "color": "#ffffff"
+    "color": "#ffffff",
+    "wanted": true
   },
   {
     "id": "minecraft:snowy_slopes",
     "name": "Snowy Slopes",
-    "color": "#c4c4c4"
+    "color": "#c4c4c4",
+    "wanted": true
   },
   {
     "id": "minecraft:snowy_taiga",
     "name": "Snowy Taiga",
-    "color": "#31554b"
+    "color": "#31554b",
+    "wanted": true
   },
   {
     "id": "minecraft:soul_sand_valley",
     "name": "N/Soul Sand",
-    "color": "#00ff00"
+    "color": "#00ff00",
+    "wanted": true
   },
   {
     "id": "minecraft:sparse_jungle",
     "name": "Sp Jungle",
-    "color": "#60930e"
+    "color": "#60930e",
+    "wanted": true
   },
   {
     "id": "minecraft:stony_peaks",
     "name": "Stony Peaks",
-    "color": "#7b8f74"
+    "color": "#7b8f74",
+    "wanted": true
   },
   {
     "id": "minecraft:stony_shore",
     "name": "Stony Shore",
-    "color": "#a2a284"
+    "color": "#a2a284",
+    "wanted": true
   },
   {
     "id": "minecraft:sunflower_plains",
     "name": "Sunflower P",
-    "color": "#b6dc89"
+    "color": "#b6dc89",
+    "wanted": true
   },
   {
     "id": "minecraft:swamp",
     "name": "Swamp",
-    "color": "#08f9b3"
+    "color": "#08f9b3",
+    "wanted": true
   },
   {
     "id": "minecraft:taiga",
     "name": "Taiga",
-    "color": "#0b6b5f"
+    "color": "#0b6b5f",
+    "wanted": true
   },
   {
     "id": "minecraft:the_end",
     "name": "End",
-    "color": "#FFFDC7"
+    "color": "#FFFDC7",
+    "wanted": true
   },
   {
     "id": "minecraft:the_void",
     "name": "Void",
-    "color": "#ff00ff"
+    "color": "#ff00ff",
+    "wanted": true
   },
   {
     "id": "minecraft:warm_ocean",
     "name": "Warm Ocean",
-    "color": "#0000ac"
+    "color": "#0000ac",
+    "wanted": true
   },
   {
     "id": "minecraft:warped_forest",
     "name": "N/Warped",
-    "color": "#00ff00"
+    "color": "#00ff00",
+    "wanted": true
   },
   {
     "id": "minecraft:windswept_forest",
     "name": "WS Forest",
-    "color": "#5b7253"
+    "color": "#5b7253",
+    "wanted": true
   },
   {
     "id": "minecraft:windswept_gravelly_hills",
     "name": "WS Gravel",
-    "color": "#898989"
+    "color": "#898989",
+    "wanted": true
   },
   {
     "id": "minecraft:windswept_hills",
     "name": "WS Hills",
-    "color": "#5f5f5f"
+    "color": "#5f5f5f",
+    "wanted": true
   },
   {
     "id": "minecraft:windswept_savanna",
     "name": "WS Savanna",
-    "color": "#e8da88"
+    "color": "#e8da88",
+    "wanted": true
   },
   {
     "id": "minecraft:wooded_badlands",
     "name": "W Badlands",
-    "color": "#af9764"
+    "color": "#af9764",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:alpha_grove",
+    "name": "Alpha Grove",
+    "color": "#3cff3c",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:ancient_delta",
+    "name": "Ancient Delta",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:arid_mountains",
+    "name": "arid_mountains",
+    "color": "#d67523",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:ashen_woodland",
+    "name": "Ashen Woodland",
+    "color": "#ad9b96",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:autumnal_maple_forest",
+    "name": "Autumn MF",
+    "color": "#81c430",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:bamboo_forest",
+    "name": "Bamboo RU",
+    "color": "#0dad14",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:baobab_savanna",
+    "name": "Baobab",
+    "color": "#89950c",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:barley_fields",
+    "name": "Barley Fields",
+    "color": "#bfe22a",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:bayou",
+    "name": "Bayou",
+    "color": "#34ffc3",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:bioshroom_caves",
+    "name": "bioshroom_caves",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:blackstone_basin",
+    "name": "N/Blackstone B",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:blackwood_taiga",
+    "name": "Blackwood Taiga",
+    "color": "#08443d",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:boreal_taiga",
+    "name": "Boreal Taiga",
+    "color": "#325e56",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:chalk_cliffs",
+    "name": "Chalk Cliffs",
+    "color": "#d6ded6",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:clover_plains",
+    "name": "Clover",
+    "color": "#4dec25",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:cold_boreal_taiga",
+    "name": "Cold Boreal",
+    "color": "#516f65",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:cold_deciduous_forest",
+    "name": "Cold Deciduous",
+    "color": "#526f4d",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:cold_river",
+    "name": "Cold River",
+    "color": "#4c4bff",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:deciduous_forest",
+    "name": "Deciduous F",
+    "color": "#54a713",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:dry_bushland",
+    "name": "Dry bushland",
+    "color": "#abc341",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:eucalyptus_forest",
+    "name": "Eucalyptus",
+    "color": "#3d8b43",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:fen",
+    "name": "Fen",
+    "color": "#56e5a9",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:flower_fields",
+    "name": "Flower F",
+    "color": "#34af53",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:frozen_pine_taiga",
+    "name": "Frozen Pine T",
+    "color": "#7f996d",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:frozen_tundra",
+    "name": "Frozen Tundra",
+    "color": "#a6d8a6",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:fungal_fen",
+    "name": "Fungal Fen",
+    "color": "#5dc3e1",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:glistering_meadow",
+    "name": "N/Glistering",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:golden_boreal_taiga",
+    "name": "Golden Boreal",
+    "color": "#475e32",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:grassland",
+    "name": "Grassland",
+    "color": "#55c227",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:grassy_beach",
+    "name": "Grassy Beach",
+    "color": "#cce438",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:gravel_beach",
+    "name": "Gravel Beach",
+    "color": "#c5bca3",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:highland_fields",
+    "name": "Highland Fields",
+    "color": "#80b062",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:hyacinth_deeps",
+    "name": "Hyacinth D",
+    "color": "#5489c1",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:icy_heights",
+    "name": "Icy Heights",
+    "color": "#9cb9a8",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:infernal_holt",
+    "name": "N/Infernal Holt",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:joshua_desert",
+    "name": "Joshua Desert",
+    "color": "#b2d245",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:magnolia_woodland",
+    "name": "Magnolia",
+    "color": "#da1431",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:maple_forest",
+    "name": "Maple F",
+    "color": "#71a64f",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:marsh",
+    "name": "Marsh",
+    "color": "#00fff7",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:mauve_hills",
+    "name": "Mauve H",
+    "color": "#a81cff",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:mountains",
+    "name": "Mountains",
+    "color": "#7c7a43",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:muddy_river",
+    "name": "Muddy River",
+    "color": "#383881",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:mycotoxic_undergrowth",
+    "name": "mycotoxic_undergrowth",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:old_growth_bayou",
+    "name": "OG Bayou",
+    "color": "#294f43",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:orchard",
+    "name": "Orchard",
+    "color": "#64ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:outback",
+    "name": "Outback",
+    "color": "#9b7748",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:pine_slopes",
+    "name": "Pine slopes",
+    "color": "#706e3d",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:pine_taiga",
+    "name": "Pine Taiga",
+    "color": "#285e42",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:poppy_fields",
+    "name": "Poppy",
+    "color": "#801518",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:prairie",
+    "name": "Prairie",
+    "color": "#72994a",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:prismachasm",
+    "name": "prismachasm",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:pumpkin_fields",
+    "name": "Pumpkin",
+    "color": "#633f1d",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:rainforest",
+    "name": "rainforest",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:redstone_abyss",
+    "name": "redstone_abyss",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:redstone_caves",
+    "name": "redstone_caves",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:redwoods",
+    "name": "Redwoods",
+    "color": "#6f3d04",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:rocky_meadow",
+    "name": "Rocky Meadow",
+    "color": "#769366",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:rocky_reef",
+    "name": "rocky_reef",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:saguaro_desert",
+    "name": "Saguaro Desert",
+    "color": "#ffd878",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:scorching_caves",
+    "name": "scorching_caves",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:shrubland",
+    "name": "Shrubland",
+    "color": "#3ebe03",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:silver_birch_forest",
+    "name": "Silver Birch",
+    "color": "#527d5f",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:sparse_rainforest",
+    "name": "sparse_rainforest",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:sparse_redwoods",
+    "name": "Sp Redwood",
+    "color": "#857822",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:spires",
+    "name": "Spires",
+    "color": "#9ed1be",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:steppe",
+    "name": "Steppe",
+    "color": "#b3ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:temperate_grove",
+    "name": "Temp Grove",
+    "color": "#40754c",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:towering_cliffs",
+    "name": "Towering Cliffs",
+    "color": "#2a4d2a",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:tropical_river",
+    "name": "tropical_river",
+    "color": "#00ff00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:tropics",
+    "name": "Tropics",
+    "color": "#00db00",
+    "wanted": true
+  },
+  {
+    "id": "regions_unexplored:willow_forest",
+    "name": "Willow F",
+    "color": "#49a049",
+    "wanted": true
   }
 ]

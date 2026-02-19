@@ -8,11 +8,13 @@ import { $cl } from 'utils';
 import styles from './tab.module.scss';
 
 export interface LandTabProps {
+  active: boolean;
   brush: string | null;
   onPickBrush: (brush: string) => void;
 }
 
 function LandTab ({
+  active,
   brush,
   onPickBrush,
 }: LandTabProps) {
@@ -20,6 +22,8 @@ function LandTab ({
   const dispatch = useDispatch();
 
   const [c, setC] = useState<LandContinentalnessKey>('coast');
+
+  if (!active) return null;
 
   return (
     <div className={styles.tab}>
@@ -63,7 +67,7 @@ function LandTab ({
                     rowKeys={WeirdnessKeys}
                     getRowHead={k => `w = ${k}`}
                     getBiomes={(w, e) => src.doc.biome_source.land[c][e][t][h][w]}
-                    riverIndex={5}
+                    riverIndex={6}
                     onAdd={(w, e) => handleAdd(c, e, t, h, w)}
                     onMultiAdd={(w, e, row, col) => handleMultiAdd(row, col, c, e, t, h, w)}
                     onSet={(w, e, i) => handleSet(c, e, t, h, w, i)}
@@ -85,9 +89,7 @@ function LandTab ({
     t: TemperatureKey,
     h: LandHumidityKey,
     w: WeirdnessKey,
-  ) {
-    if (!brush) return;
-    
+  ) {    
     dispatch(BiomeSourceActions.addLandBiome({
       c,
       e,
@@ -106,10 +108,7 @@ function LandTab ({
       t: TemperatureKey,
       h: LandHumidityKey,
       w: WeirdnessKey,
-    ) {
-      if (!brush) return;
-      console.log("in filter")
-  
+    ) {  
       dispatch(BiomeSourceActions.multiAddLandBiome({
         c: [c],
         e: col ? ErosionKeys : [e],
@@ -128,9 +127,7 @@ function LandTab ({
     h: LandHumidityKey,
     w: WeirdnessKey,
     index: number,
-  ) {
-    if (!brush) return;
-    
+  ) {    
     dispatch(BiomeSourceActions.setLandBiome({
       c,
       e,
@@ -149,9 +146,7 @@ function LandTab ({
     h: LandHumidityKey,
     w: WeirdnessKey,
     index: number,
-  ) {
-    if (!brush) return;
-    
+  ) {    
     dispatch(BiomeSourceActions.removeLandBiome({
       c,
       e,

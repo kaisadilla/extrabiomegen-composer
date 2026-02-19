@@ -1,5 +1,4 @@
-import { Button, Tabs } from '@mantine/core';
-import Local from 'Local';
+import { Tabs } from '@mantine/core';
 import MapViewerPage from 'pages/MapViewer/page';
 import { useState } from 'react';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
@@ -19,15 +18,6 @@ function MsdPage (props: MsdPageProps) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.ribbon}>
-        <Button
-          onClick={save}
-          size='compact-sm'
-        >
-          Save document
-        </Button>
-      </div>
-
       <Tabs
         classNames={{
           root: styles.tabContainer,
@@ -55,12 +45,7 @@ function MsdPage (props: MsdPageProps) {
         </Tabs.Panel>
       </Tabs>
     </div>
-  )
-
-  function save () {
-    Local.saveInland(src.doc);
-    Local.saveBiomes(catalogue.biomes);
-  }
+  );
 }
 
 export default MsdPage;

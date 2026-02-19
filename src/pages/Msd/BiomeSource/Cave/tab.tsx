@@ -8,11 +8,13 @@ import { $cl } from 'utils';
 import styles from './tab.module.scss';
 
 export interface CaveTabProps {
+  active: boolean;
   brush: string | null;
   onPickBrush: (brush: string) => void;
 }
 
 function CaveTab ({
+  active,
   brush,
   onPickBrush,
 }: CaveTabProps) {
@@ -21,6 +23,8 @@ function CaveTab ({
 
   const [d, setD] = useState<CaveDepthKey>('shallow');
 
+  if (!active) return null;
+  
   return (
     <div className={styles.tab}>
       <div className={styles.depth}>
@@ -119,7 +123,6 @@ function CaveTab ({
     h: HumidityKey,
   ) {
     if (!brush) return;
-    console.log("in filter")
 
     dispatch(BiomeSourceActions.multiAddCaveBiome({
       d: [d],

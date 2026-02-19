@@ -42,6 +42,7 @@ function BiomeChart<T extends string> ({
 
               return (
                 <div
+                  key={i}
                   className={styles.biome}
                   style={{
                     backgroundColor: biome.color,
