@@ -89,7 +89,9 @@ function LandTab ({
     t: TemperatureKey,
     h: LandHumidityKey,
     w: WeirdnessKey,
-  ) {    
+  ) {
+    if (!brush) return;
+
     dispatch(BiomeSourceActions.addLandBiome({
       c,
       e,
@@ -108,14 +110,18 @@ function LandTab ({
       t: TemperatureKey,
       h: LandHumidityKey,
       w: WeirdnessKey,
-    ) {  
+    ) {
+      if (!brush) return;
+
+      const emptyOnly = src.doc.biome_source.land[c][e][t][h][w].length === 0;
+
       dispatch(BiomeSourceActions.multiAddLandBiome({
         c: [c],
         e: col ? ErosionKeys : [e],
         t: [t],
         h: [h],
         w: row ? WeirdnessKeys : [w],
-        emptyOnly: true,
+        emptyOnly,
         biomeId: brush,
       }));
     }
@@ -127,7 +133,9 @@ function LandTab ({
     h: LandHumidityKey,
     w: WeirdnessKey,
     index: number,
-  ) {    
+  ) {
+    if (!brush) return;
+
     dispatch(BiomeSourceActions.setLandBiome({
       c,
       e,
@@ -146,7 +154,7 @@ function LandTab ({
     h: LandHumidityKey,
     w: WeirdnessKey,
     index: number,
-  ) {    
+  ) {
     dispatch(BiomeSourceActions.removeLandBiome({
       c,
       e,

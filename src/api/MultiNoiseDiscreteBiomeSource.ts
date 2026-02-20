@@ -5,7 +5,6 @@ export interface MndBiomeSource {
     type: 'extrabiomegen:multinoise_discrete';
     region_size?: number;
     biome_size?: number;
-    river: MndRiverTemperature;
     ocean: MndOceanTemperature;
     exotic: MndExoticTemperature;
     land_placement_mode?: BiomePlacementMode;
@@ -28,7 +27,7 @@ export type MndLandCont = LandContinentalnessCollection<MndLandErosion>;
 export type MndLandErosion = ErosionCollection<MndLandTemperature>;
 export type MndLandTemperature = TemperatureCollection<MndLandHumidity>;
 export type MndLandHumidity = LandHumidityCollection<MndLandWeirdness>;
-export type MndLandWeirdness = WeirdnessCollection<(string | null)[]>;
+export type MndLandWeirdness = WeirdnessCollection<string[]>;
 
 export type MndCaveDepth = CaveDepthCollection<MndCaveContinentalness>;
 export type MndCaveContinentalness = ContinentalnessCollection<MndCaveErosion>;
@@ -177,7 +176,6 @@ export function makeMndBiomeSource () : MndBiomeSource {
     settings: "minecraft:overworld",
     biome_source: {
       type: 'extrabiomegen:multinoise_discrete',
-      river: makeriverTemperatureCollection(),
       ocean: makeOceanTemperatureCollection(),
       exotic: makeExoticTemperatureCollection(),
       land: makeContinentalnessCollection(),

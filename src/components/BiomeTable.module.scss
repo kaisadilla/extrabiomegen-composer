@@ -38,8 +38,8 @@
   tbody {
     tr {
       &[data-is-river=true] {
-        border-top: 3px solid blue;
-        border-bottom: 3px solid blue;
+        border-top: 3px solid #0051ff;
+        border-bottom: 3px solid #0051ff;
 
         td.values:not(:first-child) {
           @include checkerboard-bg(#afc6d6, #85a4b8);

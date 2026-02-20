@@ -13,7 +13,6 @@ import CaveTab from './Cave/tab';
 import ExoticTab from './Exotic/tab';
 import LandTab from './Land/tab';
 import OceanTab from './Ocean/tab';
-import RiverTab from './River/tab';
 import styles from './tab.module.scss';
 
 export interface BiomeSourceTabProps {
@@ -127,20 +126,11 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
         onChange={setTab}
       >
         <Tabs.List>
-          <Tabs.Tab value="river">River</Tabs.Tab>
           <Tabs.Tab value="ocean">Ocean</Tabs.Tab>
           <Tabs.Tab value="exotic">Exotic islands</Tabs.Tab>
           <Tabs.Tab value="land">Land</Tabs.Tab>
           <Tabs.Tab value="cave">Caves</Tabs.Tab>
         </Tabs.List>
-
-        <Tabs.Panel value="river">
-          <RiverTab
-            active={tab === "river"}
-            brush={brush}
-            onPickBrush={setBrush}
-          />
-        </Tabs.Panel>
 
         <Tabs.Panel value="ocean">
           <OceanTab
@@ -176,16 +166,9 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
       </Tabs>
       <div className={styles.panel}>
         <div className={styles.biomeSelection}>
-          <button
-            className={styles.nullBiome}
-            data-selected={brush === null}
-            data-wanted={true}
-            onClick={() => setBrush(null)}
-          >
-            NULL
-          </button>
           {Object.values(catalogue.biomes).filter(b => b.wanted).map(b => (
             <button
+              key={b.id}
               style={{
                 backgroundColor: b.color,
                 color: chooseW3CTextColor(b.color),
@@ -199,6 +182,7 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
           ))}
           {Object.values(catalogue.biomes).filter(b => !b.wanted).map(b => (
             <button
+              key={b.id}
               style={{
                 backgroundColor: b.color,
                 color: chooseW3CTextColor(b.color),

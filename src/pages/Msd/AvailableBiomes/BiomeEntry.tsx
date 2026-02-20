@@ -5,15 +5,15 @@ import { PhotoshopPicker } from 'react-color';
 import { useDispatch } from 'react-redux';
 import { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { chooseW3CTextColor } from 'utils';
-import styles from './Biome.module.scss';
+import styles from './BiomeEntry.module.scss';
 
-export interface BiomeProps {
+export interface BiomeEntryProps {
   biome: Biome;
 }
 
 function BiomeEntry ({
   biome,
-}: BiomeProps) {
+}: BiomeEntryProps) {
   const [colorPicker, setColorPicker] = useState(false);
   const [color, setColor] = useState(biome.color);
 

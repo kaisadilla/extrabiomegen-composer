@@ -14,14 +14,6 @@ export const BiomeSchema = z.object({
   wanted: z.boolean(),
 });
 
-export const NULL_BIOME: Biome = {
-  id: "null",
-  name: "NULL",
-  color: "transparent",
-  wanted: true,
-};
-
-
 export const UNKNOWN_BIOME: Biome = {
   id: "unknown:unknown",
   name: "<unknown>",

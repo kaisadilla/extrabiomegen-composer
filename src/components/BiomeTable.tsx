@@ -1,5 +1,5 @@
 import { Tooltip } from '@mantine/core';
-import { NULL_BIOME, UNKNOWN_BIOME } from 'api/Biome';
+import { UNKNOWN_BIOME } from 'api/Biome';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import { $cl, chooseW3CTextColor } from 'utils';
 import styles from './BiomeTable.module.scss';
@@ -13,10 +13,10 @@ export interface BiomeTableProps<TRow, TCol> {
   rowKeys: readonly TRow[];
   getRowHead: (key: TRow) => string;
   riverIndex?: number;
-  getBiomes: (krow: TRow, kcol: TCol) => (string | null)[];
+  getBiomes: (krow: TRow, kcol: TCol) => string[];
   onAdd?: (krow: TRow, kcol: TCol) => void;
   onMultiAdd?: (
-    krow: TRow, kcol: TCol, fillRow: boolean, fillCol: boolean
+    krow: TRow, kcol: TCol, fillRow: boolean, fillCol: boolean,
   ) => void;
   onSet?: (krow: TRow, kcol: TCol, index: number) => void;
   onRemove?: (krow: TRow, kcol: TCol, index: number) => void;
@@ -108,14 +108,13 @@ function BiomeTable<TRow extends string, TCol extends string> ({
                   }
                 >*/
                   <td
+                    key={kcol}
                     className={styles.values}
                     onClick={evt => handleLeftClickCell(evt, krow, kcol)}
                   >
                     <div>
                       {biomes?.map((b, i) => {
-                        const biome = b === null
-                          ? NULL_BIOME
-                          : (catalogue.biomes[b] ?? UNKNOWN_BIOME);
+                        const biome = catalogue.biomes[b] ?? UNKNOWN_BIOME;
 
                         return (
                           <div
@@ -166,7 +165,12 @@ function BiomeTable<TRow extends string, TCol extends string> ({
     evt.stopPropagation();
 
     if (evt.ctrlKey) {
-      onAdd?.(krow, kcol);
+      if (evt.shiftKey || evt.altKey) {
+        onMultiAdd?.(krow, kcol, evt.shiftKey, evt.altKey);
+      }
+      else {
+        onAdd?.(krow, kcol);
+      }
     }
     else {
       onSet?.(krow, kcol, index);

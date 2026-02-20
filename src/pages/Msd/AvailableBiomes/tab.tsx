@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import useBiomeCatalogue, { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { openFile } from 'utils';
 import z from 'zod';
-import BiomeEntry from './Biome';
+import BiomeEntry from './BiomeEntry';
 import styles from './tab.module.scss';
 
 export interface AvailableBiomesTabProps {
