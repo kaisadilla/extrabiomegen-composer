@@ -122,8 +122,13 @@ function MapViewerPage (props: MapViewerPageProps) {
                 <Table.Tbody>
                   {Object.keys(aBiomeCount).map(b => (
                     <Table.Tr key={b} className={styles.entry}>
-                      <Table.Td>{b}</Table.Td>
-                      <Table.Td>{aBiomeCount[b].toLocaleString('en-US')}</Table.Td>
+                      <Table.Td>
+                        {b}
+                      </Table.Td>
+                      <Table.Td>
+                        {aBiomeCount[b].toLocaleString('en-US')}&nbsp;
+                        ({((aBiomeCount[b] / (imgWidth * imgHeight)) * 100).toFixed(2)} %)
+                      </Table.Td>
                     </Table.Tr>
                   ))}
                 </Table.Tbody>
