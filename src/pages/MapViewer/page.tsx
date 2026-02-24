@@ -14,6 +14,8 @@ function MapViewerPage (props: MapViewerPageProps) {
   const catalogue = useBiomeCatalogue();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const infoCanvasRef = useRef<HTMLCanvasElement>(null);
+
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [imgWidth, setImgWidth] = useState(2500);
   const [imgHeight, setImgHeight] = useState(2500);
@@ -76,6 +78,11 @@ function MapViewerPage (props: MapViewerPageProps) {
           defaultSize={4}
         >
           <div className={styles.canvasContainer}>
+            <canvas
+              ref={infoCanvasRef}
+              style={{ display: 'none', }}
+            />
+
             <Tooltip.Floating
               label={(
                 <div className={styles.mapLabel}>
@@ -94,6 +101,7 @@ function MapViewerPage (props: MapViewerPageProps) {
                 onMouseMove={handleMouseMove}
               />
             </Tooltip.Floating>
+
           </div>
         </Panel>
 
@@ -173,14 +181,12 @@ function MapViewerPage (props: MapViewerPageProps) {
       setImgWidth(img.naturalWidth);
       setImgHeight(img.naturalHeight);
 
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-
-      ctx?.drawImage(img, 0, 0);
+      if (canvasRef.current) {
+        setCanvasToImage(canvasRef.current, img);
+      }
+      if (infoCanvasRef.current) {
+        setCanvasToImage(infoCanvasRef.current, img);
+      }
     }
     img.onerror = console.log;
     img.src = url;
@@ -190,7 +196,8 @@ function MapViewerPage (props: MapViewerPageProps) {
 
   function handleMouseMove (evt: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const info = infoCanvasRef.current;
+    if (!canvas || !info) return;
 
     const rect = canvas.getBoundingClientRect();
 
@@ -223,7 +230,7 @@ function MapViewerPage (props: MapViewerPageProps) {
   }
 
   function handleAnalyze () {
-    const ctx = canvasRef.current?.getContext('2d');
+    const ctx = infoCanvasRef.current?.getContext('2d');
     if (!ctx) return;
 
     const data = ctx.getImageData(0, 0, imgWidth, imgHeight).data;
@@ -272,6 +279,15 @@ function MapViewerPage (props: MapViewerPageProps) {
     if (Number.isFinite(x)) setXCenter(x);
     if (Number.isFinite(z)) setZCenter(z);
     if (Number.isFinite(scale)) setScale(scale);
+  }
+
+  function setCanvasToImage (canvas: HTMLCanvasElement, img: HTMLImageElement) {
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+
+      ctx?.drawImage(img, 0, 0);
   }
 }
 

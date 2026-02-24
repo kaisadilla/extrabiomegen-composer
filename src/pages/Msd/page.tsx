@@ -27,10 +27,15 @@ function MsdPage (props: MsdPageProps) {
         onChange={setTab}
       >
         <Tabs.List>
+          <Tabs.Tab value="info">Information</Tabs.Tab>
           <Tabs.Tab value="catalogue">Biome catalogue</Tabs.Tab>
           <Tabs.Tab value="src">Biome source</Tabs.Tab>
           <Tabs.Tab value="map_viewer">Map viewer</Tabs.Tab>
         </Tabs.List>
+
+        <Tabs.Panel value="info">
+          TODO: Info
+        </Tabs.Panel>
 
         <Tabs.Panel value="catalogue">
           <AvailableBiomesTab />

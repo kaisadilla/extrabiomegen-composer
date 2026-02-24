@@ -4,6 +4,7 @@ import ImportContentModal from 'modals/ImportContent.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router';
 import { store } from 'state/store.ts';
 import App from './App.tsx';
 
@@ -65,7 +66,11 @@ createRoot(document.getElementById('root')!).render(
       <MantineProvider theme={mantineTheme}>
       <ModalsProvider modals={modals}>
 
-        <App />
+        <BrowserRouter>
+
+          <App />
+          
+        </BrowserRouter>
 
       </ModalsProvider>
       </MantineProvider>
