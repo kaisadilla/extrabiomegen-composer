@@ -1,0 +1,101 @@
+.root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  .ribbon {
+    @include ribbon;
+    
+    .buttons {
+      flex: 1;
+    }
+  }
+
+  .tableContainer {
+    flex: 1;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .table {
+      > thead {
+        font-weight: 600;
+      }
+
+      .tbody {
+        .tr {
+          &[data-enabled=false] {
+            background-color: var(--color-danger-l2);
+
+            .entryKey {
+              color: var(--color-danger-d1);
+            }
+
+            .entryInput {
+              color: var(--color-danger-d2);
+
+              &::placeholder {
+                color: var(--color-danger-d1);
+              }
+            }
+          }
+
+          .td {
+            padding: 0;
+          }
+
+          .enabledKey {
+            width: 0;
+            text-align: center;
+
+            > div {
+              @include center;
+
+              width: 100%;
+            }
+          }
+
+          .entryKey {
+            font-family: var(--font-mono);
+            font-size: 8pt;
+            width: 0;
+            padding: 0 12px;
+
+            b {
+              font-weight: unset;
+              background-color: var(--color-primary);
+              color: white;
+            }
+          }
+
+          .entryInput {
+            border: 1px solid transparent;
+            font-weight: 600;
+            background-color: transparent;
+
+            &::placeholder {
+              font-weight: 300;
+              //font-style: italic;
+            }
+
+            &:focus {
+              border: 1px solid var(--color-primary);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .pageContainer {
+    @include ribbon-bottom;
+    justify-content: center;
+  }
+
+  .paginationCtrl {
+    width: 36px;
+  }
+}

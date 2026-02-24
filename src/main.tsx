@@ -1,6 +1,7 @@
 import { createTheme, MantineProvider, Modal, Popover, Text, Tooltip } from '@mantine/core';
 import { ModalsProvider, type ContextModalProps } from '@mantine/modals';
 import ImportContentModal from 'modals/ImportContent.tsx';
+import ImportLangModal from 'modals/ImportLang.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -9,20 +10,20 @@ import { store } from 'state/store.ts';
 import App from './App.tsx';
 
 const mantineTheme = createTheme({
-  //colors: {
-  //  blue: [
-  //    "var(--color-primary-l3)",
-  //    "var(--color-primary-l3)",
-  //    "var(--color-primary-l3)",
-  //    "var(--color-primary-l3)",
-  //    "var(--color-primary-l2)",
-  //    "var(--color-primary-l1)",
-  //    "var(--color-primary)",
-  //    "var(--color-primary-d1)",
-  //    "var(--color-primary-d2)",
-  //    "var(--color-primary-d2)",
-  //  ]
-  //},
+  colors: {
+    blue: [
+      "var(--color-primary-l3)",
+      "var(--color-primary-l3)",
+      "var(--color-primary-l3)",
+      "var(--color-primary-l3)",
+      "var(--color-primary-l2)",
+      "var(--color-primary-l1)",
+      "var(--color-primary)",
+      "var(--color-primary-d1)",
+      "var(--color-primary-d2)",
+      "var(--color-primary-d2)",
+    ]
+  },
   defaultRadius: 0,
   components: {
     TooltipFloating: Tooltip.Floating.extend({
@@ -58,6 +59,7 @@ const mantineTheme = createTheme({
 
 const modals: Record<string, React.FC<ContextModalProps<any>>> = {
   importContent: ImportContentModal,
+  importLang: ImportLangModal,
 }
 
 createRoot(document.getElementById('root')!).render(

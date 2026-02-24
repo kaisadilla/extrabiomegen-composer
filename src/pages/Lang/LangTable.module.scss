@@ -1,0 +1,36 @@
+.langTable {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .groups {
+    user-select: none;
+
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .group {
+      font-family: var(--font-mono);
+      font-size: 10pt;
+      padding: 3px 6px;
+
+      &[data-active=true] {
+        background-color: var(--color-primary);
+      }
+
+      &:hover {
+        background-color: var(--color-primary-l2);
+      }
+    }
+  }
+
+  .tableContainer {
+    flex: 1;
+  }
+}

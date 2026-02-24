@@ -1,0 +1,40 @@
+:root {
+  --color-primary-l5: #e6f5ef;
+  --color-primary-l4: #b3e2cf;
+  --color-primary-l3: #f8f1ff;
+  --color-primary-l2: #E3D2F5;
+  --color-primary-l1: #C1A0E2;
+  --color-primary: #9D73C9;
+  --color-primary-d1: #7C4DAB;
+  --color-primary-d2: #633395;
+  --color-primary-d3: #005f3a;
+  --color-primary-d4: #004f30;
+  --color-primary-d5: #003f26;
+
+  --color-secondary-l6: #f5f5f5;
+  --color-secondary-l5: #eee;
+  --color-secondary-l4: #dfdfdf;
+  --color-secondary-l3: #ccc;
+  --color-secondary-l2: #aaa;
+  --color-secondary-l1: #888;
+  --color-secondary: #777;
+  --color-secondary-d1: #666;
+  --color-secondary-d2: #555;
+  --color-secondary-d3: #444;
+  --color-secondary-d4: #333;
+
+  --color-success: #28a745;
+  --color-success-d1: #218838;
+  --color-success-d2: #144d20;
+  --color-danger-l2: #f09ba3;
+  --color-danger-l1: #ee6e7b;
+  --color-danger: #dc3545;
+  --color-danger-d1: #c82333;
+  --color-danger-d2: #7c141e;
+
+  --color-bg: var(--color-secondary-l5);
+  --color-frame: var(--color-secondary-l4);
+
+  --font-mono: Consolas, 'Courier New', Courier, monospace;
+  --font-segoe: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
