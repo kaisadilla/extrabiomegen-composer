@@ -150,6 +150,7 @@ function BiomeTable<TRow extends string, TCol extends string> ({
   function handleLeftClickCell (evt: React.MouseEvent, krow: TRow, kcol: TCol
   ) {
     evt.stopPropagation();
+    if (getBiomes(krow, kcol).length !== 0) return;
 
     if (evt.shiftKey || evt.altKey) {
       onMultiAdd?.(krow, kcol, evt.shiftKey, evt.altKey);

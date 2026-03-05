@@ -16,16 +16,22 @@
     overflow-y: auto;
 
     .group {
+      cursor: pointer;
+      
       font-family: var(--font-mono);
       font-size: 10pt;
       padding: 3px 6px;
+      border: 1px solid transparent;
 
       &[data-active=true] {
         background-color: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary-d2);
       }
 
       &:hover {
         background-color: var(--color-primary-l2);
+        color: black;
       }
     }
   }

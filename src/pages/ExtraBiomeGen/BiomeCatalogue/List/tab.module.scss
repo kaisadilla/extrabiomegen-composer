@@ -1,0 +1,139 @@
+.tab {
+  @include vp-scroll;
+  min-height: 0;
+
+  padding: 1rem;
+
+  h2 {
+    font-size: 16pt;
+    font-weight: 600;
+  }
+
+  .mod {
+    display: flex;
+    flex-direction: column;
+
+    .gallery {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      width: 100%;
+
+      .biomeTable {
+        table-layout: auto;
+
+        thead {
+          tr {
+            font-weight: 600;
+          }
+
+          .drag {
+            width: 48px;
+          }
+
+          .wanted {
+            width: 48px;
+          }
+
+          :last-child {
+            width: 100%;
+          }
+        }
+
+        tbody {
+          tr[data-disabled=false] {
+            background-color: var(--color-biome);
+            
+            td, input {
+              color: var(--color-biome-text);
+            }
+          }
+          
+          tr[data-disabled=true] {
+            background: repeating-linear-gradient(
+              -45deg,
+              #f002 0px,
+              #f002 8px,
+              white 8px,
+              white 16px
+            );
+
+            td {
+              color: #800;
+            }
+
+            .biomeId {
+              text-decoration: line-through;
+            }
+          }
+
+          .color, .name {
+            padding: 0;
+          }
+
+          .color {
+            div {
+              display: flex;
+              flex-direction: row;
+              gap: 0.5em;
+              align-items: center;
+
+              button {
+                background-color: white;
+                border: 1px solid black;
+                outline: 1px solid white;
+                color: black;
+              }
+            }
+          }
+
+          .id {
+            font-family: var(--font-mono);
+            font-size: 8pt;
+            padding: 0 8px;
+          }
+
+          .colorInputInput, .nameInput {
+            height: 12px;
+          }
+
+          .colorInputInput {
+            font-family: var(--font-mono);
+            width: 60px;
+          }
+
+          .nameInput {
+            padding: 0 8px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.colorPickerContainer {
+  user-select: none;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000d0;
+  z-index: 5000;
+
+  .colorPicker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5000;
+  }
+}

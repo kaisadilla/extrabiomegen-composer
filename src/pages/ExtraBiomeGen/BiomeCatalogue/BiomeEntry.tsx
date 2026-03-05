@@ -23,9 +23,9 @@ function BiomeEntry ({
     <div
       className={styles.biome}
       style={{
-        backgroundColor: biome.color,
-        color: chooseW3CTextColor(biome.color),
-      }}
+        '--color-biome': biome.color,
+        '--color-biome-text': chooseW3CTextColor(biome.color),
+      } as any}
       data-wanted={biome.wanted}
     >
       <div className={styles.id}>
@@ -42,12 +42,14 @@ function BiomeEntry ({
         />
       </div>
       <div className={styles.actions}>
-        <Button
-          size='compact-xs'
-          onClick={() => setColorPicker(true)}
+        <Tooltip
+          label="Wanted"
         >
-          Color
-        </Button>
+          <Checkbox
+            checked={biome.wanted}
+            onChange={handleChangeWanted}
+          />
+        </Tooltip>
 
         <TextInput
           variant='unstyled'
@@ -59,14 +61,12 @@ function BiomeEntry ({
           onChange={handleChangeColor}
         />
 
-        <Tooltip
-          label="Wanted"
+        <Button
+          size='compact-xs'
+          onClick={() => setColorPicker(true)}
         >
-          <Checkbox
-            checked={biome.wanted}
-            onChange={handleChangeWanted}
-          />
-        </Tooltip>
+          Color
+        </Button>
       </div>
     </div>
 

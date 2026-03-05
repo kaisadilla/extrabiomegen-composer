@@ -1,26 +1,29 @@
-import { Button, Text, Tooltip } from '@mantine/core';
+import { Button, Tabs, Text, Tooltip } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { BiomeSchema, type Biome } from 'api/Biome';
 import vanillaBiomeCatalogue from 'data/minecraft/biomes.json';
 import { saveAs } from 'file-saver';
 import Local from 'Local';
 import { openImportContent } from 'modals/ImportContent';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue, { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { openFile } from 'utils';
 import z from 'zod';
-import BiomeEntry from './BiomeEntry';
+import Info from './Info';
+import BiomeList from './List/tab';
 import styles from './tab.module.scss';
 
-export interface AvailableBiomesTabProps {
+export interface BiomeCatalogueTabProps {
   
 }
 
-function AvailableBiomesTab (props: AvailableBiomesTabProps) {
+function BiomeCatalogueTab (props: BiomeCatalogueTabProps) {
   const catalogue = useBiomeCatalogue();
-
   const dispatch = useDispatch();
-  
+
+  const [tab, setTab] = useState<string | null>("list");
+
   const openRestartModal = () => modals.openConfirmModal({
     title: 'Restart biome catalogue',
     children: (
@@ -36,13 +39,6 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
     },
     onConfirm: handleRestart,
   });
-
-  const namespaces = new Set<string>();
-
-  for (const b of Object.values(catalogue.biomes)) {
-    const rl = b.id.split(":");
-    namespaces.add(rl[0]);
-  }
 
   return (
     <div className={styles.tab}>
@@ -118,20 +114,33 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
           </Button>
         </Tooltip>
       </div>
-      <div className={styles.modList}>
-        {[...namespaces].map(ns => (
-          <div
-            key={ns}
-          >
-            <h2>{ns}</h2>
-            <div className={styles.list}>
-              {Object.values(catalogue.biomes)
-                .filter(b => b.id.split(":")[0] === ns)
-                .map(b => <BiomeEntry key={b.id} biome={b} />)}
-            </div>
-          </div>
-        ))}
-      </div>
+      
+      <Tabs
+        classNames={{
+          root: styles.tabContainer,
+          panel: styles.tabPanel
+        }}
+        value={tab}
+        onChange={setTab}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="info">Info</Tabs.Tab>
+          <Tabs.Tab value="list">Biomes</Tabs.Tab>
+          <Tabs.Tab value="groups">Groups</Tabs.Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="info">
+          <Info />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="list">
+          <BiomeList />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="groups">
+          Groups
+        </Tabs.Panel>
+      </Tabs>
     </div>
   );
 
@@ -213,4 +222,4 @@ function AvailableBiomesTab (props: AvailableBiomesTabProps) {
   }
 }
 
-export default AvailableBiomesTab;
+export default BiomeCatalogueTab;

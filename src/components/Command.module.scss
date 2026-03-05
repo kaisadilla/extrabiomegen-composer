@@ -1,0 +1,27 @@
+.command {
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+  min-width: 400px;
+  max-width: 800px;
+  align-items: stretch;
+  height: 32px;
+
+  .string {
+    flex: 1;
+    height: 100%;
+
+    background-color: var(--color-primary-l3);
+
+    text-align: start;
+    padding: 6px 12px;
+
+    font-family: var(--font-mono);
+    font-size: 10pt;
+  }
+
+  .buttonRoot {
+    width: 80px;
+    height: 100%;
+  }
+}

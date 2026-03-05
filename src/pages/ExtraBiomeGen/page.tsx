@@ -3,15 +3,15 @@ import MapViewerPage from 'pages/MapViewer/page';
 import { useState } from 'react';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import useBiomeSource from 'state/biomeSourceSlice';
-import AvailableBiomesTab from './AvailableBiomes/tab';
+import BiomeCatalogueTab from './BiomeCatalogue/tab';
 import BiomeSourceTab from './BiomeSource/tab';
 import styles from './page.module.scss';
 
-export interface MsdPageProps {
+export interface ExtraBiomeGenPageProps {
   
 }
 
-function MsdPage (props: MsdPageProps) {
+function ExtraBiomeGenPage (props: ExtraBiomeGenPageProps) {
   const [tab, setTab] = useState<string | null>("src");
   const src = useBiomeSource();
   const catalogue = useBiomeCatalogue();
@@ -27,18 +27,13 @@ function MsdPage (props: MsdPageProps) {
         onChange={setTab}
       >
         <Tabs.List>
-          <Tabs.Tab value="info">Information</Tabs.Tab>
           <Tabs.Tab value="catalogue">Biome catalogue</Tabs.Tab>
           <Tabs.Tab value="src">Biome source</Tabs.Tab>
           <Tabs.Tab value="map_viewer">Map viewer</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="info">
-          TODO: Info
-        </Tabs.Panel>
-
         <Tabs.Panel value="catalogue">
-          <AvailableBiomesTab />
+          <BiomeCatalogueTab />
         </Tabs.Panel>
 
         <Tabs.Panel value="src">
@@ -53,4 +48,4 @@ function MsdPage (props: MsdPageProps) {
   );
 }
 
-export default MsdPage;
+export default ExtraBiomeGenPage;

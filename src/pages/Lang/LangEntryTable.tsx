@@ -23,6 +23,7 @@ function LangEntryTable ({
   const lang = useLang();
 
   const [query, setQuery] = useState("");
+  const [exact, setExact] = useState(false);
   const [page, setPage] = useState(1);
 
   const base = lang.files[namespace];
@@ -33,15 +34,20 @@ function LangEntryTable ({
     ? Object.keys(base).filter(k => k.startsWith(group + "."))
     : Object.keys(base);
 
-  const queriedEntries = fuzzysort.go(query, entries, {
-    all: true,
-  });
+  const queriedEntries = exact
+    ? entries.filter(s => s.includes(query)).map(s => ({
+      target: s,
+      highlight: () => s.replaceAll(query, `<b>${query}</b>`),
+    }))
+    : fuzzysort.go(query, entries, {
+      all: true,
+    });
 
   const pageCount = Math.ceil(queriedEntries.length / PAGE_SIZE);
 
   useEffect(() => {
     setPage(1);
-  }, [query]);
+  }, [query, group]);
 
   const start = (page - 1) * PAGE_SIZE;
   const end = page * PAGE_SIZE;
@@ -64,6 +70,12 @@ function LangEntryTable ({
           w={300}
           size='xs'
         />
+        <Button
+          onClick={() => setExact(prev => !prev)}
+          size='compact-sm'
+        >
+          Exact
+        </Button>
       </div>
       <div className={styles.tableContainer}>
         <Table
@@ -88,9 +100,10 @@ function LangEntryTable ({
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {queriedEntries.slice(start, end).map(k => (
+            {queriedEntries.slice(start, end).map((k, i) => (
               <_Entry
                 key={k.target}
+                index={i}
                 entryKey={k.target}
                 display={k.highlight()}
                 base={base[k.target]}
@@ -141,6 +154,7 @@ function LangEntryTable ({
 }
 
 interface _EntryProps {
+  index: number;
   entryKey: string;
   display: string;
   base: string;
@@ -151,6 +165,7 @@ interface _EntryProps {
 }
 
 function _Entry ({
+  index,
   entryKey,
   display,
   base,
@@ -161,7 +176,7 @@ function _Entry ({
 }: _EntryProps) {
   const lang = useLang();
 
-  const [value, setValue] = useState(override);
+  const [value, setValue] = useState(removed ? "" : override);
 
   return (
     <Table.Tr
@@ -173,6 +188,7 @@ function _Entry ({
             size='xs'
             checked={removed === false}
             onChange={evt => onChangeEnabled?.(evt.currentTarget.checked)}
+            tabIndex={index}
           />
         </div>
       </Table.Td>
@@ -187,6 +203,8 @@ function _Entry ({
           value={value}
           onChange={evt => setValue(evt.currentTarget.value)}
           onBlur={handleBlur}
+          tabIndex={100_000 + index}
+          disabled={removed}
         />
       </Table.Td>
     </Table.Tr>

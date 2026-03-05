@@ -1,20 +1,22 @@
-import MsdPage from 'pages/Msd/page';
-import { useState } from 'react';
+import ExtraBiomeGenPage from 'pages/ExtraBiomeGen/page';
 
 // eslint-disable-next-line import/order
 import '@mantine/core/styles.css';
 // eslint-disable-next-line import/order
+import HomePage from 'pages/Home/page';
 import LangPage from 'pages/Lang/page';
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import 'styles/root.scss';
 
 function App () {
-  const [count, setCount] = useState(0)
-
   return (
     <Routes>
-      <Route path="/extrabiomegen-composer/ebg" element={<MsdPage />} />
-      <Route path="/extrabiomegen-composer/lang" element={<LangPage />} />
+      <Route path="/extrabiomegen-composer">
+        {false && <Route index element={<Navigate to="/extrabiomegen-composer/" replace />} />}
+        <Route path="ebg" element={<ExtraBiomeGenPage />} />
+        <Route path="lang" element={<LangPage />} />
+        <Route index element={<HomePage />} />
+      </Route>
     </Routes>
   );
 }

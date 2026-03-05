@@ -1,6 +1,7 @@
 import { Button, Tabs, Tooltip } from '@mantine/core';
 import { parseLangFile } from 'api/LangFile';
 import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 import Local from 'Local';
 import { openImportLang } from 'modals/ImportLang';
 import { useState } from 'react';
@@ -51,6 +52,17 @@ function LangPage (props: LangPageProps) {
             onClick={handleSave}
           >
             Save
+          </Button>
+        </Tooltip>
+
+        <Tooltip
+          label="Exports this document as a resource pack, containing each lang in its namespace."
+        >
+          <Button
+            size='compact-sm'
+            onClick={handleExport}
+          >
+            Export
           </Button>
         </Tooltip>
 
@@ -128,6 +140,36 @@ function LangPage (props: LangPageProps) {
     saveAs(blob, "doc-lang.json");
   }
 
+  async function handleExport () {
+    const zip = new JSZip();
+
+    for (const ns of Object.keys(lang.files)) {
+      const overrides = lang.overrides[ns];
+      const removals = lang.removals[ns];
+
+      if (!overrides && !removals) continue;
+
+      const file: Record<string, string> = {};
+
+      for (const k of Object.keys(overrides)) {
+        file[k] = overrides[k];
+      }
+      for (const k of removals) {
+        file[k] = lang.removalPrefix + k;
+      }
+
+      if (Object.keys(file).length === 0) continue;
+
+      zip.file(
+        `${ns}/lang/en_us.json`,
+        JSON.stringify(file, jsonSortKeysCallback, 2)
+      );
+    }
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    saveAs(blob, "renames.zip");
+  }
+
   function handleImportLang (namespace: string, content: string) {
     if (namespace === "") {
       console.info("No namespace.");
@@ -144,6 +186,19 @@ function LangPage (props: LangPageProps) {
       namespace,
       file,
     }));
+  }
+
+  function jsonSortKeysCallback (key: string, value: any) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      return Object.keys(value)
+        .sort()
+        .reduce((sorted, k) => {
+          sorted[k] = value[k];
+          return sorted;
+        }, {} as Record<string, any>);
+    }
+
+    return value;
   }
 }
 

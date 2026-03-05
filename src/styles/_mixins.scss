@@ -34,3 +34,37 @@
     repeating-conic-gradient($col1 0 25%, $col2 0 50%) 
       50% / 20px 20px;
 }
+
+@mixin vp-scroll {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+@mixin vp-screen {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+@mixin tab-screen {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  
+  overflow: hidden;
+}
+
+@mixin tab-screen-panel {
+  flex: 1;
+  min-height: 0;
+
+  overflow: hidden;
+}

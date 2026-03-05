@@ -1,5 +1,7 @@
 import { createTheme, MantineProvider, Modal, Popover, Text, Tooltip } from '@mantine/core';
 import { ModalsProvider, type ContextModalProps } from '@mantine/modals';
+import { AllCommunityModule } from 'ag-grid-community';
+import { AgGridProvider } from 'ag-grid-react';
 import ImportContentModal from 'modals/ImportContent.tsx';
 import ImportLangModal from 'modals/ImportLang.tsx';
 import { StrictMode } from 'react';
@@ -8,6 +10,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router';
 import { store } from 'state/store.ts';
 import App from './App.tsx';
+
+const agGridModules = [AllCommunityModule];
 
 const mantineTheme = createTheme({
   colors: {
@@ -67,13 +71,15 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <MantineProvider theme={mantineTheme}>
       <ModalsProvider modals={modals}>
+      <AgGridProvider modules={agGridModules}>
 
         <BrowserRouter>
 
           <App />
           
         </BrowserRouter>
-
+        
+      </AgGridProvider>
       </ModalsProvider>
       </MantineProvider>
     </Provider>
