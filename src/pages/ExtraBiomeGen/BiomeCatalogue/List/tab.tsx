@@ -1,8 +1,8 @@
 import { Button, Checkbox, Collapse, Table, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import type { Biome } from 'api/Biome';
+import ColorPickerModal from 'components/ColorPickerModal';
 import { useState } from 'react';
-import { PhotoshopPicker } from 'react-color';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue, { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { chooseW3CTextColor } from 'utils';
@@ -49,14 +49,14 @@ function _Mod ({
   mod,
   biomes,
 }: _ModProps) {
-  const [ opened, { toggle } ] = useDisclosure(true);
+  const [ opened, { toggle } ] = useDisclosure(false);
 
   return (
     <div className={styles.mod}>
       <h2
         onClick={toggle}
       >
-        {mod}
+        {mod} ({biomes.filter(b => b.wanted === true).length} / {biomes.length})
       </h2>
 
       <Collapse in={opened} className={styles.list} transitionDuration={100}>
@@ -103,7 +103,6 @@ function _BiomeRow ({
   const dispatch = useDispatch();
   
   const [colorPicker, setColorPicker] = useState(false);
-  const [color, setColor] = useState(biome.color);
 
   return (
     <Table.Tr
@@ -169,15 +168,11 @@ function _BiomeRow ({
         />
       </Table.Td>
 
-      {colorPicker && <div className={styles.colorPickerContainer}>
-        <PhotoshopPicker
-          className={styles.colorPicker}
-          color={color}
-          onChange={c => setColor(c.hex)}
-          onCancel={() => setColorPicker(false)}
-          onAccept={handlePickColor}
-        />
-      </div>}
+      {colorPicker && <ColorPickerModal
+        value={biome.color}
+        onCancel={() => setColorPicker(false)}
+        onAccept={handlePickColor}
+      />}
     </Table.Tr>
   );
 
@@ -200,11 +195,9 @@ function _BiomeRow ({
       id: biome.id,
       color: evt.currentTarget.value,
     }));
-    
-    setColor(evt.currentTarget.value);
   }
 
-  function handlePickColor () {
+  function handlePickColor (color: string) {
     dispatch(BiomeCatalogueActions.setBiomeColor({
       id: biome.id,
       color,

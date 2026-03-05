@@ -1,7 +1,7 @@
 import { Button, Checkbox, TextInput, Tooltip } from '@mantine/core';
 import type { Biome } from 'api/Biome';
+import ColorPickerModal from 'components/ColorPickerModal';
 import { useState } from 'react';
-import { PhotoshopPicker } from 'react-color';
 import { useDispatch } from 'react-redux';
 import { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { chooseW3CTextColor } from 'utils';
@@ -15,7 +15,6 @@ function BiomeEntry ({
   biome,
 }: BiomeEntryProps) {
   const [colorPicker, setColorPicker] = useState(false);
-  const [color, setColor] = useState(biome.color);
 
   const dispatch = useDispatch();
 
@@ -70,15 +69,11 @@ function BiomeEntry ({
       </div>
     </div>
 
-    {colorPicker && <div className={styles.colorPickerContainer}>
-      <PhotoshopPicker
-        className={styles.colorPicker}
-        color={color}
-        onChange={c => setColor(c.hex)}
-        onCancel={() => setColorPicker(false)}
-        onAccept={handlePickColor}
-      />
-    </div>}
+    {colorPicker && <ColorPickerModal
+      value={biome.color}
+      onCancel={() => setColorPicker(false)}
+      onAccept={handlePickColor}
+    />}
   </>);
 
   function handleChangeName (evt: React.ChangeEvent<HTMLInputElement>) {
@@ -93,8 +88,6 @@ function BiomeEntry ({
       id: biome.id,
       color: evt.currentTarget.value,
     }));
-    
-    setColor(evt.currentTarget.value);
   }
 
   function handleChangeWanted (evt: React.ChangeEvent<HTMLInputElement>) {
@@ -104,7 +97,7 @@ function BiomeEntry ({
     }));
   }
 
-  function handlePickColor () {
+  function handlePickColor (color: string) {
     dispatch(BiomeCatalogueActions.setBiomeColor({
       id: biome.id,
       color,
