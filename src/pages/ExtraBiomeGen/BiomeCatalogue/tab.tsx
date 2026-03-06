@@ -22,8 +22,6 @@ function BiomeCatalogueTab (props: BiomeCatalogueTabProps) {
   const catalogue = useBiomeCatalogue();
   const dispatch = useDispatch();
 
-  const [tab, setTab] = useState<string | null>("list");
-
   const openRestartModal = () => modals.openConfirmModal({
     title: 'Restart biome catalogue',
     children: (
@@ -114,33 +112,8 @@ function BiomeCatalogueTab (props: BiomeCatalogueTabProps) {
           </Button>
         </Tooltip>
       </div>
-      
-      <Tabs
-        classNames={{
-          root: styles.tabContainer,
-          panel: styles.tabPanel
-        }}
-        value={tab}
-        onChange={setTab}
-      >
-        <Tabs.List>
-          <Tabs.Tab value="info">Info</Tabs.Tab>
-          <Tabs.Tab value="list">Biomes</Tabs.Tab>
-          <Tabs.Tab value="groups">Groups</Tabs.Tab>
-        </Tabs.List>
 
-        <Tabs.Panel value="info">
-          <Info />
-        </Tabs.Panel>
-
-        <Tabs.Panel value="list">
-          <BiomeList />
-        </Tabs.Panel>
-
-        <Tabs.Panel value="groups">
-          Groups
-        </Tabs.Panel>
-      </Tabs>
+      <_Tabs />
     </div>
   );
 
@@ -221,5 +194,43 @@ function BiomeCatalogueTab (props: BiomeCatalogueTabProps) {
     saveAs(blob, "minecraft.json");
   }
 }
+
+interface _TabsProps {
+  
+}
+
+function _Tabs (props: _TabsProps) {
+  const [tab, setTab] = useState<string | null>("list");
+
+  return (
+    <Tabs
+      classNames={{
+        root: styles.tabContainer,
+        panel: styles.tabPanel
+      }}
+      value={tab}
+      onChange={setTab}
+    >
+      <Tabs.List>
+        <Tabs.Tab value="info">Info</Tabs.Tab>
+        <Tabs.Tab value="list">Biomes</Tabs.Tab>
+        <Tabs.Tab value="groups">Groups</Tabs.Tab>
+      </Tabs.List>
+
+      <Tabs.Panel value="info">
+        <Info />
+      </Tabs.Panel>
+
+      <Tabs.Panel value="list">
+        <BiomeList />
+      </Tabs.Panel>
+
+      <Tabs.Panel value="groups">
+        Groups
+      </Tabs.Panel>
+    </Tabs>
+  );
+}
+
 
 export default BiomeCatalogueTab;

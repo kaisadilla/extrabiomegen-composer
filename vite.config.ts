@@ -5,7 +5,8 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig ({
-  base: 'https://kaisadilla.github.io/extrabiomegen-composer/',
+  base: 'https://kaisadilla.github.io/extrabiomegen-composer',
+  //base: '/extrabiomegen-composer/',
   plugins: [
     react(),
     tsconfigPaths(),

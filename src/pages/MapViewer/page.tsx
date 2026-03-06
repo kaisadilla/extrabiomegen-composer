@@ -1,7 +1,8 @@
 import { Button, NumberInput, Table, Tooltip } from '@mantine/core';
 import { UNKNOWN_BIOME } from 'api/Biome';
+import ResizableSeparator from 'components/ResizableSeparator';
 import { useRef, useState } from 'react';
-import { Group, Panel, Separator } from "react-resizable-panels";
+import { Group, Panel } from "react-resizable-panels";
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import { openFile, rgbToHex } from 'utils';
 import styles from './page.module.scss';
@@ -105,7 +106,7 @@ function MapViewerPage (props: MapViewerPageProps) {
           </div>
         </Panel>
 
-        <Separator><div className={styles.separator} /></Separator>
+        <ResizableSeparator />
 
         <Panel
           className={styles.dataPanel}

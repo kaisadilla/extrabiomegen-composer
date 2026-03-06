@@ -25,6 +25,8 @@ function HomePage (props: HomePageProps) {
           }
           path="lang"
         />
+
+        v0.1.17
       </div>
     </div>
   );

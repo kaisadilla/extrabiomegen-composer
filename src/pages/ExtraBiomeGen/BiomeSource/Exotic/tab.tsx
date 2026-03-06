@@ -1,5 +1,6 @@
 import { TemperatureKeys, type TemperatureKey } from 'api/MultiNoiseDiscreteBiomeSource';
 import BiomeChart from 'components/BiomeChart';
+import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import styles from './tab.module.scss';
@@ -10,7 +11,7 @@ export interface ExoticTabProps {
   onPickBrush: (brush: string) => void;
 }
 
-function ExoticTab ({
+const ExoticTab = memo(function ExoticTab ({
   active,
   brush,
   onPickBrush,
@@ -63,6 +64,6 @@ function ExoticTab ({
       index,
     }));
   }
-}
+});
 
 export default ExoticTab;

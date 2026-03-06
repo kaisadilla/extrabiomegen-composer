@@ -1,0 +1,7 @@
+.panel {
+  @include vp-scroll;
+
+  overflow-x: auto;
+
+  padding: 0.75rem;
+}

@@ -1,7 +1,7 @@
 import { SegmentedControl, Tooltip } from '@mantine/core';
 import { ErosionKeys, LandContinentalnessKeys, LandHumidityKeys, TemperatureKeys, WeirdnessKeys, type ErosionKey, type LandContinentalnessKey, type LandHumidityKey, type TemperatureKey, type WeirdnessKey } from 'api/MultiNoiseDiscreteBiomeSource';
 import BiomeTable from 'components/BiomeTable';
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { $cl } from 'utils';
@@ -13,7 +13,7 @@ export interface LandTabProps {
   onPickBrush: (brush: string) => void;
 }
 
-function LandTab ({
+const LandTab = memo(function LandTab ({
   active,
   brush,
   onPickBrush,
@@ -59,7 +59,14 @@ function LandTab ({
               </div>
               {TemperatureKeys.map(t => (
                 <div key={t} className={$cl(styles.cell, styles.tableContainer)}>
-                  <BiomeTable
+                  {false && <_Table
+                    brush={brush}
+                    onPickBrush={onPickBrush}
+                    continentalness={c}
+                    temperature={t}
+                    humidity={h}
+                  />}
+                  {true && <BiomeTable
                     columnName="Erosion"
                     columnKeys={ErosionKeys}
                     getColumnHead={k => `e = ${k}`}
@@ -73,7 +80,7 @@ function LandTab ({
                     onSet={(w, e, i) => handleSet(c, e, t, h, w, i)}
                     onRemove={(w, e, i) => handleRemove(c, e, t, h, w, i)}
                     onPickBiome={onPickBrush}
-                  />
+                  />}
                 </div>
               ))}
             </div>
@@ -102,29 +109,29 @@ function LandTab ({
     }));
   }
   
-    function handleMultiAdd (
-      row: boolean,
-      col: boolean,
-      c: LandContinentalnessKey,
-      e: ErosionKey,
-      t: TemperatureKey,
-      h: LandHumidityKey,
-      w: WeirdnessKey,
-    ) {
-      if (!brush) return;
+  function handleMultiAdd (
+    row: boolean,
+    col: boolean,
+    c: LandContinentalnessKey,
+    e: ErosionKey,
+    t: TemperatureKey,
+    h: LandHumidityKey,
+    w: WeirdnessKey,
+  ) {
+    if (!brush) return;
 
-      const emptyOnly = src.doc.biome_source.land[c][e][t][h][w].length === 0;
+    const emptyOnly = src.doc.biome_source.land[c][e][t][h][w].length === 0;
 
-      dispatch(BiomeSourceActions.multiAddLandBiome({
-        c: [c],
-        e: col ? ErosionKeys : [e],
-        t: [t],
-        h: [h],
-        w: row ? WeirdnessKeys : [w],
-        emptyOnly,
-        biomeId: brush,
-      }));
-    }
+    dispatch(BiomeSourceActions.multiAddLandBiome({
+      c: [c],
+      e: col ? ErosionKeys : [e],
+      t: [t],
+      h: [h],
+      w: row ? WeirdnessKeys : [w],
+      emptyOnly,
+      biomeId: brush,
+    }));
+  }
 
   function handleSet (
     c: LandContinentalnessKey,
@@ -164,6 +171,161 @@ function LandTab ({
       index: index,
     }));
   }
+});
+
+interface _TableProps {
+  brush: string | null;
+  onPickBrush: (brush: string) => void;
+  continentalness: LandContinentalnessKey;
+  temperature: TemperatureKey;
+  humidity: LandHumidityKey;
 }
+
+const _Table = memo(function _Table ({
+  brush,
+  onPickBrush,
+  continentalness: c,
+  temperature: t,
+  humidity: h,
+}: _TableProps) {
+  const src = useBiomeSource();
+  const dispatch = useDispatch();
+
+  const getColHead = useCallback(
+    (e: ErosionKey) => `e = ${e}`,
+    [c, t, h]
+  );
+
+  const getRowHead = useCallback(
+    (w: WeirdnessKey) => `w = ${w}`,
+    [c, t, h]
+  );
+
+  const getBiomes = useCallback(
+    (w: WeirdnessKey, e: ErosionKey) => src.doc.biome_source.land[c][e][t][h][w],
+    [c, t, h]
+  );
+
+  const onAdd = useCallback(
+    (w: WeirdnessKey, e: ErosionKey) => handleAdd(c, e, t, h, w),
+    [c, t, h]
+  );
+
+  const onMultiAdd = useCallback(
+    (w: WeirdnessKey, e: ErosionKey, row: boolean, col: boolean) =>
+      handleMultiAdd(row, col, c, e, t, h, w),
+    [c, t, h]
+  );
+
+  const onSet = useCallback(
+    (w: WeirdnessKey, e: ErosionKey, i: number) => handleSet(c, e, t, h, w, i),
+    [c, t, h]
+  );
+
+  const onRemove = useCallback(
+    (w: WeirdnessKey, e: ErosionKey, i: number) => handleRemove(c, e, t, h, w, i),
+    [c, t, h]
+  );
+
+  return (
+    <BiomeTable
+      columnName="Erosion"
+      columnKeys={ErosionKeys}
+      getColumnHead={getColHead}
+      rowName="Weirdness"
+      rowKeys={WeirdnessKeys}
+      getRowHead={getRowHead}
+      getBiomes={getBiomes}
+      riverIndex={6}
+      onAdd={onAdd}
+      onMultiAdd={onMultiAdd}
+      onSet={onSet}
+      onRemove={onRemove}
+      onPickBiome={onPickBrush}
+    />
+  );
+
+  function handleAdd (
+    c: LandContinentalnessKey,
+    e: ErosionKey,
+    t: TemperatureKey,
+    h: LandHumidityKey,
+    w: WeirdnessKey,
+  ) {
+    if (!brush) return;
+
+    dispatch(BiomeSourceActions.addLandBiome({
+      c,
+      e,
+      t,
+      h,
+      w,
+      biomeId: brush,
+    }));
+  }
+  
+  function handleMultiAdd (
+    row: boolean,
+    col: boolean,
+    c: LandContinentalnessKey,
+    e: ErosionKey,
+    t: TemperatureKey,
+    h: LandHumidityKey,
+    w: WeirdnessKey,
+  ) {
+    if (!brush) return;
+
+    const emptyOnly = src.doc.biome_source.land[c][e][t][h][w].length === 0;
+
+    dispatch(BiomeSourceActions.multiAddLandBiome({
+      c: [c],
+      e: col ? ErosionKeys : [e],
+      t: [t],
+      h: [h],
+      w: row ? WeirdnessKeys : [w],
+      emptyOnly,
+      biomeId: brush,
+    }));
+  }
+
+  function handleSet (
+    c: LandContinentalnessKey,
+    e: ErosionKey,
+    t: TemperatureKey,
+    h: LandHumidityKey,
+    w: WeirdnessKey,
+    index: number,
+  ) {
+    if (!brush) return;
+
+    dispatch(BiomeSourceActions.setLandBiome({
+      c,
+      e,
+      t,
+      h,
+      w,
+      index: index,
+      biomeId: brush,
+    }));
+  }
+
+  function handleRemove (
+    c: LandContinentalnessKey,
+    e: ErosionKey,
+    t: TemperatureKey,
+    h: LandHumidityKey,
+    w: WeirdnessKey,
+    index: number,
+  ) {
+    dispatch(BiomeSourceActions.removeLandBiome({
+      c,
+      e,
+      t,
+      h,
+      w,
+      index: index,
+    }));
+  }
+});
 
 export default LandTab;

@@ -2,7 +2,7 @@ import { Button, Checkbox, Collapse, Table, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import type { Biome } from 'api/Biome';
 import ColorPickerModal from 'components/ColorPickerModal';
-import { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue, { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { chooseW3CTextColor } from 'utils';
@@ -13,7 +13,7 @@ export interface BiomeListProps {
   
 }
 
-function BiomeList (props: BiomeListProps) {
+const BiomeList = memo(function BiomeList (props: BiomeListProps) {
   const catalogue = useBiomeCatalogue();
   const dispatch = useDispatch();
 
@@ -38,14 +38,14 @@ function BiomeList (props: BiomeListProps) {
         ))}
     </div>
   );
-}
+});
 
 interface _ModProps {
   mod: string;
   biomes: Biome[];
 }
 
-function _Mod ({
+const _Mod = memo(function _Mod ({
   mod,
   biomes,
 }: _ModProps) {
@@ -91,7 +91,7 @@ function _Mod ({
       </Collapse>
     </div>
   );
-}
+});
 
 interface _BiomeRowProps {
   biome: Biome;
@@ -206,7 +206,5 @@ function _BiomeRow ({
     setColorPicker(false);
   }
 }
-
-
 
 export default BiomeList;

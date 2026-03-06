@@ -11,7 +11,12 @@ import 'styles/root.scss';
 function App () {
   return (
     <Routes>
-      <Route path="/extrabiomegen-composer">
+      <Route index element={<Navigate to="/extrabiomegen-composer/" />} />
+      <Route
+        path="/extrabiomegen-composer"
+        element={<Navigate to="/extrabiomegen-composer/" />}
+      />
+      <Route path="/extrabiomegen-composer/">
         {false && <Route index element={<Navigate to="/extrabiomegen-composer/" replace />} />}
         <Route path="ebg" element={<ExtraBiomeGenPage />} />
         <Route path="lang" element={<LangPage />} />

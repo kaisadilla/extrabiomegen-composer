@@ -1,5 +1,6 @@
 import { Tooltip } from '@mantine/core';
 import { UNKNOWN_BIOME } from 'api/Biome';
+import { memo } from 'react';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import { $cl, chooseW3CTextColor } from 'utils';
 import styles from './BiomeTable.module.scss';
@@ -23,7 +24,7 @@ export interface BiomeTableProps<TRow, TCol> {
   onPickBiome?: (biomeId: string) => void;
 }
 
-function BiomeTable<TRow extends string, TCol extends string> ({
+function _BiomeTable<TRow extends string, TCol extends string> ({
   className,
   columnName,
   columnKeys,
@@ -195,6 +196,8 @@ function BiomeTable<TRow extends string, TCol extends string> ({
       onPickBiome?.(biomeId);
     }
   }
-}
+};
+
+const BiomeTable = memo(_BiomeTable) as typeof _BiomeTable;
 
 export default BiomeTable;

@@ -1,8 +1,6 @@
 import { Tabs } from '@mantine/core';
 import MapViewerPage from 'pages/MapViewer/page';
 import { useState } from 'react';
-import useBiomeCatalogue from 'state/biomeCatalogueSlice';
-import useBiomeSource from 'state/biomeSourceSlice';
 import BiomeCatalogueTab from './BiomeCatalogue/tab';
 import BiomeSourceTab from './BiomeSource/tab';
 import styles from './page.module.scss';
@@ -13,8 +11,6 @@ export interface ExtraBiomeGenPageProps {
 
 function ExtraBiomeGenPage (props: ExtraBiomeGenPageProps) {
   const [tab, setTab] = useState<string | null>("src");
-  const src = useBiomeSource();
-  const catalogue = useBiomeCatalogue();
 
   return (
     <div className={styles.page}>
@@ -37,7 +33,7 @@ function ExtraBiomeGenPage (props: ExtraBiomeGenPageProps) {
         </Tabs.Panel>
 
         <Tabs.Panel value="src">
-          <BiomeSourceTab />
+          <BiomeSourceTab active={tab === "src"} />
         </Tabs.Panel>
 
         <Tabs.Panel value="map_viewer">

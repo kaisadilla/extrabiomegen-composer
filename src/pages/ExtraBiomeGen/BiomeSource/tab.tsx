@@ -4,22 +4,24 @@ import { makeMndBiomeSource, type MndBiomeSource } from 'api/MultiNoiseDiscreteB
 import vanillaDoc from 'data/minecraft/dimension/overworld.json';
 import { saveAs } from "file-saver";
 import Local from 'Local';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeCatalogue from 'state/biomeCatalogueSlice';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { chooseW3CTextColor, openFile } from 'utils';
 import CaveTab from './Cave/tab';
 import ExoticTab from './Exotic/tab';
-import LandTab from './Land/tab';
+import LandTab from './Land2/tab';
 import OceanTab from './Ocean/tab';
 import styles from './tab.module.scss';
 
 export interface BiomeSourceTabProps {
-  
+  active: boolean;
 }
 
-function BiomeSourceTab (props: BiomeSourceTabProps) {
+const BiomeSourceTab = memo(function BiomeSourceTab ({
+  active,
+}: BiomeSourceTabProps) {
   const src = useBiomeSource();
   const catalogue = useBiomeCatalogue();
 
@@ -133,35 +135,39 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
         </Tabs.List>
 
         <Tabs.Panel value="ocean">
-          <OceanTab
-            active={tab === "ocean"}
+          {false && <OceanTab
+            active={active || tab === "ocean"}
             brush={brush}
             onPickBrush={setBrush}
-          />
+          />}
         </Tabs.Panel>
 
         <Tabs.Panel value="exotic">
-          <ExoticTab
-            active={tab === "exotic"}
+          {false && <ExoticTab
+            active={active || tab === "exotic"}
             brush={brush}
             onPickBrush={setBrush}
-          />
+          />}
         </Tabs.Panel>
 
         <Tabs.Panel value="land">
+          {/*<LandTab
+            active={active || tab === "land"}
+            brush={brush}
+            onPickBrush={setBrush}
+          />*/}
           <LandTab
-            active={tab === "land"}
             brush={brush}
             onPickBrush={setBrush}
           />
         </Tabs.Panel>
 
         <Tabs.Panel value="cave">
-          <CaveTab
-            active={tab === "cave"}
+          {false && <CaveTab
+            active={active || tab === "cave"}
             brush={brush}
             onPickBrush={setBrush}
-          />
+          />}
         </Tabs.Panel>
       </Tabs>
       <div className={styles.panel}>
@@ -235,6 +241,6 @@ function BiomeSourceTab (props: BiomeSourceTabProps) {
 
     saveAs(blob, "biome_source.json");
   }
-}
+});
 
 export default BiomeSourceTab;

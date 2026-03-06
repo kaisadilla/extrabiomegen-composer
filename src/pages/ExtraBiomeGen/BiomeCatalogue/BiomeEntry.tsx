@@ -1,7 +1,7 @@
 import { Button, Checkbox, TextInput, Tooltip } from '@mantine/core';
 import type { Biome } from 'api/Biome';
 import ColorPickerModal from 'components/ColorPickerModal';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
 import { chooseW3CTextColor } from 'utils';
@@ -11,7 +11,7 @@ export interface BiomeEntryProps {
   biome: Biome;
 }
 
-function BiomeEntry ({
+const BiomeEntry = memo(function BiomeEntry ({
   biome,
 }: BiomeEntryProps) {
   const [colorPicker, setColorPicker] = useState(false);
@@ -105,6 +105,6 @@ function BiomeEntry ({
 
     setColorPicker(false);
   }
-}
+});
 
 export default BiomeEntry;

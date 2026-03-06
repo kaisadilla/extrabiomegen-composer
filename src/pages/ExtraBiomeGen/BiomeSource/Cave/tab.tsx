@@ -1,7 +1,7 @@
 import { SegmentedControl, Tooltip } from '@mantine/core';
 import { type CaveDepthKey, CaveDepthKeys, type ContinentalnessKey, ContinentalnessKeys, type ErosionKey, ErosionKeys, type HumidityKey, HumidityKeys, type TemperatureKey, TemperatureKeys } from 'api/MultiNoiseDiscreteBiomeSource';
 import BiomeTable from 'components/BiomeTable';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { $cl } from 'utils';
@@ -13,7 +13,7 @@ export interface CaveTabProps {
   onPickBrush: (brush: string) => void;
 }
 
-function CaveTab ({
+const CaveTab = memo(function CaveTab ({
   active,
   brush,
   onPickBrush,
@@ -175,6 +175,6 @@ function CaveTab ({
       index: index,
     }));
   }
-}
+});
 
 export default CaveTab;
