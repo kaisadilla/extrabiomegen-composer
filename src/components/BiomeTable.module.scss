@@ -51,8 +51,8 @@
         font-weight: 600;
         text-align: center;
         padding: 0 4px;
-        border-top: 1px solid #888;
         background-color: #ccc;
+          border-top: 1px solid #888;
       }
 
       td.values {
@@ -65,14 +65,14 @@
           @include checkerboard-bg;
         }
 
-        > div {
+        > .biomeContainer {
           width: 100%;
           height: 100%;
           display: flex;
           flex-direction: row;
           overflow: hidden;
 
-          > div {
+          > .biome {
             @include center;
 
             flex: 1;
@@ -81,6 +81,9 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+
+            background-color: var(--color-biome);
+            color: var(--color-biome-text);
 
             &:not(:last-child) {
               border-right: 1px dashed black;

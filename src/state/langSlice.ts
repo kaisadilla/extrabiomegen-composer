@@ -60,6 +60,16 @@ const langSlice = createSlice({
       }
     },
 
+    updateLangFile (state, action: PayloadAction<{
+      namespace: string;
+      file: LangFile;
+    }>) {
+      const { namespace, file } = action.payload;
+      if (state.files[namespace] === undefined) return;
+
+      state.files[namespace] = file;
+    },
+
     override (state, action: PayloadAction<{
       namespace: string;
       key: string;

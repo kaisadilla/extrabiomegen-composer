@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import ResizableSeparator from 'components/ResizableSeparator';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Group, Panel } from 'react-resizable-panels';
 import useLang, { LangActions } from 'state/langSlice';
 import LangEntryTable from './LangEntryTable';
 import styles from './LangTable.module.scss';
+import NamespaceList from './NamespaceList';
 
 export interface LangTableProps {
   namespace: string;
@@ -25,33 +28,44 @@ function LangTable ({
     if (parts.length !== 0) groups.add(parts[0]);
   }
 
+  useEffect(() => {
+    if (filter && groups.has(filter) === false) {
+      setFilter(null);
+    }
+  }, [namespace]);
+
   return (
     <div className={styles.langTable}>
-      <div className={styles.groups}>
-        {[...groups].map(g => (
-          <div
-            className={styles.group}
-            onClick={() => handleClickFilter(g)}
-            data-active={g === filter}
-          >
-            {g}
-          </div>
-        ))}
-      </div>
-      <div className={styles.tableContainer}>
-        <LangEntryTable
-          namespace={namespace}
-          group={filter}
-          onOverride={(k, v) => handleOverride(namespace, k, v)}
-          onEnable={(k, v) => handleEnable(namespace, k, v)}
-        />
-      </div>
+      <Group
+        className={styles.content}
+        orientation='horizontal'
+        id='lang-langtable'
+      >
+        <Panel
+          className={styles.namespacePanel}
+          defaultSize={1}
+        >
+          <NamespaceList
+            value={filter}
+            onChange={setFilter}
+            items={[...groups].map(g => ({ key: g, label: g }))}
+          />
+        </Panel>
+        <ResizableSeparator />
+        <Panel
+          className={styles.editor}
+          defaultSize={6}
+        >
+          <LangEntryTable
+            namespace={namespace}
+            group={filter}
+            onOverride={(k, v) => handleOverride(namespace, k, v)}
+            onEnable={(k, v) => handleEnable(namespace, k, v)}
+          />
+        </Panel>
+      </Group>
     </div>
   );
-
-  function handleClickFilter (group: string) {
-    setFilter(prev => prev === group ? null : group);
-  }
 
   function handleOverride (namespace: string, key: string, value: string) {
     dispatch(LangActions.override({

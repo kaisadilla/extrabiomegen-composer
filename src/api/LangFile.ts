@@ -1,3 +1,5 @@
+import z from "zod";
+
 export type LangFile = Record<string, string>;
 
 export function parseLangFile (json: string) : LangFile | null {
@@ -19,3 +21,5 @@ export function parseLangFile (json: string) : LangFile | null {
 
   return obj as LangFile;
 }
+
+export const LangFileSchema: z.ZodType<LangFile> = z.record(z.string(), z.string());

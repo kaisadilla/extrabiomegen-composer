@@ -1,0 +1,33 @@
+.list {
+  @include vp-scroll-y;
+
+  user-select: none;
+
+  .entry {
+    cursor: pointer;
+    
+    font-family: var(--font-mono);
+    font-size: 10pt;
+    padding: 3px 6px;
+    border: 1px solid transparent;
+
+    &[data-active=true] {
+      background-color: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary-d2);
+    }
+
+    &:hover {
+      background-color: var(--color-primary-l2);
+      color: black;
+    }
+  }
+
+  .add {
+    display: flex;
+    justify-content: center;
+    font-family: var(--font-std);
+    font-weight: 600;
+    font-size: 12pt;
+  }
+}

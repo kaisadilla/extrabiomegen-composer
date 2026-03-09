@@ -1,0 +1,8 @@
+.editor {
+  @include vp-screen;
+
+  .monaco {
+    min-height: 0;
+    flex: 1;
+  }
+}

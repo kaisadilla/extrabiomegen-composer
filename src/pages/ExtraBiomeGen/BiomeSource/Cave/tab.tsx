@@ -1,6 +1,6 @@
 import { SegmentedControl, Tooltip } from '@mantine/core';
+import _OLD_BiomeTable from '_discard/BiomeTable';
 import { type CaveDepthKey, CaveDepthKeys, type ContinentalnessKey, ContinentalnessKeys, type ErosionKey, ErosionKeys, type HumidityKey, HumidityKeys, type TemperatureKey, TemperatureKeys } from 'api/MultiNoiseDiscreteBiomeSource';
-import BiomeTable from 'components/BiomeTable';
 import { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
@@ -71,7 +71,7 @@ const CaveTab = memo(function CaveTab ({
 
               {TemperatureKeys.map(t => (
                 <div key={t} className={$cl(styles.cell, styles.tableContainer)}>
-                  <BiomeTable
+                  <_OLD_BiomeTable
                     columnName="Erosion"
                     columnKeys={ErosionKeys}
                     getColumnHead={k => `e = ${k}`}

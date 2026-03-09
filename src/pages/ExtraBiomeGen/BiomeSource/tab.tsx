@@ -11,7 +11,7 @@ import useBiomeSource, { BiomeSourceActions } from 'state/biomeSourceSlice';
 import { chooseW3CTextColor, openFile } from 'utils';
 import CaveTab from './Cave/tab';
 import ExoticTab from './Exotic/tab';
-import LandTab from './Land2/tab';
+import LandTab from './Land/tab';
 import OceanTab from './Ocean/tab';
 import styles from './tab.module.scss';
 

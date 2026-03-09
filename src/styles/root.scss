@@ -1,4 +1,7 @@
+@use "reset.css" as *;
+
 @use "vars" as *;
+@use "mantine" as *;
 
 :root {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,7 +25,20 @@ a {
   all: unset;
 }
 
+button,
+[role=button] {
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+
 button {
-  border: none;
-  background: none;
+  background: unset;
+  border: unset;
+  text-align: unset;
+  padding: 0;
 }

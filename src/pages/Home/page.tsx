@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import styles from './page.module.scss';
 
 export interface HomePageProps {
@@ -16,17 +17,17 @@ function HomePage (props: HomePageProps) {
             "A set of tools to compose and analyze world generation aided by" +
             "the mod \"Kaisa's Extra Biome Generators\"."
           }
-          path="ebg"
+          path="/ebg"
         />
         <_Tool
           name="Lang files"
           description={
             "Author a resource pack to override lang files"
           }
-          path="lang"
+          path="/lang"
         />
 
-        v0.1.17
+        v0.1.19 - hash
       </div>
     </div>
   );
@@ -45,10 +46,10 @@ function _Tool ({
 }: _ToolProps) {
 
   return (
-    <a
+    <Link
       className={styles.tool}
       target='_blank'
-      href={path}
+      to={path}
     >
       <div className={styles.name}>
         {name}
@@ -57,7 +58,7 @@ function _Tool ({
       <div className={styles.description}>
         {description}
       </div>
-    </a>
+    </Link>
   );
 }
 

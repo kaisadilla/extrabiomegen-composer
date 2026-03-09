@@ -1,5 +1,5 @@
 import { ErosionKeys, WeirdnessKeys, type LandContinentalnessKey, type LandHumidityKey, type TemperatureKey } from "api/MultiNoiseDiscreteBiomeSource";
-import BiomeTable2 from "components/BiomeTable2";
+import BiomeTable from "components/BiomeTable";
 import { memo, useCallback, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "state/store";
@@ -68,16 +68,16 @@ const Table = memo(function Table ({
     row: number, col: number, index: number
   ) => {
     onLeftClick?.(c, ErosionKeys[col], t, h, WeirdnessKeys[row], index);
-  }, [onLeftClick]);
+  }, [onLeftClick, c]);
 
   const handleRightClick = useCallback((
     row: number, col: number, index: number
   ) => {
     onRightClick?.(c, ErosionKeys[col], t, h, WeirdnessKeys[row], index);
-  }, [onRightClick]);
+  }, [onRightClick, c]);
 
   return (
-    <BiomeTable2
+    <BiomeTable
       values={biomes}
       rowNames={rowNames}
       columnNames={colNames}

@@ -44,6 +44,11 @@
   overflow: scroll;
 }
 
+@mixin vp-scroll-y {
+  @include vp-scroll;
+  overflow-x: hidden;
+}
+
 @mixin vp-screen {
   display: flex;
   flex-direction: column;

@@ -1,13 +1,15 @@
 import { createTheme, MantineProvider, Modal, Popover, Text, Tooltip } from '@mantine/core';
 import { ModalsProvider, type ContextModalProps } from '@mantine/modals';
+import { Notifications } from '@mantine/notifications';
 import { AllCommunityModule } from 'ag-grid-community';
 import { AgGridProvider } from 'ag-grid-react';
 import ImportContentModal from 'modals/ImportContent.tsx';
 import ImportLangModal from 'modals/ImportLang.tsx';
+import ImportLangFileModal from 'modals/ImportLangFile.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router';
+import { HashRouter } from 'react-router';
 import { store } from 'state/store.ts';
 import App from './App.tsx';
 
@@ -64,6 +66,7 @@ const mantineTheme = createTheme({
 const modals: Record<string, React.FC<ContextModalProps<any>>> = {
   importContent: ImportContentModal,
   importLang: ImportLangModal,
+  importLangFile: ImportLangFileModal,
 }
 
 createRoot(document.getElementById('root')!).render(
@@ -73,11 +76,13 @@ createRoot(document.getElementById('root')!).render(
       <ModalsProvider modals={modals}>
       <AgGridProvider modules={agGridModules}>
 
-        <BrowserRouter>
+        <HashRouter>
+
+          <Notifications />
 
           <App />
           
-        </BrowserRouter>
+        </HashRouter>
         
       </AgGridProvider>
       </ModalsProvider>

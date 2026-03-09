@@ -74,7 +74,7 @@ function LangEntryTable ({
           onClick={() => setExact(prev => !prev)}
           size='compact-sm'
         >
-          Exact
+          {exact ? "Exact" : "Smart"}
         </Button>
       </div>
       <div className={styles.tableContainer}>
