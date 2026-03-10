@@ -1,4 +1,5 @@
 import { ArrowLineDownIcon, ArrowSquareOutIcon, FloppyDiskIcon, FolderOpenIcon } from '@phosphor-icons/react';
+import { generateLangFile } from 'api/LangFile';
 import Ribbon from "components/Ribbon";
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
@@ -6,7 +7,7 @@ import Local from 'Local';
 import { useDispatch, useSelector } from 'react-redux';
 import { LangActions, type LangDoc } from 'state/langSlice';
 import type { RootState } from 'state/store';
-import { openFile } from 'utils';
+import { jsonSortKeysCallback, openFile } from 'utils';
 
 export interface LangRibbonProps {
   
@@ -86,44 +87,30 @@ function LangRibbon (props: LangRibbonProps) {
   async function handleExport () {
     const zip = new JSZip();
 
-    for (const ns of Object.keys(lang.files)) {
-      const overrides = lang.overrides[ns];
-      const removals = lang.removals[ns];
+    zip.file(
+      "pack.mcmeta",
+      JSON.stringify({
+        "pack": {
+          "pack_format": 15,
+          "description": "Lang overrides"
+        }
+      }, null, 2),
+    );
 
-      if (!overrides && !removals) continue;
+    for (const ns of Object.keys(lang.overrides)) {
+      for (const langcode of Object.keys(lang.overrides[ns])) {
+        const file = generateLangFile(lang, ns, langcode);
+        if (file === null) continue;
 
-      const file: Record<string, string> = {};
-
-      for (const k of Object.keys(overrides)) {
-        file[k] = overrides[k];
+        zip.file(
+          `assets/${ns}/lang/${langcode}.json`,
+          JSON.stringify(file, jsonSortKeysCallback, 2),
+        );
       }
-      for (const k of removals) {
-        file[k] = lang.removalPrefix + k;
-      }
-
-      if (Object.keys(file).length === 0) continue;
-
-      zip.file(
-        `${ns}/lang/en_us.json`,
-        JSON.stringify(file, jsonSortKeysCallback, 2)
-      );
     }
 
     const blob = await zip.generateAsync({ type: 'blob' });
     saveAs(blob, "renames.zip");
-  }
-
-  function jsonSortKeysCallback (key: string, value: any) {
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      return Object.keys(value)
-        .sort()
-        .reduce((sorted, k) => {
-          sorted[k] = value[k];
-          return sorted;
-        }, {} as Record<string, any>);
-    }
-
-    return value;
   }
 }
 

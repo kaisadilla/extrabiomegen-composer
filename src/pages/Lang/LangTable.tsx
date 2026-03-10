@@ -1,4 +1,6 @@
 import ResizableSeparator from 'components/ResizableSeparator';
+import { DEFAULT_LANGCODE } from 'Const';
+import { openStringPrompt } from 'modals/StringPrompt';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Group, Panel } from 'react-resizable-panels';
@@ -15,15 +17,19 @@ function LangTable ({
   namespace,
 }: LangTableProps) {
   const lang = useLang();
-  const file = lang.files[namespace];
 
   const dispatch = useDispatch();
 
+  const [langCode, setLangCode] = useState<string>(DEFAULT_LANGCODE);
   const [filter, setFilter] = useState<string | null>(null);
 
+  const base = lang.files[namespace];
+  const overrides = lang.overrides[namespace];
+
+  const langCodes = Object.keys(overrides);
   const groups = new Set<string>();
 
-  for (const k of Object.keys(file ?? {})) {
+  for (const k of Object.keys(base ?? {})) {
     const parts = k.split(".");
     if (parts.length !== 0) groups.add(parts[0]);
   }
@@ -31,6 +37,9 @@ function LangTable ({
   useEffect(() => {
     if (filter && groups.has(filter) === false) {
       setFilter(null);
+    }
+    if (!lang.overrides[namespace][langCode]) {
+      setLangCode(DEFAULT_LANGCODE);
     }
   }, [namespace]);
 
@@ -46,6 +55,18 @@ function LangTable ({
           defaultSize={1}
         >
           <NamespaceList
+            value={langCode}
+            onChange={c => c ? setLangCode(c) : {}}
+            items={langCodes.map(c => ({ key: c, label: c }))}
+            onAdd={handleAddOverrideLangCode}
+          />
+        </Panel>
+        <ResizableSeparator />
+        <Panel
+          className={styles.namespacePanel}
+          defaultSize={2}
+        >
+          <NamespaceList
             value={filter}
             onChange={setFilter}
             items={[...groups].map(g => ({ key: g, label: g }))}
@@ -54,10 +75,12 @@ function LangTable ({
         <ResizableSeparator />
         <Panel
           className={styles.editor}
-          defaultSize={6}
+          defaultSize={12}
         >
           <LangEntryTable
+            key={langCode}
             namespace={namespace}
+            langcode={langCode}
             group={filter}
             onOverride={(k, v) => handleOverride(namespace, k, v)}
             onEnable={(k, v) => handleEnable(namespace, k, v)}
@@ -67,9 +90,21 @@ function LangTable ({
     </div>
   );
 
+  function handleAddOverrideLangCode () {
+    openStringPrompt({
+      label: "Lang code",
+      placeholder: "e.g. 'es_es'",
+      onSubmit: langCode => dispatch(LangActions.addOverrideLangcode({
+        namespace,
+        langCode,
+      }))
+    });
+  }
+
   function handleOverride (namespace: string, key: string, value: string) {
     dispatch(LangActions.override({
       namespace,
+      langCode,
       key,
       value,
     }));

@@ -60,7 +60,7 @@ function BaseTab (props: BaseTabProps) {
   function handleAddNs () {
     openImportLangFile({
       onSubmit: handleImportLangFile
-    })
+    });
   }
 
   function handleImportLangFile (namespace: string, file: LangFile) {

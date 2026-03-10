@@ -79,12 +79,12 @@ const Local = {
     }
   },
 
-  loadLangOverrides () : Record<string, LangFile> | null {
+  loadLangOverrides () : Record<string, Record<string, LangFile>> | null {
     try {
       const json = localStorage.getItem(KEY_LANG_OVERRIDES);
       if (!json) return null;
 
-      return JSON.parse(json) as Record<string, LangFile>;
+      return JSON.parse(json) as Record<string, Record<string, LangFile>>;
     }
     catch (err) {
       console.error("Failed to load lang overrides", err);
@@ -92,7 +92,7 @@ const Local = {
     }
   },
 
-  saveLangOverrides (overrides: Record<string, LangFile>) {
+  saveLangOverrides (overrides: Record<string, Record<string, LangFile>>) {
     try {
       const json = JSON.stringify(overrides);
       localStorage.setItem(KEY_LANG_OVERRIDES, json);

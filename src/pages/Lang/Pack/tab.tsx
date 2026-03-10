@@ -54,9 +54,8 @@ function PackTab (props: PackTabProps) {
     </div>
   );
   
-    function handleAddNs () {
-      
-    }
+  function handleAddNs () {
+  }
 }
 
 export default PackTab;

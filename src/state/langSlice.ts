@@ -10,10 +10,10 @@ interface LangSlice {
    */
   files: Record<string, LangFile>;
   /**
-   * Maps namespaces to modified lang files. These lang files may be empty or
-   * contain only some values.
+   * Maps namespaces to langcodes. Each langcode contains keys and values, that
+   * will override keys and values in the original file.
    */
-  overrides: Record<string, LangFile>;
+  overrides: Record<string, Record<string, LangFile>>;
   /**
    * Maps namespaces to arrays of strings. An array of strings defines all the
    * keys in the original lang file that are to be disabled.
@@ -53,7 +53,7 @@ const langSlice = createSlice({
       state.files[namespace] = file;
 
       if (!state.overrides[namespace]) {
-        state.overrides[namespace] = {};
+        state.overrides[namespace] = { en_us: {} };
       }
       if (!state.removals[namespace]) {
         state.removals[namespace] = [];
@@ -72,17 +72,27 @@ const langSlice = createSlice({
 
     override (state, action: PayloadAction<{
       namespace: string;
+      langCode: string;
       key: string;
       value: string;
     }>) {
-      const { namespace, key, value } = action.payload;
+      const { namespace, langCode, key, value } = action.payload;
 
       if (value === "") {
-        delete state.overrides[namespace][key];
+        delete state.overrides[namespace][langCode][key];
       }
       else {
-        state.overrides[namespace][key] = value;
+        state.overrides[namespace][langCode][key] = value;
       }
+    },
+
+    addOverrideLangcode (state, action: PayloadAction<{
+      namespace: string;
+      langCode: string;
+    }>) {
+      const { namespace, langCode } = action.payload;
+
+      state.overrides[namespace][langCode] = {};
     },
 
     setEnabled (state, action: PayloadAction<{

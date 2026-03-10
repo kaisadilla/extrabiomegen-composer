@@ -6,6 +6,7 @@ import { AgGridProvider } from 'ag-grid-react';
 import ImportContentModal from 'modals/ImportContent.tsx';
 import ImportLangModal from 'modals/ImportLang.tsx';
 import ImportLangFileModal from 'modals/ImportLangFile.tsx';
+import StringPromptModal from 'modals/StringPrompt.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -67,6 +68,7 @@ const modals: Record<string, React.FC<ContextModalProps<any>>> = {
   importContent: ImportContentModal,
   importLang: ImportLangModal,
   importLangFile: ImportLangFileModal,
+  stringPrompt: StringPromptModal,
 }
 
 createRoot(document.getElementById('root')!).render(

@@ -105,3 +105,16 @@ export function openFile (accept: string = "*/*") : Promise<File | null> {
     input.click();
   });
 }
+
+export function jsonSortKeysCallback (key: string, value: any) {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return Object.keys(value)
+      .sort()
+      .reduce((sorted, k) => {
+        sorted[k] = value[k];
+        return sorted;
+      }, {} as Record<string, any>);
+  }
+
+  return value;
+}
