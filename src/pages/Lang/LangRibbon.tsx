@@ -20,15 +20,15 @@ function LangRibbon (props: LangRibbonProps) {
   return (
     <Ribbon>
       <Ribbon.Button
-        tooltip="Saves this document, as is, into the browser."
+        tooltip="Store the current document into the browser."
         onClick={handleSaveLocally}
       >
         <ArrowLineDownIcon size={24} weight='thin' />
-        <div>Save locally</div>
+        <div>Store</div>
       </Ribbon.Button>
 
       <Ribbon.Button
-        tooltip="Opens a file."
+        tooltip="Open a document."
         onClick={handleOpen}
       >
         <FolderOpenIcon size={24} weight='thin' />
@@ -36,15 +36,15 @@ function LangRibbon (props: LangRibbonProps) {
       </Ribbon.Button>
 
       <Ribbon.Button
-        tooltip="Saves this document as a file to be opened later."
+        tooltip="Save this document as a file to be opened later."
         onClick={handleSave}
       >
         <FloppyDiskIcon size={24} weight='thin' />
-        <div>Save</div>
+        <div>Save copy</div>
       </Ribbon.Button>
 
       <Ribbon.Button
-        tooltip="Exports this document as a resource pack, containing each lang in its namespace."
+        tooltip="Exports this document as a Minecraft resource pack."
         onClick={handleExport}
       >
         <ArrowSquareOutIcon size={24} weight='thin' />
