@@ -9,6 +9,10 @@
 
 * {
   box-sizing: border-box;
+
+  &::selection {
+    background-color: gold;
+  }
 }
 
 body {
@@ -41,4 +45,19 @@ button {
   border: unset;
   text-align: unset;
   padding: 0;
+}
+
+input[type=text] {
+  height: unset;
+  min-height: unset;
+  text-align: center;
+  line-height: unset;
+  color: unset;
+  border: unset;
+  background-color: unset;
+
+  &:focus {
+    border: unset;
+    outline: unset;
+  }
 }

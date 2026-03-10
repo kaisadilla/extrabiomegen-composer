@@ -118,3 +118,14 @@ export function jsonSortKeysCallback (key: string, value: any) {
 
   return value;
 }
+
+export function getNamespaces (ids: string[]) : Set<string> {
+  const namespaces = new Set<string>();
+
+  for (const id of ids) {
+    const rl = id.split(":");
+    namespaces.add(rl[0]);
+  }
+
+  return namespaces;
+}

@@ -1,0 +1,24 @@
+.tab {
+  @include vp-screen;
+
+  .groupGallery {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .add {
+    height: 100%;
+    width: 240px;
+    
+    > div {
+      font-size: 18pt;
+    }
+  }
+}

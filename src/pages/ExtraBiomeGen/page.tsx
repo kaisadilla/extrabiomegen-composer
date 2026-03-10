@@ -1,4 +1,5 @@
 import { Tabs } from '@mantine/core';
+import { usePageTitle } from 'hooks/usePageTitle';
 import MapViewerPage from 'pages/MapViewer/page';
 import { useState } from 'react';
 import BiomeCatalogueTab from './BiomeCatalogue/tab';
@@ -10,6 +11,8 @@ export interface ExtraBiomeGenPageProps {
 }
 
 function ExtraBiomeGenPage (props: ExtraBiomeGenPageProps) {
+  usePageTitle("Biome generator");
+
   const [tab, setTab] = useState<string | null>("src");
 
   return (

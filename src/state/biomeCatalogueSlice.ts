@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { Biome } from "api/Biome";
+import type { Biome, BiomeGroup } from "api/Biome";
 import vanillaBiomesJson from 'data/minecraft/biomes.json';
 import Local from "Local";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import type { RootState } from "./store";
 
 interface BiomeCatalogueSlice {
   biomes: Record<string, Biome>;
+  groups: BiomeGroup[];
 }
 
 let biomeObj = Local.loadBiomes();
@@ -20,6 +21,7 @@ if (biomeObj === null) {
 
 const initialState: BiomeCatalogueSlice = {
   biomes: biomeObj,
+  groups: Local.loadBiomeGroups() ?? [],
 }
 
 const biomeCatalogueSlice = createSlice({
@@ -68,6 +70,37 @@ const biomeCatalogueSlice = createSlice({
       const { id, wanted } = action.payload;
 
       state.biomes[id].wanted = wanted;
+    },
+
+    addGroup (state, action: PayloadAction<{
+      name: string;
+      color: string;
+    }>) {
+      const { name, color } = action.payload;
+
+      state.groups.push({
+        name,
+        color,
+        biomes: [],
+      });
+    },
+
+    setGroupName (state, action: PayloadAction<{
+      id: number;
+      name: string;
+    }>) {
+      const { id, name } = action.payload;
+
+      state.groups[id].name = name;
+    },
+
+    setGroupBiomes (state, action: PayloadAction<{
+      id: number;
+      biomes: string[],
+    }>) {
+      const { id, biomes } = action.payload;
+
+      state.groups[id].biomes = biomes;
     },
   }
 });

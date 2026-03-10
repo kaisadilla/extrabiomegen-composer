@@ -1,10 +1,9 @@
 import { Button, Checkbox, TextInput, Tooltip } from '@mantine/core';
-import type { Biome } from 'api/Biome';
+import { getBiomeStyle, type Biome } from 'api/Biome';
 import ColorPickerModal from 'components/ColorPickerModal';
 import { memo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BiomeCatalogueActions } from 'state/biomeCatalogueSlice';
-import { chooseW3CTextColor } from 'utils';
 import styles from './BiomeEntry.module.scss';
 
 export interface BiomeEntryProps {
@@ -21,10 +20,7 @@ const BiomeEntry = memo(function BiomeEntry ({
   return (<>
     <div
       className={styles.biome}
-      style={{
-        '--color-biome': biome.color,
-        '--color-biome-text': chooseW3CTextColor(biome.color),
-      } as any}
+      style={getBiomeStyle(biome)}
       data-wanted={biome.wanted}
     >
       <div className={styles.id}>

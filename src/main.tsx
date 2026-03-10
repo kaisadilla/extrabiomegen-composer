@@ -4,8 +4,8 @@ import { Notifications } from '@mantine/notifications';
 import { AllCommunityModule } from 'ag-grid-community';
 import { AgGridProvider } from 'ag-grid-react';
 import ImportContentModal from 'modals/ImportContent.tsx';
-import ImportLangModal from 'modals/ImportLang.tsx';
 import ImportLangFileModal from 'modals/ImportLangFile.tsx';
+import PickBiomeModal from 'modals/PickBiome.tsx';
 import StringPromptModal from 'modals/StringPrompt.tsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -66,8 +66,8 @@ const mantineTheme = createTheme({
 
 const modals: Record<string, React.FC<ContextModalProps<any>>> = {
   importContent: ImportContentModal,
-  importLang: ImportLangModal,
   importLangFile: ImportLangFileModal,
+  pickBiome: PickBiomeModal,
   stringPrompt: StringPromptModal,
 }
 

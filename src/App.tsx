@@ -22,4 +22,8 @@ function App () {
   );
 }
 
+export function getPageTitle (title: string) {
+  return `${title} - Kaisa's Modpacking Tools`;
+}
+
 export default App;

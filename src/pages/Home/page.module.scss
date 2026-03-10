@@ -1,38 +1,54 @@
 .page {
-  @include vp-scroll;
-  padding: 1rem;
+  @include vp-screen;
 
-  .toolGallery {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
+  .content {
+    flex: 1;
+    @include vp-scroll-y;
+    padding: 1rem;
 
-    .tool {
-      cursor: pointer;
-
+    .toolGallery {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
 
-      width: 200px;
-      height: 200px;
+      .tool {
+        cursor: pointer;
 
-      .name {
-        font-weight: 600;
-      }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-      .description {
-        font-size: 10pt;
-        text-align: center;
-      }
+        width: 200px;
+        height: 200px;
 
-      background-color: var(--color-primary-l3);
+        .name {
+          font-weight: 600;
+        }
 
-      &:hover {
-        background-color: var(--color-primary-l2);
+        .description {
+          font-size: 10pt;
+          text-align: center;
+        }
+
+        background-color: var(--color-primary-l3);
+
+        &:hover {
+          background-color: var(--color-primary-l2);
+        }
       }
     }
+  }
+
+  > footer {
+    border-top: 1px solid var(--color-primary-l2);
+
+    display: flex;
+    justify-content: end;
+    font-size: 10pt;
+    font-style: italic;
+    color: var(--color-primary-l1);
+    padding: 0.5em 1em;
   }
 }

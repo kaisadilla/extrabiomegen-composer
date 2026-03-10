@@ -1,4 +1,4 @@
-import Ribbon_Button from "./Ribbon.Button";
+import Button from "./Button";
 import styles from "./Ribbon.module.scss";
 
 export interface RibbonProps {
@@ -20,6 +20,6 @@ function Ribbon ({
   );
 }
 
-Ribbon.Button = Ribbon_Button;
+Ribbon.Button = Button;
 
 export default Ribbon;

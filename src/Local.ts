@@ -1,10 +1,11 @@
-import type { Biome } from "api/Biome";
+import type { Biome, BiomeGroup } from "api/Biome";
 import type { LangFile } from "api/LangFile";
 import type { MndBiomeSource } from "api/MultiNoiseDiscreteBiomeSource";
 
 const KEY_PREFIX = "extrabiomegen-composer";
 const KEY_INLAND = KEY_PREFIX + "/biome_source";
 const KEY_BIOMES = KEY_PREFIX + "/catalogue";
+const KEY_BIOME_GROUPS = KEY_PREFIX + "/biome-catalogue/groups";
 const KEY_LANG_PACK_NAME = KEY_PREFIX + "/lang/pack-name";
 const KEY_LANG_REMOVAL_PREFIX = KEY_PREFIX + "/lang/removal-prefix";
 const KEY_LANG_FILES = KEY_PREFIX + "/lang/files";
@@ -55,6 +56,29 @@ const Local = {
     }
     catch (err) {
       console.error("Couldn't save biomes", err);
+    }
+  },
+
+  loadBiomeGroups () : BiomeGroup[] | null {
+    try {
+      const json = localStorage.getItem(KEY_BIOME_GROUPS);
+      if (!json) return null;
+
+      return JSON.parse(json) as BiomeGroup[];
+    }
+    catch (err) {
+      console.error("Couldn't parse biome groups", err);
+      return null;
+    }
+  },
+
+  saveBiomeGroups (groups: BiomeGroup[]) {
+    try {
+      const json = JSON.stringify(groups);
+      localStorage.setItem(KEY_BIOME_GROUPS, json);
+    }
+    catch (err) {
+      console.error("Couldn't save biome groups", err);
     }
   },
 

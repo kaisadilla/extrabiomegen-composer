@@ -49,6 +49,7 @@
         padding: 4px 0;
         margin: 0;
         opacity: 0.6;
+        text-align: center;
 
         &.nullBiome {
           @include checkerboard-bg;

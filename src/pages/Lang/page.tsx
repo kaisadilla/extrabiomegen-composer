@@ -1,4 +1,5 @@
 import { Tabs } from "@mantine/core";
+import { usePageTitle } from "hooks/usePageTitle";
 import { useState } from "react";
 import BaseTab from "./Base/tab";
 import InfoTab from "./Info";
@@ -12,6 +13,8 @@ export interface LangPageProps {
 }
 
 function LangPage (props: LangPageProps) {
+  usePageTitle("Lang");
+
   const [tab, setTab] = useState<string | null>('info');
 
   return (

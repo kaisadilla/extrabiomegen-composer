@@ -1,0 +1,32 @@
+.modal {
+  user-select: none;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+
+  .ribbon {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+    gap: 4px;
+  }
+
+  h1 {
+    font-size: 16pt;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    color: var(--color-primary-d3);
+    border-bottom: 1px solid var(--color-primary-l2);
+  }
+
+  .biomeGallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
