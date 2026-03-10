@@ -61,7 +61,8 @@ function Group ({
 
   function handleAddBiome () {
     openPickBiomeModal({
-      values: Object.values(catalogue.biomes),
+      values: Object.values(catalogue.biomes)
+        .filter(b => group.biomes.includes(b.id) === false),
       onSubmit (biomeId: string) {
         if (group.biomes.includes(biomeId)) return;
 
@@ -105,7 +106,7 @@ function _Biome ({
         {biome.name}
       </div>
 
-      <Tooltip label="Color">
+      <Tooltip label="Change biome's color">
         <Button
           onClick={() => setColorPicker(true)}
         >
@@ -113,7 +114,7 @@ function _Biome ({
         </Button>
       </Tooltip>
 
-      <Tooltip label="Remove">
+      <Tooltip label="Remove from list">
         <Button
           variant='danger'
           onClick={() => onRemove(biome.id)}

@@ -11,6 +11,8 @@
     input {
       width: 100%;
       color: white;
+      font-size: 10pt;
+      font-family: var(--font-mono);
       
       &::placeholder {
         color: var(--color-primary-l3);
