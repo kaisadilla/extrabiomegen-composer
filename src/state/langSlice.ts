@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "./store";
 
 interface LangSlice {
+  packName: string;
+  removalPrefix: string;
   /**
    * Maps namespaces to their original lang files.
    */
@@ -19,16 +21,16 @@ interface LangSlice {
    * keys in the original lang file that are to be disabled.
    */
   removals: Record<string, string[]>;
-  removalPrefix: string;
 }
 
 export type LangDoc = LangSlice;
 
 const initialState: LangSlice = {
+  packName: Local.loadLangPackName() ?? "Lang overrides",
+  removalPrefix: Local.loadLangRemovalPrefix() ?? "[REMOVED] ",
   files: Local.loadLangFiles() ?? {},
   overrides: Local.loadLangOverrides() ?? {},
   removals: Local.loadLangRemovals() ?? {},
-  removalPrefix: "[REMOVED] ",
 }
 
 const langSlice = createSlice({
@@ -41,6 +43,18 @@ const langSlice = createSlice({
       state.files = files;
       state.overrides = overrides;
       state.removals = removals;
+      state.removalPrefix = removalPrefix;
+    },
+
+    setPackName (state, action: PayloadAction<string>) {
+      const packName = action.payload;
+
+      state.packName = packName;
+    },
+
+    setRemovalPrefix (state, action: PayloadAction<string>) {
+      const removalPrefix = action.payload;
+
       state.removalPrefix = removalPrefix;
     },
 

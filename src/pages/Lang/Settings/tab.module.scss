@@ -1,0 +1,12 @@
+.tab {
+  @include vp-scroll-y;
+
+  padding: 1rem;
+  gap: 0.5rem;
+
+  .internalName {
+    font-size: 10pt;
+    font-style: italic;
+    color: #888;
+  }
+}

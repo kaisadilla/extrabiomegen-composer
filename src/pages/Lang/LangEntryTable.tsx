@@ -35,6 +35,12 @@ function LangEntryTable ({
   const overrides = lang.overrides[namespace];
   const removals = lang.removals[namespace];
 
+  useEffect(() => {
+    setPage(1);
+  }, [query, group]);
+
+  if (!base || !overrides || !removals) return null;
+
   const entries = group
     ? Object.keys(base).filter(k => k.startsWith(group + "."))
     : Object.keys(base);
@@ -49,10 +55,6 @@ function LangEntryTable ({
     });
 
   const pageCount = Math.ceil(queriedEntries.length / PAGE_SIZE);
-
-  useEffect(() => {
-    setPage(1);
-  }, [query, group]);
 
   const start = (page - 1) * PAGE_SIZE;
   const end = page * PAGE_SIZE;

@@ -1,5 +1,5 @@
 import { ArrowLineDownIcon, ArrowSquareOutIcon, FloppyDiskIcon, FolderOpenIcon } from '@phosphor-icons/react';
-import { generateLangFile } from 'api/LangFile';
+import { generateLangFile, generateLangPackFileName } from 'api/LangFile';
 import Ribbon from "components/Ribbon";
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
@@ -54,6 +54,8 @@ function LangRibbon (props: LangRibbonProps) {
   );
 
   function handleSaveLocally () {
+    Local.saveLangPackName(lang.packName);
+    Local.saveLangRemovalPrefix(lang.removalPrefix);
     Local.saveLangFiles(lang.files);
     Local.saveLangOverrides(lang.overrides);
     Local.saveLangRemovals(lang.removals);
@@ -92,7 +94,7 @@ function LangRibbon (props: LangRibbonProps) {
       JSON.stringify({
         "pack": {
           "pack_format": 15,
-          "description": "Lang overrides"
+          "description": lang.packName
         }
       }, null, 2),
     );
@@ -110,7 +112,7 @@ function LangRibbon (props: LangRibbonProps) {
     }
 
     const blob = await zip.generateAsync({ type: 'blob' });
-    saveAs(blob, "renames.zip");
+    saveAs(blob, `${generateLangPackFileName(lang.packName)}.zip`);
   }
 }
 

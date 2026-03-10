@@ -23,8 +23,8 @@ function LangTable ({
   const [langCode, setLangCode] = useState<string>(DEFAULT_LANGCODE);
   const [filter, setFilter] = useState<string | null>(null);
 
-  const base = lang.files[namespace];
-  const overrides = lang.overrides[namespace];
+  const base = lang.files[namespace] ?? {};
+  const overrides = lang.overrides[namespace] ?? {};
 
   const langCodes = Object.keys(overrides);
   const groups = new Set<string>();
@@ -38,7 +38,7 @@ function LangTable ({
     if (filter && groups.has(filter) === false) {
       setFilter(null);
     }
-    if (!lang.overrides[namespace][langCode]) {
+    if (!lang.overrides[namespace]?.[langCode]) {
       setLangCode(DEFAULT_LANGCODE);
     }
   }, [namespace]);

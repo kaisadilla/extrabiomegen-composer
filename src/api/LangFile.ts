@@ -52,3 +52,11 @@ export function generateLangFile (
 
   return file;
 }
+
+export function generateLangPackFileName (packName: string) {
+  return packName
+    .replaceAll("'s", "")
+    .replaceAll(" ", "-")
+    .replace(/[^a-zA-Z0-9_-]/g, '')
+    .toLowerCase();
+}

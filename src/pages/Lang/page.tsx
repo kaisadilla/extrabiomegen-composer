@@ -1,9 +1,11 @@
 import { Tabs } from "@mantine/core";
 import { useState } from "react";
 import BaseTab from "./Base/tab";
+import InfoTab from "./Info";
 import LangRibbon from "./LangRibbon";
 import PackTab from "./Pack/tab";
 import styles from './page.module.scss';
+import SettingsTab from "./Settings/tab";
 
 export interface LangPageProps {
   
@@ -28,6 +30,9 @@ function LangPage (props: LangPageProps) {
           <Tabs.Tab value='info'>
             <strong>Information</strong>
           </Tabs.Tab>
+          <Tabs.Tab value='settings'>
+            Settings
+          </Tabs.Tab>
           <Tabs.Tab value='base'>
             Base
           </Tabs.Tab>
@@ -37,7 +42,10 @@ function LangPage (props: LangPageProps) {
         </Tabs.List>
 
         <Tabs.Panel value='info'>
-          TODO: Info
+          <InfoTab />
+        </Tabs.Panel>
+        <Tabs.Panel value='settings'>
+          <SettingsTab />
         </Tabs.Panel>
         <Tabs.Panel value='base'>
           <BaseTab />

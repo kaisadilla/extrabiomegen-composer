@@ -5,6 +5,8 @@ import type { MndBiomeSource } from "api/MultiNoiseDiscreteBiomeSource";
 const KEY_PREFIX = "extrabiomegen-composer";
 const KEY_INLAND = KEY_PREFIX + "/biome_source";
 const KEY_BIOMES = KEY_PREFIX + "/catalogue";
+const KEY_LANG_PACK_NAME = KEY_PREFIX + "/lang/pack-name";
+const KEY_LANG_REMOVAL_PREFIX = KEY_PREFIX + "/lang/removal-prefix";
 const KEY_LANG_FILES = KEY_PREFIX + "/lang/files";
 const KEY_LANG_OVERRIDES = KEY_PREFIX + "/lang/overrides";
 const KEY_LANG_REMOVALS = KEY_PREFIX + "/lang/removals";
@@ -54,6 +56,22 @@ const Local = {
     catch (err) {
       console.error("Couldn't save biomes", err);
     }
+  },
+
+  loadLangPackName () : string | null {
+    return localStorage.getItem(KEY_LANG_PACK_NAME);
+  },
+
+  saveLangPackName (name: string) {
+    return localStorage.setItem(KEY_LANG_PACK_NAME, name);
+  },
+
+  loadLangRemovalPrefix () : string | null {
+    return localStorage.getItem(KEY_LANG_REMOVAL_PREFIX);
+  },
+
+  saveLangRemovalPrefix (prefix: string) {
+    return localStorage.setItem(KEY_LANG_REMOVAL_PREFIX, prefix);
   },
 
   loadLangFiles () : Record<string, LangFile> | null {
