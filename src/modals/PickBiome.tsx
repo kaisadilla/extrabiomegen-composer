@@ -27,7 +27,10 @@ function PickBiomeModal ({
       {groups.map(g => (<Fragment key={g}>
         <h1>{g}</h1>
         <div className={styles.biomeGallery}>
-          {values.filter(v => v.id.split(":")[0] === g).map(v => (
+          {values
+            .filter(v => v.id.split(":")[0] === g)
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(v => (
             <BiomeButton
               key={v.id}
               biome={v}

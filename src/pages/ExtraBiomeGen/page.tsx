@@ -1,6 +1,6 @@
 import { Tabs } from '@mantine/core';
 import { usePageTitle } from 'hooks/usePageTitle';
-import MapViewerPage from 'pages/MapViewer/page';
+import MapViewerPage from 'pages/ExtraBiomeGen/MapViewer/page';
 import { useState } from 'react';
 import BiomeCatalogueTab from './BiomeCatalogue/tab';
 import BiomeSourceTab from './BiomeSource/tab';

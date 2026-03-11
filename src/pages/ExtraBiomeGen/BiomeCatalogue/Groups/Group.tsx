@@ -50,8 +50,13 @@ function Group ({
   );
 
   function handleChangeName (evt: React.ChangeEvent<HTMLInputElement>) {
-    const name = evt.currentTarget.value;
+    let name = evt.currentTarget.value;
     if (!name || name === "") return;
+
+    name = name
+      .replaceAll(" ", "_")
+      .replace(/[^a-zA-Z0-9_-]/g, "")
+      .toLowerCase();
 
     dispatch(BiomeCatalogueActions.setGroupName({
       id,

@@ -73,3 +73,7 @@
 
   overflow: hidden;
 }
+
+@function color-opacity ($color, $opacity) {
+  @return color-mix(in srgb, $color $opacity, transparent);
+}

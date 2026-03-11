@@ -47,7 +47,7 @@ button {
   padding: 0;
 }
 
-input[type=text] {
+input:not(.mantine-Input-input)[type=text] {
   height: unset;
   min-height: unset;
   text-align: center;

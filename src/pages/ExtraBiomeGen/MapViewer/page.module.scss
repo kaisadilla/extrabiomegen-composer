@@ -13,6 +13,23 @@
     gap: 16px;
     padding: 8px 32px 8px 32px;
     border-bottom: 1px solid #888;
+
+    :global(.mantine-InputWrapper-root) {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+
+      input {
+        width: 80px;
+        font-family: var(--font-mono);
+      }
+    }
+
+    .fileName {
+      font-size: 10pt;
+      font-style: italic;
+      color: #888;
+    }
   }
 
   .content {
@@ -29,10 +46,10 @@
       display: flex;
 
       .canvasContainer {
-
         overflow: auto;
         background-color: black;
         padding: 16px;
+        min-width: 100%;
 
         > canvas {
           border: 1px solid white;
