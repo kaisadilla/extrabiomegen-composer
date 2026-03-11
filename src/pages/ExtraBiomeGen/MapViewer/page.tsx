@@ -14,6 +14,8 @@ export interface MapViewerPageProps {
   
 }
 
+type Filter = { type: 'biome', id: string } | { type: 'group', id: number };
+
 function MapViewerPage (props: MapViewerPageProps) {
   const catalogue = useBiomeCatalogue();
 
@@ -33,14 +35,30 @@ function MapViewerPage (props: MapViewerPageProps) {
   const [zHover, setZHover] = useState(0);
 
   const [biome, setBiome] = useState("");
-  const [filter, setFilter] = useState<string | null>(null);
+  const [filter, setFilter] = useState<Filter | null>(null);
 
   useEffect(() => {
     renderFilteredCanvas();
   }, [filter]);
 
   const handlePickBiome = useCallback((id: string) => {
-    setFilter(prev => prev === id ? null : id);
+    setFilter(prev => {
+      if (!prev) return { type: 'biome', id, };
+
+      if (prev.type !== 'biome' || prev.id !== id) return { type: 'biome', id, };
+
+      return null;
+    });
+  }, [setFilter]);
+
+  const handlePickGroup = useCallback((id: number) => {
+    setFilter(prev => {
+      if (!prev) return { type: 'group', id, };
+
+      if (prev.type !== 'group' || prev.id !== id) return { type: 'group', id, };
+
+      return null;
+    });
   }, [setFilter]);
 
   return (
@@ -125,6 +143,7 @@ function MapViewerPage (props: MapViewerPageProps) {
             imgWidth={imgWidth}
             imgHeight={imgHeight}
             onPickBiome={handlePickBiome}
+            onPickGroup={handlePickGroup}
           />
         </Panel>
       </Group>
@@ -231,11 +250,23 @@ function MapViewerPage (props: MapViewerPageProps) {
       return;
     }
 
-    const biome = catalogue.biomes[filter] ?? UNKNOWN_BIOME;
+    // The biomes contained by this filter.
+    const biomes = filter.type === 'biome'
+      ? [filter.id]
+      : catalogue.groups[filter.id].biomes;
 
-    const r = parseInt(biome.color.slice(1, 3), 16);
-    const g = parseInt(biome.color.slice(3, 5), 16);
-    const b = parseInt(biome.color.slice(5, 7), 16);
+    // The colors of the biomes contained by this filter
+    const colors: { r: number, g: number, b: number}[] = [];
+    
+    for (const id of biomes) {
+      const biome = catalogue.biomes[id] ?? UNKNOWN_BIOME;
+
+      const r = parseInt(biome.color.slice(1, 3), 16);
+      const g = parseInt(biome.color.slice(3, 5), 16);
+      const b = parseInt(biome.color.slice(5, 7), 16);
+
+      colors.push({ r, g, b, });
+    }
 
     const src = infoCtx.getImageData(0, 0, imgWidth, imgHeight);
     const dst = canvasCtx.createImageData(imgWidth, imgHeight);
@@ -248,16 +279,20 @@ function MapViewerPage (props: MapViewerPageProps) {
       const sg = s[i + 1];
       const sb = s[i + 2];
 
-      if (sr === r && sg === g && sb === b) {
-        d[i] = r;
-        d[i + 1] = g;
-        d[i + 2] = b;
-        d[i + 3] = 255;
-      } else {
-        d[i] = 255;
-        d[i + 1] = 255;
-        d[i + 2] = 255;
-        d[i + 3] = 255;
+      d[i] = 255;
+      d[i + 1] = 255;
+      d[i + 2] = 255;
+      d[i + 3] = 255;
+
+      for (const color of colors) {
+        if (sr === color.r && sg === color.g && sb === color.b) {
+          d[i] = color.r;
+          d[i + 1] = color.g;
+          d[i + 2] = color.b;
+          d[i + 3] = 255;
+          
+          break;
+        }
       }
     }
 
