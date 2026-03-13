@@ -135,7 +135,7 @@ const BiomeSourceTab = memo(function BiomeSourceTab ({
         </Tabs.List>
 
         <Tabs.Panel value="ocean">
-          {false && <OceanTab
+          {<OceanTab
             active={active || tab === "ocean"}
             brush={brush}
             onPickBrush={setBrush}
@@ -143,7 +143,7 @@ const BiomeSourceTab = memo(function BiomeSourceTab ({
         </Tabs.Panel>
 
         <Tabs.Panel value="exotic">
-          {false && <ExoticTab
+          {<ExoticTab
             active={active || tab === "exotic"}
             brush={brush}
             onPickBrush={setBrush}
@@ -163,7 +163,7 @@ const BiomeSourceTab = memo(function BiomeSourceTab ({
         </Tabs.Panel>
 
         <Tabs.Panel value="cave">
-          {false && <CaveTab
+          {<CaveTab
             active={active || tab === "cave"}
             brush={brush}
             onPickBrush={setBrush}

@@ -100,7 +100,7 @@ function MapViewerPage (props: MapViewerPageProps) {
       >
         <Panel
           className={styles.canvasPanel}
-          defaultSize={4}
+          defaultSize={3}
         >
           <div className={styles.canvasContainer}>
             <canvas

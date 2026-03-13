@@ -101,6 +101,19 @@ const biomeSourceSlice = createSlice({
 
       state.doc.biome_source.land[c][e][t][h][w].splice(index, 1);
     },
+
+    setLandCell (state, action: PayloadAction<{
+      c: LandContinentalnessKey,
+      e: ErosionKey,
+      t: TemperatureKey,
+      h: LandHumidityKey,
+      w: WeirdnessKey,
+      biomeIds: string[],
+    }>) {
+      const { c, e, t, h, w, biomeIds } = action.payload;
+
+      state.doc.biome_source.land[c][e][t][h][w] = biomeIds;
+    },
     // #endregion Land biomes
 
     // #region Cave biomes

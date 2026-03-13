@@ -1,22 +1,30 @@
-import { InputLabel, SegmentedControl } from '@mantine/core';
+import { InputDescription, InputLabel, SegmentedControl } from '@mantine/core';
+import BiomeCell from 'components/BiomeCell';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import type { RootState } from 'state/store';
 import type { StateSetter } from 'types';
 import styles from './Settings.module.scss';
-import type { BiomeTableRightClickMode, BiomeTableSetMode } from './tab';
+import type { BiomeTableLeftClickMode, BiomeTableRightClickMode } from './tab';
 
 export interface SettingsProps {
-  setMode: BiomeTableSetMode;
-  setSetMode: StateSetter<BiomeTableSetMode>;
+  brush: string | null;
+  leftClickMode: BiomeTableLeftClickMode;
+  setLeftClickMode: StateSetter<BiomeTableLeftClickMode>;
   rightClickMode: BiomeTableRightClickMode;
   setRightClickMode: StateSetter<BiomeTableRightClickMode>;
+  overrideCell: string[];
 }
 
 function Settings ({
-  setMode,
-  setSetMode,
+  brush,
+  leftClickMode,
+  setLeftClickMode,
   rightClickMode,
   setRightClickMode,
+  overrideCell,
 }: SettingsProps) {
+  const biomes = useSelector((state: RootState) => state.biomeCatalogue.biomes);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -30,18 +38,42 @@ function Settings ({
 
   return (
     <div className={styles.panel}>
-      <InputLabel>Set mode (Ctrl)</InputLabel>
+      <InputLabel className={styles.brush}>
+        <div className={styles.label}>Current brush</div>
+        <BiomeCell
+          className={styles.biome}
+          biome={brush ? biomes[brush] : null}
+        />
+      </InputLabel>
+
+      <InputLabel>Left click behavior</InputLabel>
       <SegmentedControl
         data={[
-          { value: "replace", label: "Replace" },
+          { value: "set", label: "Set" },
           { value: "add", label: "Add" },
+          { value: "override", label: "Replace" },
         ]}
-        value={setMode}
-        onChange={v => setSetMode(v as BiomeTableSetMode)}
+        value={leftClickMode}
+        onChange={v => setLeftClickMode(v as BiomeTableLeftClickMode)}
         transitionDuration={100}
       />
+      <InputDescription>
+        <strong>Set:</strong> replace the region clicked with the current brush.
+      </InputDescription>
+      <InputDescription>
+        <strong>Add:</strong> append a new region with the brush at the end of the cell.
+      </InputDescription>
+      <InputDescription>
+        <strong>Replace:</strong> replace the entire cell with the template defined below.
+        While this mode is active, right clicking on a cell will pick that cell as a template.
+      </InputDescription>
 
-      <InputLabel>Right click mode (Ctrl)</InputLabel>
+      <InputLabel>Template</InputLabel>
+      <div className={styles.template}>
+        {overrideCell.map((b, i) => <BiomeCell key={i} biome={biomes[b]} />)}
+      </div>
+    
+      <InputLabel>Right click behavior</InputLabel>
       <SegmentedControl
         data={[
           { value: "pick", label: "Pick" },
@@ -51,19 +83,25 @@ function Settings ({
         onChange={v => setRightClickMode(v as BiomeTableRightClickMode)}
         transitionDuration={100}
       />
+      <InputDescription>
+        <strong>Pick:</strong> pick the biome in the region clicked as your new brush.
+      </InputDescription>
+      <InputDescription>
+        <strong>Delete:</strong> delete the region clicked.
+      </InputDescription>
     </div>
   );
 
   function handleKeyDown (evt: KeyboardEvent) {
     if (evt.key === 'Control') {
-      setSetMode('add');
+      setLeftClickMode(prev => prev === 'set' ? 'add' : prev);
       setRightClickMode('delete');
     }
   }
 
   function handleKeyUp (evt: KeyboardEvent) {
     if (evt.key === 'Control') {
-      setSetMode('replace');
+      setLeftClickMode(prev => prev === 'add' ? 'set' : prev);
       setRightClickMode('pick');
     }
   }

@@ -1,6 +1,6 @@
-import { Tabs } from '@mantine/core';
+import { Select, Table, Tabs } from '@mantine/core';
 import { AgGridReact } from 'ag-grid-react';
-import { getBiomeStyle, UNKNOWN_BIOME } from 'api/Biome';
+import { getBiomeStyle, UNKNOWN_BIOME, type Biome, type BiomeGroup } from 'api/Biome';
 import Button from 'components/Button';
 import { memo, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,9 @@ const Analysis = memo(function Analysis ({
   onPickBiome,
   onPickGroup,
 }: AnalysisProps) {
+  const landSrc = useSelector(
+    (state: RootState) => state.biomeSource.doc.biome_source.land
+  );
   const catalogue = useSelector((state: RootState) => state.biomeCatalogue);
 
   const [tab, setTab] = useState<string | null>('biomes');
@@ -29,6 +32,38 @@ const Analysis = memo(function Analysis ({
     = useState<Record<string, number> | null>(null);
   const [groupCounts, setGroupCounts]
     = useState<number[] | null>(null);
+
+  const groups = [...catalogue.groups];
+
+  //const pseudoGroups: Record<string, BiomeGroup> = {};
+//
+  //for (const tKey of TemperatureKeys) {
+  //  pseudoGroups[tKey] = {
+  //    name: "Temperature: " + tKey,
+  //    color: "black",
+  //    biomes: [],
+  //  };
+  //}
+//
+  //for (const c of Object.values(landSrc)) {
+  //  for (const e of Object.values(c)) {
+  //    for (const tKey of Object.keys(e) as TemperatureKey[]) {
+  //      const t = e[tKey];
+  //      
+  //      for (const h of Object.values(t)) {
+  //        for (const w of Object.values(h)) {
+  //          for (const biomeId of w) {
+  //            const arr = pseudoGroups[tKey].biomes;
+//
+  //            if (arr.includes(biomeId) === false) arr.push(biomeId);
+  //          }
+  //        }
+  //      }
+  //    }
+  //  }
+  //}
+//
+  //groups.push(...Object.values(pseudoGroups));
 
   return (
     <div className={styles.analysis}>
@@ -55,8 +90,9 @@ const Analysis = memo(function Analysis ({
           </Tabs.List>
 
           <Tabs.Panel value="biomes">
-            {biomeCounts && <_BiomeTable
-              biomes={biomeCounts}
+            {biomeCounts && <_BiomeTab
+              groups={groups}
+              biomeCounts={biomeCounts}
               imgHeight={imgHeight}
               imgWidth={imgWidth}
               onPickBiome={onPickBiome}
@@ -64,7 +100,8 @@ const Analysis = memo(function Analysis ({
           </Tabs.Panel>
 
           <Tabs.Panel value="groups">
-            {groupCounts && <_GroupTable
+            {biomeCounts && groupCounts && <_GroupTable
+              biomes={biomeCounts}
               groups={groupCounts}
               imgHeight={imgHeight}
               imgWidth={imgWidth}
@@ -136,6 +173,96 @@ const Analysis = memo(function Analysis ({
   }
 });
 
+interface _BiomeTabProps {
+  groups: BiomeGroup[];
+  biomeCounts: Record<string, number>;
+  imgWidth: number;
+  imgHeight: number;
+  onPickBiome?: (id: string) => void;
+}
+
+function _BiomeTab ({
+  groups,
+  biomeCounts,
+  imgWidth,
+  imgHeight,
+  onPickBiome,
+}: _BiomeTabProps) {
+  const catalogue = useSelector((state: RootState) => state.biomeCatalogue);
+
+  const [groupFilter, setGroupFilter] = useState(-1);
+  
+  const missingBiomes: Biome[] = [];
+
+  for (const biome of Object.values(catalogue.biomes)) {
+    if (biome.wanted && !biomeCounts[biome.id]) {
+      missingBiomes.push(biome);
+    }
+  }
+
+  const unwantedBiomes: Biome[] = [];
+  for (const id of Object.keys(biomeCounts)) {
+    const biome = catalogue.biomes[id];
+    if (biome?.wanted === false) {
+      unwantedBiomes.push(biome);
+    }
+  }
+
+  const filteredBiomeCounts = groupFilter === -1
+    ? biomeCounts
+    : Object.fromEntries(
+      Object
+        .entries(biomeCounts)
+        .filter(([k]) => catalogue.groups[groupFilter].biomes.includes(k))
+    );
+
+  return (
+    <div className={styles.biomeTab}>
+      <Select
+        label="Filter by group"
+        value={groupFilter.toString()}
+        onChange={v => v ? setGroupFilter(parseInt(v)) : {}}
+        data={[
+          { value: "-1", label: "All" },
+          ...groups.map((g, i) => ({ value: i.toString(), label: g.name })),
+        ]}
+      />
+
+      <_BiomeTable
+        biomes={filteredBiomeCounts}
+        imgHeight={imgHeight}
+        imgWidth={imgWidth}
+        onPickBiome={onPickBiome}
+      />
+
+      <h1>Missing biomes</h1>
+      <Table>
+        <Table.Tbody>
+          {missingBiomes.map(b => (
+            <Table.Tr key={b.id}>
+              <Table.Td>{b.name}</Table.Td>
+              <Table.Td>{b.id}</Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+
+      <h1>Unwanted biomes</h1>
+      <Table>
+        <Table.Tbody>
+          {unwantedBiomes.map(b => (
+            <Table.Tr key={b.id}>
+              <Table.Td>{b.name}</Table.Td>
+              <Table.Td>{b.id}</Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </div>
+  );
+}
+
+
 interface _BiomeTableProps {
   biomes: Record<string, number>;
   imgWidth: number;
@@ -179,11 +306,6 @@ function _BiomeTable ({
           width: 150,
         },
         {
-          field: "id",
-          headerName: "Id",
-          cellClass: styles.idCell,
-        },
-        {
           field: "count",
           headerName: "Count",
           valueFormatter: p => `${p.value.toLocaleString('en-US')} ` +
@@ -195,7 +317,12 @@ function _BiomeTable ({
           headerName: "",
           cellRenderer: (p: any) => p.value,
           width: 80,
-        }
+        },
+        {
+          field: "id",
+          headerName: "Id",
+          cellClass: styles.idCell,
+        },
       ]}
 
       getRowStyle={
@@ -212,6 +339,7 @@ function _BiomeTable ({
 }
 
 interface _GroupTableProps {
+  biomes: Record<string, number>;
   groups: number[];
   imgWidth: number;
   imgHeight: number;
@@ -219,6 +347,7 @@ interface _GroupTableProps {
 }
 
 function _GroupTable ({
+  biomes,
   groups,
   imgWidth,
   imgHeight,

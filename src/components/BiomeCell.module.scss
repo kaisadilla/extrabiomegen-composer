@@ -1,22 +1,7 @@
-.button {
-  cursor: pointer;
-
-  width: 136px;
-  height: 32px;
-  border: 4px solid white;
-  font-size: 8pt;
-  margin: 0;
-  text-align: center;
-
+.cell {
   display: flex;
-
-  &.nullBiome {
-    @include checkerboard-bg;
-  }
-
-  &:hover {
-    border-color: var(--color-primary-l2);
-  }
+  justify-content: center;
+  overflow: hidden;
 
   .name {
     width: 100%;
@@ -27,6 +12,9 @@
     align-items: center;
     overflow: hidden;
     white-space: nowrap;
+
+    font-size: 10pt;
+    padding: 3px 0;
   }
 
   &[data-wanted=true] > .name {
